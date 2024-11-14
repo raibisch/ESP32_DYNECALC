@@ -3,7 +3,7 @@
 
 calculate actual tibber (german) enduser price based on EPEX day-ahead prices
 
-...first commit...
+...first commit...alpha version !!
 
 Voraussetzungen:
 
