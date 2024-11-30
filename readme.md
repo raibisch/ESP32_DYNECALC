@@ -1,22 +1,21 @@
 
-# TIBBER SIMULATOR 
+# DYNAMIC ELECTRICITY PRICE CALCULATOR
 
-calculate actual tibber (german) enduser price based on EPEX day-ahead prices
+calculate actual dynamic (german) enduser price including all fix costs and taxes based on EPEX day-ahead prices
 
-...first commit...alpha version !!
+...because this is related to the german electric energy marked the documentation is a wild mix of german and (in source code) english.
+(if it is usefull for other users there is no problem to communictate at ISSUES or PULL REQUESTS in englisch)
 
-Voraussetzungen:
+
+### Voraussetzungen:
 
 - Moderne Messeinrichtung (digitaler-Stromzähler mit kostenlosen PIN freigeschaltet)
-
-- Tibber-Puls Adapter
-   
+- Tibber-Puls Adapter   
 oder
-
 - TASMOTA mit Lesekopf (oder Phototransitor)
 
 
-Screenshots der Web-App ... läuft auf jedem Webbrowser (mobil oder PC):
+### Screenshots der Web-App ... läuft auf jedem Webbrowser (mobil oder PC):
 
 ![price_sim](/pict/tibber_sim_home.png)
 (Start-Page)
