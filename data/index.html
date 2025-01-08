@@ -30,10 +30,12 @@
             <tr>
               <td id="EL_WATT">--</td>
               <td id="EL_KWH">--</td>
+              <td id="EL_KWH_OUT">--</td>
             </tr>
             <tr>
               <th>[Watt]</th>
-              <th>[kW/h]</th>
+              <th>[kWh-IN]</th>
+              <th>[kWh-OUT]</th>
             </tr>
       </table>
     <button type="button" class="image-btn" onclick="window.location.href='log.html'"><img src="file-list.png">Log</button>
@@ -46,6 +48,7 @@
             //var t = new Date();
             var price_low = %PRICE_LOW%;
             var price_high= %PRICE_HIGH%;
+            var price = "--";
             function reqListener ()
             {
               var myResponse = this.responseText;
@@ -55,8 +58,7 @@
             
               //console.log(myArray);
               var sgrStatus = String(myArray[1]);
-              var price     = myArray[4];
-           
+             
               if (myArray[1] != null)
               {
                document.getElementById('TIME').innerHTML = myArray[0];
@@ -64,9 +66,11 @@
                
                //wpStatus = myArray[2]; // 0=aus, 1=Heiz, 2=WW
                
+               price = myArray[5];
                document.getElementById('PRICE').innerHTML  = price;
                document.getElementById('EL_WATT').innerHTML = myArray[2]; 
                document.getElementById('EL_KWH').innerHTML = myArray[3]; 
+               document.getElementById("EL_KWH_OUT").innerHTML = myArray[4];
               }
              
               // example : https://code-boxx.com/change-override-css-with-javascript

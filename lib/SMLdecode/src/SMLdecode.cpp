@@ -3,8 +3,6 @@
 //----------------------------------------------------public Functions----------------------------------------------------
 
 
-
-
 bool SMLdecode::init(const char* url, const char* user, const char* pass)
 {
   _url.reserve(20);
@@ -15,7 +13,6 @@ bool SMLdecode::init(const char* url, const char* user, const char* pass)
   debug_println("SMLdecode-init OK!");
   return true;
 }
-
 
 
 #ifdef SML_TASMOTA
@@ -85,7 +82,6 @@ void getSmlMeter()
 #ifdef SML_TIBBER
 /* private functions */
 
-
 // my special version to get the values from the tibber-host 
 // ...quick and dirty ;-) only testet for Meter: ISKRA MT631 !!!
 // write your own routine if you need this values !!!
@@ -116,8 +112,7 @@ byte * SMLdecode::httpGETRequest(const char* http_url)
 
     if (getlength != 272)
     {
-     //AsyncWebLog.println("Error tibber smlpayload");
-     debug_printf("smlpayload length:%d Data: ", getlength);
+     debug_printf("smlpayload length ?:%d Data: ", getlength);
      for (size_t i = 0; i < 10; i++)
      {
        debug_printf("%02x ",smlpayload[i]);
@@ -129,8 +124,6 @@ byte * SMLdecode::httpGETRequest(const char* http_url)
   }
   else 
   {
-    //AsyncWebLog.print("TIBBER httpGETRequest Error code");
-    //AsyncWebLog.println(String(httpResponseCode));
     debug_print("TIBBER httpGETRequest Error code: ");
     debug_println(httpResponseCode);
   }
@@ -161,26 +154,28 @@ uint32_t SMLdecode::decodeSMLval(byte * payload, byte* smlcode, uint smlsize,  u
   }
   */
   // 10/2024 neu: 'nlen' aus SML lesen (aendert sich bei Leistung je nach Größe des Wertes !!!)
+
+
   uint8_t nlen = (loc[offset-1] & 0x0F) -1;
 
-  if ((nlen < 1) ||(nlen > 8))
-  {
-    debug_println("decodeSMLval unvalid length");
-    return 0;
-  }
-  
-
-  // for extradebugging
   /*
-  debug_printf(" nlen=%d\r\n", nlen);
+  // for extra debugging
+  debug_printf("nlen=%d\r\n", nlen);
   debug_print("HEX: ");
 
   for (size_t i = 0; i < offset+nlen+1; i++)
   {
     debug_printf("%02x ", loc[i]);
   }
+  debug_println();
+  
+  if ((nlen < 1) ||(nlen > 8))
+  {
+    debug_println("decodeSMLval unvalid length");
+    return 0;
+  }
   */
- 
+  
   byte* pval = loc + offset;
   uint32_t value=0;
 
@@ -223,7 +218,11 @@ bool SMLdecode::read()
   // Energy IN (1.8.0)
   byte sml_1_8_0[] {0x77, 0x07, 0x01, 0x00, 0x01, 0x08, 0x00, 0xff};
   _inputkWh = double(decodeSMLval(payload, sml_1_8_0, sizeof(sml_1_8_0), 19) / 10000.0);
-  
+ 
+  // Energy OUT (2.8.0)
+  byte sml_2_8_0[] {0x77, 0x07, 0x01, 0x00, 0x02, 0x08, 0x00, 0xff};
+  _outputkWh = double(decodeSMLval(payload, sml_2_8_0, sizeof(sml_2_8_0), 15) / 10000.0);
+ 
 
 // for Power:
 // length is variable !!! (2 byte= for big values)
@@ -237,8 +236,10 @@ bool SMLdecode::read()
 // 77 07 01 00 10 07 00 ff 01 01 62 1b 52 00 52 66 01 01
 
   // Power (in= pos. out= neg)
-  byte sml_16_7_0[] {0x77, 0x07, 0x01, 0x00, 0x10, 0x07, 0x00, 0xFF};
+  byte sml_16_7_0[] {0x77, 0x07, 0x01, 0x00, 0x10, 0x07, 0x00, 0xff};
   _watt = int16_t(decodeSMLval(payload, sml_16_7_0, sizeof(sml_16_7_0), 15));
+
+  debug_printf("[SML] Power:%d  1.8.0:%05.3f  2.8.0:%05.3f\r\n", _watt, _inputkWh, _outputkWh);
 
   /*
   String s1 = "SML:";

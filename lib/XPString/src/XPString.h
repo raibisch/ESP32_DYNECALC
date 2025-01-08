@@ -69,10 +69,9 @@ class XPString : public Print
 {
 private:
     XPString() {}
-
+    
     char *_buf, *_cur;
     size_t _size;
-
     bool _weOwn; // by JG
 
 public:

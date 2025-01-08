@@ -29,14 +29,14 @@
 #endif
 
 #ifdef M5_COREINK
-#include <Wire.h>
-#include <SPI.h>
-#include "M5CoreInk.h"  
-#include <esp_adc_cal.h>
+#include "m5coreink.h"
 #endif
 
-// now set in platformio.ini
-//#define DEBUG_PRINT 1   
+#include "relay.h"
+
+// now set in "platformio.ini":
+// #define DEBUG_PRINT 1  
+
 #ifdef DEBUG_PRINT
 #pragma message("Info : DEBUG_PRINT=1")
 #define debug_begin(...) Serial.begin(__VA_ARGS__);
@@ -52,22 +52,7 @@
 #define debug_println(...)
 #endif
     
-#ifdef ESP32_RELAY_X2
-#pragma message("Info : ESP32_RELAY_X2")
-#define LED_GPIO 23
-#define RELAY_1  16
-#define RELAY_2  17
-#endif
-
-#ifdef ESP32_RELAY_X4
-#pragma message("Info : ESP32_RELAY_X4")
-#define LED_GPIO 23
-#define RELAY_1  26
-#define RELAY_2  25
-#define RELAY_3  33
-#define RELAY_4  32     
-#endif
-
+  
 #ifdef ESP32_DEVKIT1
 #pragma message("Info : ESP32_DEVKIT")
 #define LED_GPIO 2
@@ -88,7 +73,7 @@
  #define LED_GPIO 10
 #endif
 
-const char* SYS_Version = "V 0.8.5";
+const char* SYS_Version = "V 0.8.9 ";
 const char* SYS_CompileTime =  __DATE__ ;
 static String  SYS_IP = "0.0.0.0";
 
@@ -101,7 +86,7 @@ AsyncWebServer webserver(80);
 const char* TimeServerLocal = "192.168.2.1";
 const char* TimeServer      = "europe.pool.ntp.org";
 const char* Timezone        = "CET-1CEST,M3.5.0,M10.5.0/3";       // Central Europe
-ESP32ntp ntpclient(TimeServerLocal,Timezone);
+static ESP32ntp ntpclient(TimeServerLocal,Timezone);
 
 WiFiClient wificlient;
 SMLdecode smldecoder;
@@ -193,57 +178,6 @@ void inline initSPIFFS()
   }
 }
  
-
-void inline initRelay()
-{
-#ifdef ESP32_RELAY_X2
-  pinMode(RELAY_1, OUTPUT);
-  pinMode(RELAY_2, OUTPUT);
-  digitalWrite(RELAY_1, LOW);
-  digitalWrite(RELAY_2, LOW);
-#elseifdef ESP_RELAY_X4
-  // ESP_RELAY_X4
-  // we need only RELAY_1 and RELAY_2 for SGready
-  pinMode(RELAY_1, OUTPUT);
-  pinMode(RELAY_2, OUTPUT);
-
-  pinMode(RELAY_3, OUTPUT);
-  pinMode(RELAY_4, OUTPUT);
-
-  digitalWrite(RELAY_1, LOW);
-  digitalWrite(RELAY_2, LOW);
-
-  digitalWrite(RELAY_3, LOW);
-  digitalWrite(RELAY_4, LOW);
-#else
- /* for other boards without relais output */
-#endif
-}
-
-
-/// @brief set Relay
-/// @param no 1..2
-/// @param on_off true..false
-void setRelay(uint8_t no, bool on_off)
-{
-#if defined ESP32_RELAY_X2 || defined ESP_RELAY_X4
-  switch (no)
-  {
-   case 1:
-    digitalWrite(RELAY_1,on_off);
-    break;
-   case 2:
-    digitalWrite(RELAY_2,on_off);
-    break; 
-   default:
-     break;
-  }
-#else
- /* for other boards witout relais output*/
- #endif
-}
-
-
 //////////////////////////////////////////////////////
 /// @brief  expand Class "FileVarStore" with variables
 //////////////////////////////////////////////////////
@@ -379,7 +313,7 @@ class SmartGridEPEX : public SmartGrid
     return f;
   }
 
- #ifdef CALC_HOUR_ENERGYPRICE
+#ifdef CALC_HOUR_ENERGYPRICE
   float getUserkWhFixPrice()
   { 
    return varStore.varCOST_f_kwh_fix;
@@ -495,227 +429,6 @@ void setSGreadyOutput(uint8_t mode)
 }
 #endif
 
-/*
-#ifdef SML_TASMOTA
-// special version to get the values from the main energy-meter 
-// from tasmota device to read the optical SML-Signal fom the main energy-meter
-String httpGETRequest(const char* serverName) 
-{
-  HTTPClient http;
-    
-  // Your Domain name with URL path or IP address with path
-  http.begin(wificlient, serverName);
-  
-  // If you need Node-RED/server authentication, insert user and password below
-  //http.setAuthorization("REPLACE_WITH_SERVER_USERNAME", "REPLACE_WITH_SERVER_PASSWORD");
-  
-  // Send HTTP POST request
-  int httpResponseCode = http.GET();
-  
-  String payload = ""; 
-  
-  if (httpResponseCode>0) {
-    //debug_print("HTTP Response code: ");
-    //debug_println(httpResponseCode);
-    payload = http.getString();
-    //debug_printf("httpGetRequest: %s\r\n",payload);
-  }
-  else {
-    debug_print("Error code: ");
-    debug_println(httpResponseCode);
-  }
-  // Free resources
-  http.end();
-
-  payload.trim();
-  return payload;
-}
-
-/// @brief my implementation for reading a TASMOTA device...adapt to your needs
-void getSmlMeter()
-{
-  // by JG : todo: replace hardcoded url with config-value
-  String s = httpGETRequest("http://192.168.2.88/cm?cmnd=status%2010");
-  //Format of Tasmota SML
-  //{
-   //"StatusSNS": {
-   // "Time": "2024-04-29T18:28:19",
-   // "SML": {
-   //  "Total_in": 5953.3436,
-   //   "Total_out": 8620.3801,
-   //   "Power_curr": -27
-   // }
-  // }
-  //}
- 
- JsonDocument doc;
- deserializeJson(doc, s);
- valSML_kwh_in  = doc["StatusSNS"]["SML"]["Total_in"];
- valSML_kwh_out = doc["StatusSNS"]["SML"]["Total_out"];
- valSML_watt   = doc["StatusSNS"]["SML"]["Power_curr"];
- String sml = "SML-Meter-Watt: ";
- sml += String(valSML_watt);
- AsyncWebLog.println(sml);
-}
-#endif
-
-
-#ifdef SML_TIBBER
-#define SMLPAYLOADMAXSIZE 300
-byte smlpayload[SMLPAYLOADMAXSIZE] {0}; 
-// my special version to get the values from the tibber-host 
-// ...quick and dirty ;-) only testet for Meter: ISKRA MT631 !!!
-// write your own routine if you need this values !!!
-byte * httpGETRequest(const char* serverName) 
-{
-  HTTPClient http;
-
-  // for TEST !!!
-  //varStore.varSML_s_user     = "admin"; 
-  //varStore.varSML_s_password = "xxxx-xxxx";
-
-  int getlength = 0;
-  http.begin(wificlient, serverName);
-  http.setAuthorization(varStore.varSML_s_user.c_str(), varStore.varSML_s_password.c_str());
-  int httpResponseCode = http.GET();
-  
-  if (httpResponseCode > 0) 
-  {
-    getlength = http.getSize();
-    if ((getlength > SMLPAYLOADMAXSIZE) || (getlength < 200))
-    {
-      http.end();
-      return NULL;
-    }
-
-    WiFiClient * w = http.getStreamPtr();
-    w->readBytes(smlpayload, getlength);
-
-    if (getlength != 272)
-    {
-     AsyncWebLog.println("Error tibber smlpayload");
-     debug_printf("smlpayload length:%d Data: ", getlength);
-     for (size_t i = 0; i < 10; i++)
-     {
-       debug_printf("%02x ",smlpayload[i]);
-     }
-     debug_println("...");
-     getlength = 0;
-    }
-    
-  }
-  else 
-  {
-    AsyncWebLog.print("TIBBER httpGETRequest Error code");
-    AsyncWebLog.println(String(httpResponseCode));
-    debug_print("TIBBER httpGETRequest Error code: ");
-    debug_println(httpResponseCode);
-  }
-  // Free resources
-  http.end();
-
-  if (getlength <= 0)
-  {
-    return NULL;
-  }
-
-  return smlpayload;
-}
-
-uint32_t decodeSMLval(byte * payload, byte* smlcode, uint smlsize,  uint offset)
-{
-  byte *loc = (byte*)memmem(payload, SMLPAYLOADMAXSIZE, smlcode, smlsize);
-  if (loc == NULL)
-  {
-    return 0;
-  }
-
-  //Test fake "-1"
-  //if (nlen == 2){ loc[offset]  = 0xff; loc[offset+1] = 0xff;}
-  
-  // 10/2024 neu: 'nlen' aus SML lesen (aendert sich bei Leistung je nach Größe des Wertes !!!)
-  uint8_t nlen = (loc[offset-1] & 0x0F) -1;
-
-  if ((nlen < 1) ||(nlen > 8))
-  {
-    debug_println("decodeSMLval unvalid length");
-    return 0;
-  }
-  
-  // for extradebugging
-  
-  //debug_printf(" nlen=%d\r\n", nlen);
-  //debug_print("HEX: ");
-  //for (size_t i = 0; i < offset+nlen+1; i++)
-  //{debug_printf("%02x ", loc[i]);}
-  
-
-  byte* pval = loc + offset;
-  uint32_t value=0;
-
- if (nlen == 1)
- {
-   value = (int8_t) *(pval);
- }
- else
- {
-  nlen=nlen+1; 
-  while (--nlen) 
-  {
-      //value<<=8;
-      value = value << 8;
-      value|=*(pval)++;
-  }
- }
-
-  return value;
-}
-
-/// @brief my implementation for reading a Tibber device...adapt to your needs
-void getSmlMeter()
-{
-  // http://192.168.2.87/data.json?node_id=1  ( for test with webbrowser)
-  // varStore.varSML_s_url="192.168.2.87";
-  String sURL = "http://";
-  sURL += varStore.varSML_s_url;
-  sURL += "/data.json?node_id=1";
-  byte * payload = httpGETRequest(sURL.c_str());
-  
-  if (payload == NULL)
-  {
-    return;
-  }
-
-  // Energy IN (1.8.0)
-  byte sml_1_8_0[] {0x77, 0x07, 0x01, 0x00, 0x01, 0x08, 0x00, 0xff};
-  valSML_kwh_in = double(decodeSMLval(payload, sml_1_8_0, sizeof(sml_1_8_0), 19)) / 10000.0;
-  
-
-// for Power:
-// length is variable !!! (2 byte= for big values)
-//                                           53=16bit int
-// 77 07 01 00 10 07 00 ff 01 01 62 1b 52 00 53 00 91 01 145W
-// 77 07 01 00 10 07 00 ff 01 01 62 1b 52 00 53 00 95 01 149W
-// 77 07 01 00 10 07 00 ff 01 01 62 1b 52 00 53 00 8d 01 141W
-// length is variable !!! (1 byte for small values)
-//                                           52=8bit int 
-// 77 07 01 00 10 07 00 ff 01 01 62 1b 52 00 52 76 01 01 
-// 77 07 01 00 10 07 00 ff 01 01 62 1b 52 00 52 66 01 01
-
-  // Power (in= pos. out= neg)
-  byte sml_16_7_0[] {0x77, 0x07, 0x01, 0x00, 0x10, 0x07, 0x00, 0xFF};
-  valSML_watt = int16_t(decodeSMLval(payload, sml_16_7_0, sizeof(sml_16_7_0), 15));
-
-  String s1 = "SML:";
-  s1 += String(valSML_kwh_in);
-  s1 += "kWh ";
-  s1 += String(valSML_watt);
-  s1 += "W";
-  AsyncWebLog.println(s1);
-  debug_println(s1);
-}
-#endif
-*/
 
 static String readString(File s) 
 {
@@ -777,8 +490,8 @@ void initWiFi()
         debug_print(".");
         blinkLED();
         i++;  
-        delay(400);
-        if (i > 20)
+        delay(250);
+        if (i > 60)
         {
           ESP.restart();
         }
@@ -787,7 +500,6 @@ void initWiFi()
     {
       ESP.restart();
     }
-    delay(300);
     debug_println("CONNECTED!");
     debug_printf("WiFi-Power:%d\r\n",WiFi.getTxPower())
     debug_printf("WiFi-RSSI:%d\r\n",WiFi.RSSI());
@@ -858,8 +570,8 @@ String setHtmlVar(const String& var)
   else
   if (var == "INFO")
   {
-     sFetch = "Version      :";
-     sFetch += SYS_Version;
+     sFetch =    "Version    :";
+     sFetch += SYS_Version;  
 
      sFetch += "\nBuild-Date :";
      sFetch +=  F(__DATE__);
@@ -878,16 +590,17 @@ String setHtmlVar(const String& var)
      sFetch += "\nMinFreeHeap:";
      sFetch += String(ESP.getMinFreeHeap());
 
-//*
+#ifdef SG_READY
      sFetch += "\n\nEPEX NEXT DATE:";
-     sFetch +=  smartgrid.getWebData(true); //sEPEXdateNext;
+     sFetch +=  smartgrid.getWebDate(true); //sEPEXdateNext;
      sFetch +=  "\n";
      sFetch += smartgrid.getWebHourValueString(true);
 
      sFetch += "\n\nEPEX TODAY:";
      sFetch +=  "\n";
      sFetch += smartgrid.getWebHourValueString(false); //sEPEXPriceToday;
-     sFetch += "\n---\n\n";
+     //sFetch += "\n---\n\n";
+#endif
 //*/
      /*
      for (size_t i = 0; i < SG_HOURSIZE; i++)
@@ -901,7 +614,7 @@ String setHtmlVar(const String& var)
         sFetch += String(smartgrid.getHourVar1(i));  //[i].var1);
        }
      }
-     //*/
+//*/
      return sFetch;
   }
   else
@@ -941,7 +654,7 @@ String setHtmlVar(const String& var)
   {
     String ret = smartgrid.getWebDate(false);
     ret += "   -    ";
-    ret += smartgrid.getWebData(true);
+    ret += smartgrid.getWebDate(true);
     return ret;
   }
   else
@@ -985,7 +698,7 @@ String setHtmlVar(const String& var)
   else
   if (var == "COSTINFO")
   { 
-     sFetch =     "Flex(ct):";
+     sFetch =      "Flex(ct):";
     sFetch += String((smartgrid.getUserkWhPrice(ntpclient.getTimeInfo()->tm_hour)),1);
     sFetch +=   "  Fix (cnt):";
     sFetch += String(smartgrid.getUserkWhFixPrice(),1);
@@ -1178,80 +891,6 @@ void Handle_Index_Post(AsyncWebServerRequest *request)
 void initWebServer()
 { 
 #ifdef WEB_APP
-  //Route for root / web page
-  webserver.on("/",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {https://
-   request->send(SPIFFS, "/index.html", String(), false, setHtmlVar);
-  });
-  //Route for root /index web page
-  webserver.on("/index.html",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(SPIFFS, "/index.html", String(), false, setHtmlVar);
-  });
-  //Route for setup web page
-  webserver.on("/meter.html",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(SPIFFS, "/meter.html", String(), false, setHtmlVar);
-  });
-  //Route for setup web page
-  webserver.on("/smartgrid.html",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(SPIFFS, "/smartgrid.html", String(), false, setHtmlVar);
-  });
-  
-  webserver.on("/sgready.html",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(SPIFFS, "/sgready.html", String(), false, setHtmlVar);
-  });
-
-
-  //Route for setup web page
-  webserver.on("/setup.html",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(SPIFFS, "/setup.html", String(), false, setHtmlVar);
-  });
-  //Route for config web page
-  webserver.on("/config.html",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(SPIFFS, "/config.html", String(), false, setHtmlVar);
-  });
-
-
-  //Route for stored values
-  webserver.on("/savevalues.html",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(SPIFFS, "/savevalues.html", String(), false, setHtmlVar);
-  });
-
- #ifdef LUX_WEBSOCKET
- //Route for Luxtronik values
-  webserver.on("/luxtronik.html",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(SPIFFS, "/luxtronik.html", String(), false, setHtmlVar);
-  });
-#endif
-
-  //Route for Energy Cost
-  webserver.on("/energycost.html",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(SPIFFS, "/energycost.html", String(), false, setHtmlVar);
-  });
-
-
-  //Route for Info-page
-  webserver.on("/info.html",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(SPIFFS, "/info.html", String(), false, setHtmlVar);
-  });
-
-
-
-  // Route for style-sheet
-  webserver.on("/style.css",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(SPIFFS, "/style.css", String(), false);
-  });
-
 
   webserver.on("/fetch", HTTP_GET, [](AsyncWebServerRequest *request)
   {
@@ -1270,31 +909,54 @@ void initWebServer()
     sFetch += smartgrid.getHourVar1(ntpclient.getTimeInfo()->tm_hour);           // 1
     sFetch += ',';
   #if defined SML_TASMOTA || defined SML_TIBBER
-    sFetch += String(smldecoder.getWatt());                                               // 2
+    sFetch += String(smldecoder.getWatt());                                      // 2
     sFetch += ',';
-    sFetch += String(smldecoder.getInputkWh()) ;                                            // 3
+    sFetch += String(smldecoder.getInputkWh()) ;                                 // 3
+    sFetch += ',';
+    sFetch += String(smldecoder.getOutputkWh()) ;                                // 4
   #else
-    sFetch += "0,0",
+    sFetch += "0,0,0",
   #endif
     sFetch += ',';
-    sFetch += String((smartgrid.getUserkWhPrice(ntpclient.getTimeInfo()->tm_hour)),1); //4
+    sFetch += String((smartgrid.getUserkWhPrice(ntpclient.getTimeInfo()->tm_hour)),1); //5
     sFetch += ",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0";
   
     request->send(200, "text/plain", sFetch);
     //debug_println("server.on /fetch: "+ s);
   });
 
-  // config.txt GET
-  webserver.on("/config.txt", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/config.txt", "text/html", false);
-  });
-  // config.txt GET
-  webserver.on("/reboot.html", HTTP_GET, [](AsyncWebServerRequest *request)
+
+   //Route for setup web page
+  webserver.on("/meter.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-    request->send(404, "text/plain", "RESTART !");
-    //saveHistory();
-    ESP.restart();
+   request->send(SPIFFS, "/meter.html", String(), false, setHtmlVar);
   });
+  //Route for setup web page
+  webserver.on("/smartgrid.html",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(SPIFFS, "/smartgrid.html", String(), false, setHtmlVar);
+  });
+  
+  webserver.on("/sgready.html",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(SPIFFS, "/sgready.html", String(), false, setHtmlVar);
+  });
+
+
+ #ifdef LUX_WEBSOCKET
+ //Route for Luxtronik values
+  webserver.on("/luxtronik.html",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(SPIFFS, "/luxtronik.html", String(), false, setHtmlVar);
+  });
+#endif
+
+  //Route for Energy Cost
+  webserver.on("/energycost.html",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(SPIFFS, "/energycost.html", String(), false, setHtmlVar);
+  });
+  
 
   // datafiles for direct access in Website
   webserver.on("/cost_akt_month.txt",          HTTP_GET, [](AsyncWebServerRequest *request)
@@ -1307,20 +969,39 @@ void initWebServer()
    request->send(SPIFFS, "/cost_akt_year.txt", String(), false);
   });
 
-  //.. some code for the navigation icons
-  webserver.on("/home.png",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(SPIFFS, "/home.png", String(), false);
+  
+  // Basis Seiten:
+  
+  //Route for root / web page
+  webserver.on("/",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {https://
+   request->send(SPIFFS, "/index.html", String(), false, setHtmlVar);
   });
-  webserver.on("/file-list.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  //Route for root /index web page
+  webserver.on("/index.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/file-list.png", String(), false);
+   request->send(SPIFFS, "/index.html", String(), false, setHtmlVar);
   });
-  webserver.on("/settings.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+ 
+  //Route for setup web page
+  webserver.on("/setup.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/settings.png", String(), false);
+   request->send(SPIFFS, "/setup.html", String(), false, setHtmlVar);
   });
-  webserver.on("/current.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  //Route for config web page
+  webserver.on("/config.html",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(SPIFFS, "/config.html", String(), false, setHtmlVar);
+  });
+
+
+  //Route for stored values
+  webserver.on("/savevalues.html",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(SPIFFS, "/savevalues.html", String(), false, setHtmlVar);
+  });
+
+   webserver.on("/current.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
    request->send(SPIFFS, "/current.png", String(), false);
   });
@@ -1344,6 +1025,44 @@ void initWebServer()
    request->send(SPIFFS, "/energycost.png", String(), false);
   });
 
+  //Route for Info-page
+  webserver.on("/info.html",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(SPIFFS, "/info.html", String(), false, setHtmlVar);
+  });
+
+  // Route for style-sheet
+  webserver.on("/style.css",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(SPIFFS, "/style.css", String(), false);
+  });
+
+  // config.txt GET
+  webserver.on("/config.txt", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/config.txt", "text/html", false);
+  });
+  // config.txt GET
+  webserver.on("/reboot.html", HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+    request->send(404, "text/plain", "RESTART !");
+    //saveHistory();
+    ESP.restart();
+  });
+
+  //.. some code for the navigation icons
+  webserver.on("/home.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(SPIFFS, "/home.png", String(), false);
+  });
+  webserver.on("/file-list.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(SPIFFS, "/file-list.png", String(), false);
+  });
+  webserver.on("/settings.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(SPIFFS, "/settings.png", String(), false);
+  });
+ 
   // ...a lot of code only for icons and favicons ;-))
   webserver.on("/manifest.json",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
@@ -1365,6 +1084,7 @@ void initWebServer()
   {
    request->send(SPIFFS, "/android-chrome-384x384.png", String(), false);
   });
+  
 
   // ------------ POSTs --------------------------------------------------------------
   // root (/) POST
@@ -1680,6 +1400,7 @@ void setup()
   initRelay();
   Serial.begin(115200);                                           
   delay(500);
+  Serial.println("***START***");
 
   initSPIFFS();
   initFileVarStore();
@@ -1687,7 +1408,6 @@ void setup()
   smldecoder.init(varStore.varSML_s_url.c_str(), varStore.varSML_s_user.c_str(), varStore.varSML_s_password.c_str());
   smartgrid.init();
   setLED(0);
-  setcolor('b'); // blue
   initWiFi();
   if (!ntpclient.begin())
   {
@@ -1711,18 +1431,18 @@ void loop()
     testWiFiReconnect();
 
     ntpclient.update();
-    time_t tt = ntpclient.getUnixTime();
-    String s = "Time: "; s+= ntpclient.getTimeString(); 
+   
 #ifdef WEB_APP
-    AsyncWebLog.println(s); 
+    AsyncWebLog.printf("Time %s\r\n", ntpclient.getTimeString()); 
 #endif
 
 #if defined SML_TASMOTA || defined SML_TIBBER
     smldecoder.read();
 #ifdef WEB_APP
-    AsyncWebLog.printf("SML %dW  %.2f kWh\r\n", smldecoder.getWatt(), smldecoder.getInputkWh());
+    AsyncWebLog.printf("SML %dW  IN:%.2f kWh  OUT:%.2f kWh\r\n", smldecoder.getWatt(), smldecoder.getInputkWh(), smldecoder.getOutputkWh());
 #endif
 #endif
+    time_t tt = ntpclient.getUnixTime();
     smartgrid.loop(&tt);
 #ifdef CALC_HOUR_ENERGYPRICE
     smartgrid.calcHourPrice(&tt, smldecoder.getInputkWh());

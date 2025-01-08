@@ -69,10 +69,6 @@ int main ()
 #endif
     
 
-
-class ESp32ntp;
-
- 
 class ESP32ntp
 {
   private:
@@ -80,24 +76,9 @@ class ESP32ntp
   const char *_ntpserver = nullptr;
   const char *_timezone = nullptr;
 
-
   struct tm timeinfo;
   time_t now;
   time_t unixTime = 0;
-
-/* z. Z. nicht genutzt      
- #define NumOfEvents 4 
- struct eventsettings {
-  uint8_t sgMode    ;      
-  uint8_t Start_hour;      
-  uint8_t Start_min ;
-  uint8_t Stop_hour ;
-  uint8_t Stop_min  ;
- };
-
- eventsettings TimerEvents[7][NumOfEvents];       // TimerEvents NumOfEvents=4 for each day
- eventsettings DayAheadEvents[NumOfEvents];
-*/
 
  public: 
     ESP32ntp(const char ntpserver[], const char timezone[]);
@@ -109,6 +90,4 @@ class ESP32ntp
     bool update(); 
     time_t getUnixTime();
     struct tm* getTimeInfo();
-    //bool setSGrModeEvent(uint8_t eventIndex, uint8_t SGrMode, tm start, tm stop); // SGgMode (0= not_active 1=SG-readyMode1, 2= SG-readyMode2, 3= SG-readyMode3)
-    //uint8_t getSGrModeActual(uint8_t eventIndex);   // return sg_mode (0= not_active 1=SG-readyMode1, 2= SG-readyMode2, 3= SG-readyMode3)
 };

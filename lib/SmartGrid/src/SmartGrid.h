@@ -160,8 +160,7 @@ class SmartGrid
     void refreshWebData(bool b=true) { _bUpdate = b;};
     String getWebHourValueString(bool next);
     float getUserkWhPrice(uint8_t hour);
-    String getWebData(bool next);
-
+  
     String getWebDate(bool next);
     bool   downloadWebData(time_t* time_now, bool next);
     void   loop(time_t* time_now);

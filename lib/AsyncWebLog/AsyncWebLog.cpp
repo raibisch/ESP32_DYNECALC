@@ -64,10 +64,8 @@ include this script im Webpage 'log.html' or include it in PROG_MEM definition o
 /// @param url 
 void AsyncWebLogClass::begin(AsyncWebServer *server, const char* url)
 {
-    sWeblog.reserve(100);
     _server = server;
     _events = new AsyncEventSource("/logevents");
-
 
   //Route  for log.html 
   _server->on("/log.html",          HTTP_GET, [](AsyncWebServerRequest *request)
@@ -100,6 +98,9 @@ void AsyncWebLogClass::begin(AsyncWebServer *server, const char* url)
 // overwrite Print func
 size_t AsyncWebLogClass::write(uint8_t m) 
 {
+  debug_println("no non-bufferd write on AsyncWebLog");
+  return 0;
+  /**
   if (!_events)
     return 0;
   String s = "";
@@ -109,6 +110,7 @@ size_t AsyncWebLogClass::write(uint8_t m)
   _events->send((const char*) s.c_str(), "logprint", millis(), 10000);
   debug_println("no non-bufferd write on AsyncWebLog");
   return s.length();
+  */
 }
 
 size_t AsyncWebLogClass::write(const uint8_t* buffer, size_t size) 
@@ -116,9 +118,13 @@ size_t AsyncWebLogClass::write(const uint8_t* buffer, size_t size)
    if (!_events)
     return 0;
   String s = (const char*) buffer;
-  s.replace("\r\n", "<LF>");
-  //s.replace("\r","");
- 
+  if (s.indexOf('\r'))
+  {
+   s.replace("\r\n", "<LF>");
+   //s.replace("\r","");
+   delay(10); // wegen doppelter Ausgabe evt. noch etwas groesser machen ?!
+  }
+  
   _events->send((const char*) s.c_str(),"logprint", millis(), 10000);
   return(s.length());
 }

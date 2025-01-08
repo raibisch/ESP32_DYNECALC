@@ -39,14 +39,14 @@ public:
     void begin(AsyncWebServer *server, const char* url = LOG_URL);
 
     // implement virtual funtions from Print Class
-    size_t write(uint8_t);
-    size_t write(const uint8_t* buffer, size_t size);
+    size_t write (uint8_t);
+    size_t write (const uint8_t* buffer, size_t size);
  
     // by JG:  log only oneway server-->client
     //void msgCallback(RecvMsgHandler _recv);
    
 private:
-    String sWeblog;
+    //String sWeblog;
     AsyncWebServer *_server = NULL;
     AsyncEventSource *_events=NULL; // use Server Send Events (SSE)
     //AsyncWebSocket *_ws;     // maybe alternative websocket
@@ -55,7 +55,7 @@ private:
     //RecvMsgHandler _RecvFunc = NULL;
 
     #if defined(WEBSERIAL_DEBUG)
-        void DEBUG_WEB_SERIAL(const char* message);
+        void debug_println(const char* message);
     #endif
 };
 

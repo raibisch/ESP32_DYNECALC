@@ -24,15 +24,12 @@
 #define debug_println(...)
 #endif
 
-#define SMLPAYLOADMAXSIZE 300
-
 class SMLdecode
 {
   private:
-    //default constructor private
- 
     byte* httpGETRequest(const char* http_url);
     uint32_t decodeSMLval(byte * payload, byte* smlcode, uint smlsize,  uint offset);
+    enum { SMLPAYLOADMAXSIZE = 300 }; 
     byte smlpayload[SMLPAYLOADMAXSIZE] {0}; 
    
   protected:
@@ -54,5 +51,4 @@ class SMLdecode
    double getInputkWh();
    double getOutputkWh();
 };
-
 #endif

@@ -811,20 +811,6 @@ String SmartGrid::getWebHourValueString(bool next)
  }
 
 
-String SmartGrid::getWebData(bool next)
-{
-  if (next)
-  {
-    return  sEPEXdateNext;
-
-  }
-  else
-  {
-    return sEPEXdateToday;
-  }  
-}
-
-
 String SmartGrid::getWebDate(bool next)
 {
   if (next)
@@ -836,7 +822,6 @@ String SmartGrid::getWebDate(bool next)
     return sEPEXdateToday;
   }
 }
-
 
 float SmartGrid::getUserkWhPrice(uint8_t hour)
 {
@@ -881,6 +866,11 @@ void SmartGrid::loop(time_t* time_now)
     // switch SG-ready relay
     if ((_looptime_now_tm->tm_min==00) && (_looptime_now_tm->tm_sec < 7))
     {
+      if (this->sHourValueToday.indexOf("999"))
+      {_bUpdate = true;}
+      if (this->sHourValueNext.indexOf("999") && _looptime_now_tm->tm_hour > 15)
+      {_bUpdate = true;}
+      
       setAppOutputFromRules(_looptime_now_tm->tm_hour);
       delay(2000);
       return;

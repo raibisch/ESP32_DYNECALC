@@ -40,6 +40,7 @@ char *strrev(char *str)
 }
 */
 
+
 #ifdef DEF_XPARTS
 bool XParts::has_next()
 {

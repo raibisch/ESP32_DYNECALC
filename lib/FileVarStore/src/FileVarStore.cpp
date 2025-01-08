@@ -1,17 +1,22 @@
 #include "FileVarStore.h"
 
+#define FIND_KEY_LOWERCASE
+
 //----------------------------------------------------public Functions----------------------------------------------------
 
 //default constructor 
+/* 7.12.24 now overrides the other constructor in FileVarStore.h 
 FileVarStore::FileVarStore()
 {
   _filename = "/config.txt";
 }
+*/
 
 // constructor with custom filename
-FileVarStore::FileVarStore(String fn)
+FileVarStore::FileVarStore(const String fn)
 {
-  _filename = "/"+ fn;
+  _filename = fn;
+  _sBuf.reserve(MAX_INIT_FILE_SIZE);
 }
 
 /*-----------------------------
@@ -34,7 +39,7 @@ bool FileVarStore::Load()
 
   size_t size = configFile.size();
   debug_printf("size of config.txt:%d \n", size);
-  if (size > 1024) {
+  if (size > MAX_INIT_FILE_SIZE) {
     debug_println("Config file size is too large");
     _isLoaded = false;
     return false;
@@ -83,9 +88,22 @@ String FileVarStore::GetVarString(String sK)
   int posStart = _sBuf.indexOf(sK);
   if (posStart < 0)
   {
-    debug_println("key:'"+sK+ "' not found!!");
+#ifdef FIND_KEY_LOWERCASE
+    sK.toLowerCase();
+    String s2 = _sBuf;
+    s2.toLowerCase();
+    posStart = s2.indexOf(sK);
+    if(posStart < 0)
+    {
+      debug_printf("lowercase-key: %s not found\r\n", sK.c_str());
+      return "";
+    }
+#else
+    debug_printf("key: %s not found\r\n", sK.cstr());
     return "";
+#endif
   }
+
   //Serial.printf("PosStart1:%d", posStart);
   posStart = _sBuf.indexOf('=', posStart);
   //Serial.printf("PosStart2:%d", posStart);
@@ -101,9 +119,12 @@ String FileVarStore::GetVarString(String sK)
   return sVal;
 }
 
+
+/*
 int32_t FileVarStore::GetVarInt(String sKey)
 {   
   int32_t val = 0;
+  ---------- comment
   int posStart = _sBuf.indexOf(sKey);
   if (posStart < 0)
   {
@@ -115,18 +136,20 @@ int32_t FileVarStore::GetVarInt(String sKey)
   //Serial.printf("PosStart2:%d", posStart);
   int posEnd   = _sBuf.indexOf('\n', posStart);
   String sVal = _sBuf.substring(posStart+1,posEnd); 
-  
   debug_print(sKey+":");
- 
   val = sVal.toInt();
+  ----------------- comment 
+  val = GetVarString(sKey).toInt();
   debug_println(val); 
   return val;
  
 }
+*/
 
-int32_t FileVarStore::GetVarInt(String sKey, int32_t defaultvalue=0)
+int32_t FileVarStore::GetVarInt(String sKey, int32_t defaultvalue)
 {   
-  int32_t val = 0;
+  int32_t val = defaultvalue;
+  /*
   int posStart = _sBuf.indexOf(sKey);
   if (posStart < 0)
   {
@@ -144,15 +167,20 @@ int32_t FileVarStore::GetVarInt(String sKey, int32_t defaultvalue=0)
   debug_print (sKey+":");
  
   val = sVal.toInt();
+  //*/
+  if (GetVarString(sKey).length() > 0)
+  {
+   val = GetVarString(sKey).toInt();
+  }
   debug_println(val); 
   return val;
- 
 }
 
 
-float FileVarStore::GetVarFloat(String sKey, float defaultvalue=0)
+float FileVarStore::GetVarFloat(String sKey, float defaultvalue)
 {
   float val = 0;
+  /*
   int posStart = _sBuf.indexOf(sKey);
   if (posStart < 0)
   {
@@ -168,10 +196,16 @@ float FileVarStore::GetVarFloat(String sKey, float defaultvalue=0)
   debug_print (sKey+":");
  
   val = sVal.toFloat();
+  //*/
+  if (GetVarString(sKey).length() > 0)
+  {
+   val = GetVarString(sKey).toFloat();
+  }
   debug_println(val); 
   return val;
 }
 
+/*
  /// @brief convert myValue=22:35 ---> tm_hour  and tm_min 
  ///         valid: tm_year =1  unvalid: tm_year=0
  /// @param sKey 
@@ -202,13 +236,41 @@ float FileVarStore::GetVarFloat(String sKey, float defaultvalue=0)
   val = sVal.toInt();
   xtime.tm_min = val;
   return xtime;
- }
+ }  
+ */
 
-
-bool FileVarStore::SetVar(String sKey, int32_t iVal)
+/// @brief 
+/// @param sKey 
+/// @param sNewVal 
+/// @param bPersistent -->true: store permanent in file
+/// @return 
+bool FileVarStore::SetVarString(String sKey, String sNewVal, bool bPersistent)
 {
-  debug_println("FileVarStor::SetVar !!!not implemented!!!");
-  return true;
+   int posStart = _sBuf.indexOf(sKey);
+  if (posStart < 0)
+  {
+    debug_printf("SetVar key: %s not found\r\n", sKey.c_str());
+    return false;
+  }
+
+  //Serial.printf("PosStart1:%d", posStart);
+  posStart = _sBuf.indexOf('=', posStart);
+  //Serial.printf("PosStart2:%d", posStart);
+  int posEnd   = _sBuf.indexOf(';', posStart);
+  String sVal = _sBuf.substring(posStart+1,posEnd);
+  String sReplaceOld = sKey;
+  sReplaceOld += "=";
+  String sReplaceNew = sReplaceOld;
+  sReplaceOld += sVal;
+  sReplaceNew += sNewVal;
+  _sBuf.replace(sReplaceOld, sReplaceNew);
+   debug_printf("SetVar key: %s=%s\r\n", sKey.c_str(), sNewVal.c_str());
+  if (bPersistent)
+  {
+   return Save(_sBuf);
+  }
+  else
+  {return true;}
 }
 
 

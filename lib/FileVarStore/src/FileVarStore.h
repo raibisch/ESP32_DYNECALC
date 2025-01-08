@@ -28,26 +28,29 @@
 class FileVarStore
 {
   public:
-    FileVarStore();
-    FileVarStore (String filename);
+    FileVarStore (const String filename);
+    FileVarStore():FileVarStore("/config.txt") {}
     ~FileVarStore ();
   
     bool isLoaded();
     bool Load();
     bool Save(const String& s);
-     
+    const char* GetBuffer() {return _sBuf.c_str();}
+    
+    String  GetVarString(String name);
+    bool    SetVarString(String sKey, String iVal, bool bPersistent=false); 
+
+    int32_t GetVarInt(String name, int32_t defaultvalue=0);
+    float   GetVarFloat(String name, float defaultvalue=0);
+ 
+private:
+    
 protected:
     String _filename;
+    enum {MAX_INIT_FILE_SIZE=1024};
     String _sBuf;
-
-    virtual void GetVariables(){};
-    String GetVarString(String name);
-    int32_t GetVarInt(String name);
-    int32_t GetVarInt(String name, int32_t defaultvalue);
-    float GetVarFloat(String name, float defaultvalue);
-    struct tm GetTime(String name);
-
-    bool SetVar(String sKey, int32_t iVal); // noch nicht implementiert
+    virtual void GetVariables(){}; 
+    //struct tm GetTime(String name); not used
     bool _isLoaded = false;
 };
 
