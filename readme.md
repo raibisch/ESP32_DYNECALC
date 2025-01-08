@@ -21,15 +21,15 @@ oder
 ### Screenshots der Web-App ... läuft auf jedem Webbrowser (mobil oder PC):
 
 ![price_sim](/pict/tibber_sim_home.png)
-(Start-Page)
+Start-Page
 
 ![price_sim](/pict/tibber_price_sim.png)
-(Echtzeit Simulation)
+Echtzeit Simulation
 grün: besser als Fix-Preis, rot: schlechter als Fix-Preis
 
 
 ![smart_grid_](/pict/smart_grid_rules.png)
-(Regelbasierender Smart-Grid Switch)
+Regelbasierender Smart-Grid Switch z.B. für Wallbox oder Wärmepumpe
 
 
 
