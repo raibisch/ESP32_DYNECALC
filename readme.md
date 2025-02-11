@@ -7,7 +7,7 @@ is a dynamic price model better than a fix price model for your electricity cont
 This app calculates the hour, day and month price from your individual power consumation.
 
 ...because this is related to the german electric energy marked the documentation is a wild mix of german and (in source code) english.
-(if it is usefull for other users there is no problem to communictate at ISSUES or PULL REQUESTS in englisch)
+(if it is usefull for other users there is no problem to communictate at ISSUES or PULL REQUESTS in englich)
 
 
 ### Voraussetzungen:
