@@ -3,17 +3,22 @@
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
 #include "esp_rom_gpio.h"
-#include <FS.h>                        // Build-in
-#include <SPIFFS.h>                    // Build-in
+// #include <FS.h>                        // Build-in
+#include <LittleFS.h>
+//#include <SPIFFS.h>                    // Build-in
 #include <WiFi.h>                      // Built-in
 #include <ESPmDNS.h>                   // Built-in
 #include <ESPAsyncWebServer.h>         // Built-in
 #include <HTTPClient.h>                // Build-in  
 #include <base64.h>                    // Build-in
 #include <Preferences.h>               // Build-in
-        
-#include "FileVarStore.h"
 
+#if defined ESP_S2_MINI || ESP_S3_ZERO
+#include "driver/temp_sensor.h"
+#endif
+
+// ----- my libs --------------------------------
+#include "FileVarStore.h"
 #ifdef WEB_APP
 #include "AsyncWebLog.h"
 #include "AsyncWebOTA.h"
@@ -23,16 +28,15 @@
 #include "XPString.h"
 #include "SmartGrid.h"
 #include "SMLdecode.h"
+// ----------------------------------------------
 
-#if defined ESP_S2_MINI || ESP_S3_ZERO
-#include "driver/temp_sensor.h"
-#endif
-
+// ----- local include --------------------------
 #ifdef M5_COREINK
 #include "m5coreink.h"
 #endif
 
 #include "relay.h"
+// ----------------------------------------------
 
 // now set in "platformio.ini":
 // #define DEBUG_PRINT 1  
@@ -84,9 +88,9 @@ AsyncWebServer webserver(80);
 
 // ntp client
 const char* TimeServerLocal = "192.168.2.1";
-const char* TimeServer      = "europe.pool.ntp.org";
-const char* Timezone        = "CET-1CEST,M3.5.0,M10.5.0/3";       // Central Europe
-static ESP32ntp ntpclient(TimeServerLocal,Timezone);
+const char* TimeServerPublic= "europe.pool.ntp.org";
+const char* TimeZone        = "CET-1CEST,M3.5.0,M10.5.0/3";       // Central Europe
+static ESP32ntp ntpclient;
 
 WiFiClient wificlient;
 SMLdecode smldecoder;
@@ -168,13 +172,13 @@ void blinkLED()
 
 void inline initSPIFFS()
 {
-  if (!SPIFFS.begin())
+  if (!LittleFS.begin())
   {
-   debug_println("*** ERROR: SPIFFS Mount failed");
+   debug_println("*** ERROR: LittleFS Mount failed");
   } 
   else
   {
-   debug_println("* INFO: SPIFFS Mount succesfull");
+   debug_println("* INFO: LittleFS Mount succesfull");
   }
 }
  
@@ -266,7 +270,7 @@ class WPFileVarStore : public FileVarStore
 };
 WPFileVarStore varStore;
 
-void setSGreadyOutput(uint8_t mode);
+void setSGreadyOutput(uint8_t mode, uint8_t hour=24);
 //////////////////////////////////////////////////////
 /// @brief  expand Class "FileVarStore" with variables
 //////////////////////////////////////////////////////
@@ -367,17 +371,29 @@ bool sendSGreadyURL(String s)
   return false;
 }
 
-void setSGreadyOutput(uint8_t mode)
+/// @brief 
+/// @param mode SmartGrid-Mode
+/// @param h    hour to set SmartGrid-Mode
+void setSGreadyOutput(uint8_t mode, uint8_t hour)
 {
-  uint8_t h = ntpclient.getTimeInfo()->tm_hour;
-  debug_printf("SGreadyMode: %d\r\n",mode);
-  smartgrid.setHourVar1(h, mode); // override if value has changed
+  debug_printf("SetSGSGreadyOutput: %d hour:%d\r\n",mode, hour);
+  if (hour > 23)
+  { hour = ntpclient.getTimeInfo()->tm_hour;}
+
+ 
+#ifdef WEB_APP
+  AsyncWebLog.printf("SGreadyMode: %d  hour:%d\r\n",mode, hour);   
+#endif
+  smartgrid.setHourVar1(hour, mode); // override if value has changed
   String sURL;
   sURL.reserve(50);
   
- #ifdef WEB_APP
-  AsyncWebLog.println("SGreadyMode:"+ String(mode));   
-#endif  
+  // activate switch only for actual hour
+  if (hour != ntpclient.getTimeInfo()->tm_hour)
+  {
+    return;
+  }
+
 #ifdef SG_READY
   switch (mode)
   {
@@ -507,6 +523,12 @@ void initWiFi()
     SYS_IP = WiFi.localIP().toString();
     debug_print("IP Address: ");
     debug_println(SYS_IP);
+
+    // only for STA-Mode a ntp-server is availible !
+    if (!ntpclient.begin(TimeZone,TimeServerLocal,TimeServerPublic))
+    {
+      ESP.restart();
+    }
    }
   return;
 }     
@@ -544,12 +566,12 @@ String setHtmlVar(const String& var)
  
   if (var == "CONFIG") // read config.txt
   {
-    if (!SPIFFS.exists("/config.txt")) 
+    if (!LittleFS.exists("/config.txt")) 
     {
      return String(F("Error: File 'config.txt' not found!"));
     }
     // read "config.txt" 
-    fs::File configfile = SPIFFS.open("/config.txt", "r");   
+    fs::File configfile = LittleFS.open("/config.txt", "r");   
     String sConfig;     
     if (configfile) 
     {
@@ -828,12 +850,12 @@ String setHtmlVar(const String& var)
   else
   if (var == "COST_AKT_MONTH") // read config.txt
   {
-    if (!SPIFFS.exists("/cost_akt_month.txt")) 
+    if (!LittleFS.exists("/cost_akt_month.txt")) 
     {
      return String(F("Error: File 'cost_akt_month.txt' not found!"));
     }
     // read "config.txt" 
-    fs::File cfile = SPIFFS.open("/cost_akt_month.txt", "r");   
+    fs::File cfile = LittleFS.open("/cost_akt_month.txt", "r");   
     String sData;     
     if (cfile) 
     {
@@ -849,12 +871,12 @@ String setHtmlVar(const String& var)
   else
   if (var == "COST_AKT_YEAR") // read config.txt
   {
-    if (!SPIFFS.exists("/cost_akt_year.txt")) 
+    if (!LittleFS.exists("/cost_akt_year.txt")) 
     {
      return String(F("Error: File 'cost_akt_year.txt' not found!"));
     }
     // read "config.txt" 
-    fs::File cfile = SPIFFS.open("/cost_akt_year.txt", "r");   
+    fs::File cfile = LittleFS.open("/cost_akt_year.txt", "r");   
     String sData;     
     if (cfile) 
     {
@@ -883,7 +905,7 @@ void Handle_Index_Post(AsyncWebServerRequest *request)
   debug_println("Argument: " + request->argName(0));
   uint8_t i = 0;
   debug_printf("Value: %s\r\n", request->arg(i));
-  request->send(SPIFFS, "/index.html", String(), false, setHtmlVar);
+  request->send(LittleFS, "/index.html", String(), false, setHtmlVar);
 }
 #endif
   
@@ -929,17 +951,17 @@ void initWebServer()
    //Route for setup web page
   webserver.on("/meter.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/meter.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/meter.html", String(), false, setHtmlVar);
   });
   //Route for setup web page
   webserver.on("/smartgrid.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/smartgrid.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/smartgrid.html", String(), false, setHtmlVar);
   });
   
   webserver.on("/sgready.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/sgready.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/sgready.html", String(), false, setHtmlVar);
   });
 
 
@@ -947,26 +969,26 @@ void initWebServer()
  //Route for Luxtronik values
   webserver.on("/luxtronik.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/luxtronik.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/luxtronik.html", String(), false, setHtmlVar);
   });
 #endif
 
   //Route for Energy Cost
   webserver.on("/energycost.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/energycost.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/energycost.html", String(), false, setHtmlVar);
   });
   
 
   // datafiles for direct access in Website
   webserver.on("/cost_akt_month.txt",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/cost_akt_month.txt", String(), false);
+   request->send(LittleFS, "/cost_akt_month.txt", String(), false);
   });
   // datafiles for direct access in Website
   webserver.on("/cost_akt_year.txt",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/cost_akt_year.txt", String(), false);
+   request->send(LittleFS, "/cost_akt_year.txt", String(), false);
   });
 
   
@@ -975,71 +997,71 @@ void initWebServer()
   //Route for root / web page
   webserver.on("/",          HTTP_GET, [](AsyncWebServerRequest *request)
   {https://
-   request->send(SPIFFS, "/index.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/index.html", String(), false, setHtmlVar);
   });
   //Route for root /index web page
   webserver.on("/index.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/index.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/index.html", String(), false, setHtmlVar);
   });
  
   //Route for setup web page
   webserver.on("/setup.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/setup.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/setup.html", String(), false, setHtmlVar);
   });
   //Route for config web page
   webserver.on("/config.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/config.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/config.html", String(), false, setHtmlVar);
   });
 
 
   //Route for stored values
   webserver.on("/savevalues.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/savevalues.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/savevalues.html", String(), false, setHtmlVar);
   });
 
    webserver.on("/current.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/current.png", String(), false);
+   request->send(LittleFS, "/current.png", String(), false);
   });
    webserver.on("/sg.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/sg.png", String(), false);
+   request->send(LittleFS, "/sg.png", String(), false);
   });
   
   webserver.on("/sgready.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/sgready.png", String(), false);
+   request->send(LittleFS, "/sgready.png", String(), false);
   });
   /*
   webserver.on("/heatpump.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/heatpump.png", String(), false);
+   request->send(LittleFS, "/heatpump.png", String(), false);
   });
   */
   webserver.on("/energycost.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/energycost.png", String(), false);
+   request->send(LittleFS, "/energycost.png", String(), false);
   });
 
   //Route for Info-page
   webserver.on("/info.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/info.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/info.html", String(), false, setHtmlVar);
   });
 
   // Route for style-sheet
   webserver.on("/style.css",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/style.css", String(), false);
+   request->send(LittleFS, "/style.css", String(), false);
   });
 
   // config.txt GET
   webserver.on("/config.txt", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/config.txt", "text/html", false);
+    request->send(LittleFS, "/config.txt", "text/html", false);
   });
   // config.txt GET
   webserver.on("/reboot.html", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -1052,37 +1074,44 @@ void initWebServer()
   //.. some code for the navigation icons
   webserver.on("/home.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/home.png", String(), false);
+   request->send(LittleFS, "/home.png", String(), false);
   });
   webserver.on("/file-list.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/file-list.png", String(), false);
+   request->send(LittleFS, "/file-list.png", String(), false);
   });
   webserver.on("/settings.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/settings.png", String(), false);
+   request->send(LittleFS, "/settings.png", String(), false);
   });
+
+  // for SG-Ready
+  webserver.on("/reload.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(LittleFS, "/reload.png", String(), false);
+  });
+  
  
   // ...a lot of code only for icons and favicons ;-))
   webserver.on("/manifest.json",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/manifest.json", String(), false);
+   request->send(LittleFS, "/manifest.json", String(), false);
   });
   webserver.on("/favicon.ico",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/favicon.ico", String(), false);
+   request->send(LittleFS, "/favicon.ico", String(), false);
   });
   webserver.on("/apple-touch-icon.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/apple-touch-icon.png", String(), false);
+   request->send(LittleFS, "/apple-touch-icon.png", String(), false);
   });
   webserver.on("/android-chrome-192x192.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/android-chrome-192x192.png", String(), false);
+   request->send(LittleFS, "/android-chrome-192x192.png", String(), false);
   });
   webserver.on("/android-chrome-384x384.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(SPIFFS, "/android-chrome-384x384.png", String(), false);
+   request->send(LittleFS, "/android-chrome-384x384.png", String(), false);
   });
   
 
@@ -1103,33 +1132,38 @@ void initWebServer()
   webserver.on("/sgready.html",          HTTP_POST, [](AsyncWebServerRequest *request)
   {
    uint8_t i = 0;
-   String s  = request->arg(i);
+   int iVal  = request->arg(i).toInt();
+   const String sArg = request->argName(0);
+   debug_printf("Argument: %s\r\n",sArg.c_str());
+   debug_printf("value:%d \r\n", iVal);
+  
    //AsyncWebLog.println("Requestarg:" + s);
+
 #ifdef SG_READY
-   if (s == "mode1")
+   if (sArg == "sg1")
    {
-      setSGreadyOutput(1);
+      setSGreadyOutput(1, iVal);
    }
    else
-   if (s == "mode2")
+   if (sArg == "sg2")
    {
-      setSGreadyOutput(2);
+      setSGreadyOutput(2, iVal);
    }
    else
-   if (s == "mode3")
+   if (sArg == "sg3")
    {
-      setSGreadyOutput(3);
+      setSGreadyOutput(3, iVal);
    }
    else
-   if (s == "mode4")
+   if (sArg == "sg4")
    {
-      setSGreadyOutput(4);
+      setSGreadyOutput(4, iVal);
    }
   #endif
-   request->send(SPIFFS, "/sgready.html", String(), false, setHtmlVar); 
+ 
+   request->send(LittleFS, "/sgready.html", String(), false, setHtmlVar); 
   });
      
-
   // config.html POST
   webserver.on("/config.html",          HTTP_POST, [](AsyncWebServerRequest *request)
   {
@@ -1146,7 +1180,7 @@ void initWebServer()
        //smartgrid.getAppRules();   // old: setSmartGridRules(); // calulate rules from config
    }
    //debug_println("Request /index3.html");
-   request->send(SPIFFS, "/config.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/config.html", String(), false, setHtmlVar);
   });
  
    // config.html POST
@@ -1173,11 +1207,10 @@ void initWebServer()
    }
    //debug_println("Request /index3.html");
 
-   request->send(SPIFFS, "/savevalues.html", String(), false, setHtmlVar);
+   request->send(LittleFS, "/savevalues.html", String(), false, setHtmlVar);
   });
 
   
-
   // init Webserver 
   sFetch.reserve(150);
   AsyncWebLog.begin(&webserver);
@@ -1409,10 +1442,6 @@ void setup()
   smartgrid.init();
   setLED(0);
   initWiFi();
-  if (!ntpclient.begin())
-  {
-    ESP.restart();
-  }
   initWebServer(); 
   delay(200);
   setLED(0);

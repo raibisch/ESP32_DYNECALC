@@ -6,50 +6,8 @@
 
 
 /*
-
-
-Die time.h Bibliothek stellt verschiedenste Funktionen zum Abfragen und Manipulieren von Zeit und Datumswerten zur Verfügung.
-Abfragen
-Funktion 	Bedeutung
-clock() 	Ticks seit dem Start des Programmes erhalten.
-difftime() 	Den Unterschied zwischen zwei Zeiten erhalten
-time() 	Die aktuelle Zeit erhalten
-Manipulieren
-Funktion 	Bedeutung
-mktime() 	Konvertiert ein tm Struktur in einen Wert vom Typ time_t
-asctime() 	Aus einer tm Struktur eine String generieren
-ctime() 	Aus einem time_t Wert einen String generieren
-gmtime() 	Konvertiert einen time_t Wert in eine tm Struktur als UTC Zeit.
-localtime() 	Konvertiert einen time_t Wert in eine tm Struktur als lokale Zeit.
-strftime() 	Formatiert einen tm Struktur in einen String.
-Datentypen
-Funktion 	Bedeutung
-time_t 	Zeitstempel in Sekunden ab 1.1.1970, 0:00 Uhr
-struct tm 	Zeitpunktsbeschreibung
-clock_t 	Integer-Typ, hier als Zählvariable für System-Ticks 
-
-
-Beispiel asctime():
-
-
-#include <stdio.h>
-#include <time.h>
-#include <stdlib.h>
- 
-int main ()
-{
-  time_t rawtime;
-  struct tm * timeinfo;
- 
-  time ( &rawtime );
-  timeinfo = localtime ( &rawtime );
-  printf ( "Das aktuelle Datum lautet: %s", asctime (timeinfo) );
- 
-  return EXIT_SUCCESS;
-}
+Die Bibliothek stellt verschiedenste Funktionen zum Abfragen und Manipulieren von Zeit und Datumswerten zur Verfügung.
 */
-
-
 
 // now set in platformio.ini
 //#define DEBUG_PRINT 1    // SET TO 0 OUT TO REMOVE TRACES
@@ -72,18 +30,14 @@ int main ()
 class ESP32ntp
 {
   private:
-  ESP32ntp(){};
-  const char *_ntpserver = nullptr;
-  const char *_timezone = nullptr;
-
-  struct tm timeinfo;
-  time_t now;
-  time_t unixTime = 0;
+    struct tm timeinfo;
+    time_t now;
+    time_t unixTime = 0;
 
  public: 
-    ESP32ntp(const char ntpserver[], const char timezone[]);
-   ~ESP32ntp();
-    bool begin();
+    ESP32ntp(){};
+   ~ESP32ntp() {};
+    bool begin(const char* timezone, const char* ntpserver1, const char* ntpserver2 = NULL);
     char* getTimeString();
     char* getDateString();
     int getWeekday();

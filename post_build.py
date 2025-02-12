@@ -4,6 +4,7 @@ Import("env","projenv") # type: ignore
 
 FIRMWARE_BIN = "$BUILD_DIR/${PROGNAME}.bin"
 SPIFFS_BIN =  "$BUILD_DIR/spiffs.bin"
+LITTLEFS_BIN= "$BUILD_DIR/littlefs.bin"
 
 def copy_firmware(source, target, env):
      file1 = target[0].get_abspath()
@@ -23,4 +24,4 @@ def copy_spiffs(source, target, env):
     print("--> *** SPIFF build OK*** :-)")
 
 env.AddPostAction(FIRMWARE_BIN, copy_firmware)
-env.AddPostAction(SPIFFS_BIN, copy_spiffs)
+env.AddPostAction(LITTLEFS_BIN, copy_spiffs)

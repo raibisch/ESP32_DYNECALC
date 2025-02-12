@@ -1,5 +1,38 @@
 #include "ESP32ntp.h"
 
+/// @brief public constructor
+/// @param ntpserver 
+/// @param timezone 
+ESP32ntp::ESP32ntp(const char ntpserver[], const char timezone[])
+{
+   // free ntpserver if set
+  if (this->_ntpserver != nullptr) {
+    free((void *)this->_ntpserver);
+  }
+  if (this->_timezone != nullptr) {
+    free((void *)this->_timezone);
+  }
+
+  // set ntpserver
+  this->_ntpserver = strdup(ntpserver);
+  this->_timezone = strdup(timezone);
+}
+
+/// @brief destructor
+ESP32ntp::~ESP32ntp() 
+{
+  // free hostname
+  if (this->_ntpserver != nullptr) 
+  {
+    free((void *)this->_ntpserver);
+  }
+   if (this->_timezone != nullptr) 
+  {
+    free((void *)this->_timezone);
+  }
+
+}
+
 /// @brief 
 /// @return 
 bool ESP32ntp::update()
@@ -16,9 +49,10 @@ bool ESP32ntp::update()
   return true;
 }
 
+
 /// @brief 
 /// @return 
-bool ESP32ntp::begin(const char* timezone, const char* ntpserver1, const char* ntpserver2)
+bool ESP32ntp::begin()
 {
   // replaced with "configTzTime" see: https://github.com/espressif/arduino-esp32/blob/master/libraries/ESP32/examples/Time/SimpleTime/SimpleTime.ino
   /*
@@ -27,6 +61,7 @@ bool ESP32ntp::begin(const char* timezone, const char* ntpserver1, const char* n
   tzset();
   */
 
+  
   /**
    * NTP server address could be acquired via DHCP,
    *
@@ -37,7 +72,7 @@ bool ESP32ntp::begin(const char* timezone, const char* ntpserver1, const char* n
    */
   debug_printf("*** Start ESP32ntp\r\n");
   delay(500);
-  esp_sntp_servermode_dhcp(true);  // (optional oder Absturz wenn es nicht aufgerufen wird ??!??!)
+  esp_sntp_servermode_dhcp(1);  // (optional)
 
    /**
    * A more convenient approach to handle TimeZones with daylightOffset
@@ -45,9 +80,8 @@ bool ESP32ntp::begin(const char* timezone, const char* ntpserver1, const char* n
    * A list of rules for your zone could be obtained from https://github.com/esp8266/Arduino/blob/master/cores/esp8266/TZ.h
    */
   uint8_t cnt =0;
-  configTzTime(timezone,ntpserver1, ntpserver2);
-  // max 20sec sync time
-  while ((sntp_get_sync_status() != SNTP_SYNC_STATUS_COMPLETED) && (cnt < 20))
+  configTzTime(_timezone,_ntpserver);
+  while ((sntp_get_sync_status() != SNTP_SYNC_STATUS_COMPLETED) && (cnt < 40))
   {
             debug_print(':');
             delay(200);
@@ -64,7 +98,6 @@ bool ESP32ntp::begin(const char* timezone, const char* ntpserver1, const char* n
   debug_printf("\r\n*** ESP32ntp Time:%s\r\n", getTimeString());
   return true;   
 }
-
 
 /// @brief See http://www.cplusplus.com/reference/ctime/strftime/
 /// @return 
@@ -105,7 +138,7 @@ struct tm* ESP32ntp::getTimeInfo()
 {
 
   struct tm *now_tm = localtime(&unixTime);
-  return now_tm;
+   return now_tm;
 }
 
 /// @brief 

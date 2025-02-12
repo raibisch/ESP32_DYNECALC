@@ -107,7 +107,6 @@
             oReq.addEventListener("load", reqListener);
             setInterval(function()
             {
-              //var dateNow = new Date();  // current time
               oReq.open("GET", "/fetch");
               oReq.send();
             }, 2000);

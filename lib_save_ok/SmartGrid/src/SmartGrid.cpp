@@ -343,7 +343,8 @@ bool SmartGrid::updateCost_monthday(uint8_t akt_day)
     smdfile += stmp;
   }
   
-  debug_printf("updateCost_akt_month_day:\r\n", smdfile);
+  debug_printf("updateCost_monthday:\r\n%s", smdfile);
+
   return saveCost("/cost_akt_month.txt", smdfile);
   
   /*
@@ -459,7 +460,7 @@ bool SmartGrid::updateCost_month(uint8_t month)
     stmp.format_P("%.2f;\r\n", getFlexprice_month(i));
     smdfile += stmp;
   }
-  debug_printf("updateCost_akt_year_month:\r\n");
+  debug_printf("updateCost_month:\r\n%s", smdfile);
   return saveCost("/cost_akt_year.txt", smdfile);
 }
 
@@ -537,6 +538,8 @@ void SmartGrid::calcHourPrice(time_t* time, float akt_kwh)
     return;
   }
 
+
+  
   //debug_printf("akt_hour:%d last_hour:%d\r\n",akt_hour,last_hour); 
   if (last_hour != akt_hour) 
   {
@@ -649,21 +652,21 @@ bool SmartGrid::downloadWebData(time_t* t_now, bool next)
     struct tm *nextday_tm = localtime(&nextday);
     strftime(output_day, sizeof(output_day), "%G-%m-%d", nextday_tm);
     sEPEXdateNext = output_day;
-    debug_printf("\r\n--> downloadWebData nexday: %s\r\n", sEPEXdateNext);
+    debug_printf("--> downloadWebData nexday: %s\r\n", sEPEXdateNext);
   }
   // today
   else
   {
      strftime(output_day, sizeof(output_day), "%G-%m-%d", now_tm);
      sEPEXdateToday = output_day;
-     debug_printf("\r\n--> downloadWebData today: %s\r\n", sEPEXdateToday);
+     debug_printf("--> downloadWebData today: %s\r\n", sEPEXdateToday);
   }
  
   
   //    ( datum aktuell ersetzten ! )
   //String sget = "GET /price?bzn=DE-LU&start=" + String(output_nextday) + "T00%3A00%2B01%3A00&end=" + String(output_nextday) + "T23%3A45%2B01%3A00 HTTP/1.1";
   // für test im Browser: 
-  // https://api.energy-charts.info/price?bzn=DE-LU&start=2025-01-10  
+  // https://api.energy-charts.info/price?bzn=DE-LU&start=2024-10-22  
 
   // neu nur den Tag eingeben
   String sget = "GET /price?bzn=DE-LU&start="; 
@@ -671,9 +674,9 @@ bool SmartGrid::downloadWebData(time_t* t_now, bool next)
          sget += " HTTP/1.1";
   //AsyncWebLog.println(sget);
   debug_println(sget);
-  delay(500);
+
   httpsclient.setInsecure();
-  //httpsclient.setTimeout(10); // notwendig ??
+  httpsclient.setTimeout(5); // notwendig ??
   debug_printf("\nStart connection to:  %s \r\n", _sHosturl.c_str());
   if (!httpsclient.connect(_sHosturl.c_str(), 443))
   {
