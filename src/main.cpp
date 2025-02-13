@@ -5,7 +5,7 @@
 #include "esp_rom_gpio.h"
 // #include <FS.h>                        // Build-in
 #include <LittleFS.h>
-//#include <SPIFFS.h>                    // Build-in
+#include <SPIFFS.h>                    // Build-in
 #include <WiFi.h>                      // Built-in
 #include <ESPmDNS.h>                   // Built-in
 #include <ESPAsyncWebServer.h>         // Built-in
@@ -330,7 +330,7 @@ class SmartGridEPEX : public SmartGrid
 SmartGridEPEX smartgrid(URL_ENERGY_CHARTS);
 
 #ifdef SG_READY
-/// @brief  Post a REST message to a web-device instaed of switching a Relais-Output-Pin
+/// @brief  REST message to a web-device instaed of switching a Relais-Output-Pin
 /// @param s  REST url
 /// @return 
 bool sendSGreadyURL(String s)
@@ -339,14 +339,14 @@ bool sendSGreadyURL(String s)
   
   if (s.startsWith("http:") == false)
   {
-    AsyncWebLog.println("No HTTP sendSGreadString:" + s);
-     return false;   
+    debug_printf("** ERROR: url does not start with 'http://' : %s\r",s.c_str());
+    AsyncWebLog.printf("** ERROR: url does not start with 'http://' : %s\r",s.c_str());
+    return false;   
   }
 
- 
   AsyncWebLog.println("sendSGreadURL:" + s);
   int getlength;
-  s.replace('#','%'); // because % % is used as html insert marker
+  s.replace('#','%'); // because %xxx% is used as html insert marker
   http.begin(wificlient, s);
   int httpResponseCode = http.GET();
   
@@ -355,14 +355,15 @@ bool sendSGreadyURL(String s)
     getlength = http.getSize();
     if (getlength > 0)
     {
-      AsyncWebLog.println("send OK: SG ready url:" + s);
+      debug_printf("send OK: SG ready url: %s\r", s.c_str());
+      AsyncWebLog.printf("send OK: SG ready url: %s\r", s.c_str());
       http.end();
       return true;
     }
   }
   else 
   {
-    AsyncWebLog.println("ERROR: SG ready url:" + s);
+    AsyncWebLog.printf("ERROR: SG ready url: %s", s.c_str());
     debug_printf("httpResponseCode: %d\r\n", httpResponseCode);
   }
   // Free resources
@@ -894,12 +895,10 @@ String setHtmlVar(const String& var)
   return "";
 }
 
-void notFound(AsyncWebServerRequest *request) 
-{
-    request->send(404, "text/plain", "Not found");
-}
+
 
 // for "/" and "/index" handle post
+/* not used
 void Handle_Index_Post(AsyncWebServerRequest *request)
 {
   debug_println("Argument: " + request->argName(0));
@@ -907,7 +906,15 @@ void Handle_Index_Post(AsyncWebServerRequest *request)
   debug_printf("Value: %s\r\n", request->arg(i));
   request->send(LittleFS, "/index.html", String(), false, setHtmlVar);
 }
+*/
+
+void notFound(AsyncWebServerRequest *request) 
+{
+    request->send(404, "text/plain", "Not found");
+}
+
 #endif
+
   
 
 void initWebServer()
@@ -1117,6 +1124,7 @@ void initWebServer()
 
   // ------------ POSTs --------------------------------------------------------------
   // root (/) POST
+  /* until no no need for thihs
   webserver.on("/",          HTTP_POST, [](AsyncWebServerRequest *request)
   {
     Handle_Index_Post(request);
@@ -1126,6 +1134,7 @@ void initWebServer()
   {
     Handle_Index_Post(request);
   });
+  */
 
 
   // sgready.html POST
@@ -1134,12 +1143,9 @@ void initWebServer()
    uint8_t i = 0;
    int iVal  = request->arg(i).toInt();
    const String sArg = request->argName(0);
-   debug_printf("Argument: %s\r\n",sArg.c_str());
-   debug_printf("value:%d \r\n", iVal);
-  
-   //AsyncWebLog.println("Requestarg:" + s);
-
-#ifdef SG_READY
+   debug_printf(      "sgready POST: arg: %s  value:%d\r\n",sArg.c_str(), iVal);
+   AsyncWebLog.printf("sgready POST: arg: %s  value:%d\r\n",sArg.c_str(), iVal);
+   #ifdef SG_READY
    if (sArg == "sg1")
    {
       setSGreadyOutput(1, iVal);
@@ -1159,8 +1165,15 @@ void initWebServer()
    {
       setSGreadyOutput(4, iVal);
    }
-  #endif
- 
+   else 
+   if (sArg == "sgsreload")
+   {
+    debug_println("sgsreload");
+    smartgrid.getAppRules();   // old: setSmartGridRules(); // calulate rules from config
+    smartgrid.setAppOutputFromRules(ntpclient.getTimeInfo()->tm_hour);
+   }
+#endif
+
    request->send(LittleFS, "/sgready.html", String(), false, setHtmlVar); 
   });
      
@@ -1177,7 +1190,7 @@ void initWebServer()
        varStore.Save(s);
        varStore.Load();
        smartgrid.refreshWebData(true); // new: 30.10.2024
-       //smartgrid.getAppRules();   // old: setSmartGridRules(); // calulate rules from config
+       smartgrid.getAppRules();   // old: setSmartGridRules(); // calulate rules from config
    }
    //debug_println("Request /index3.html");
    request->send(LittleFS, "/config.html", String(), false, setHtmlVar);

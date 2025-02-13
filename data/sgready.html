@@ -17,28 +17,34 @@
     <input type="hidden" id="idsg" name="sgval" value="-">
     <input id="sethour" name="hour" value="0" style="width: 4ch">:00
     </p>
-    <input class="buttonsmallblue"   type="submit" id="idsg1" name="sg1" value="SGR-1" onclick="submitForm()">
-    <input class="buttonsmallgreen"  type="submit" id="idsg2" name="sg2" value="SGR-2" onclick="submitForm()">
-    <input class="buttonsmallorange" type="submit" id="idsg3" name="sg3" value="SGR-3" onclick="submitForm()">
-    <input class="buttonsmallred"    type="submit" id="idsg4" name="sg4" value="SGR-4" onclick="submitForm()">
+    <input class="buttonsmallblue"   type="submit" id="idsg1" name="sg1" value="SGR-1" onclick="submitSGR()">
+    <input class="buttonsmallgreen"  type="submit" id="idsg2" name="sg2" value="SGR-2" onclick="submitSGR()">
+    <input class="buttonsmallorange" type="submit" id="idsg3" name="sg3" value="SGR-3" onclick="submitSGR()">
+    <input class="buttonsmallred"    type="submit" id="idsg4" name="sg4" value="SGR-4" onclick="submitSGR()">
   </form>
   <div style="height: 10px;"> </div>
   <div style="height: 320px">
     <canvas id="myChart"></canvas>
   </div>
-  <button type="button" class="image-btn" onclick="window.location.href='index.html'"><img src="home.png">HOME</button>
-  <button type="button" class="image-btn" onclick="reloadSGR()">                      <img src="reload.png">Reload</button>
+  <button type="button" class="image-btn" onclick="window.location.href='index.html'"><img src="home.png">Home</button>
+  <button type="button" class="image-btn" onclick="submitReload()">                   <img src="reload.png">Reload</button>
   <button type="button" class="image-btn" onclick="window.location.href='setup.html'"><img src="settings.png">Setup</button>
 
   <script type="text/javascript">
     
-    function submitForm() 
+    function submitSGR() 
     {
-      let id = event.target.id;
       let n = event.target.name;
       let v = document.getElementById('sethour').value;
       document.getElementById('idsg').name  = n;
       document.getElementById('idsg').value = v;
+      form = document.getElementById('sgset');
+      form.submit();
+    }
+
+    function submitReload()
+    {
+      document.getElementById('idsg').name  = "sgsreload";
       form = document.getElementById('sgset');
       form.submit();
     }
