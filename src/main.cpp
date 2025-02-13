@@ -216,10 +216,10 @@ class WPFileVarStore : public FileVarStore
 #ifdef SG_READY
    String varSG_s_out1      = "GPIO_12";
    String varSG_s_out2      = "GPIO_10";
-   String varSG_s_sg1       = "";        //  http://192.168.2.108/fetch?imax=6; for my ABL-Wallbox ESP Project     
-   String varSG_s_sg2       = "";        //  http://192.168.2.137/cm?cmnd=Power1%201 Tasmota Relais1 1 on    (replace % with # in config)
+   String varSG_s_sg1       = "";        //  http://192.168.2.137/cm?cmnd=Backlog%20Power1%200%3BPower2%200   Tasmota Relais1=on, Relais2=off (replace % with & in config) switch Relais 1 and Relais 2     
+   String varSG_s_sg2       = "";        //  http://192.168.2.137/cm?cmnd=Power1%201 Tasmota Relais1 1 on    (replace % with & in config)
    String varSG_s_sg3       = "";        //  http://192.168.2.137/cm?cmnd=Power1%200 Tasmota Relais1 2 off   ("                             ")
-   String varSG_s_sg4       = "";        //  http://192.168.2.137/cm?cmnd=Backlog%20Power1%201%3BPower2%200   Tasmota Relais1=on, Relais2=off (replace % with # in config) switch Relais 1 and Relais 2 
+   String varSG_s_sg4       = "";        //  http://192.168.2.137/cm?cmnd=Backlog%20Power1%201%3BPower2%200   Tasmota Relais1=on, Relais2=off (replace % with & in config) switch Relais 1 and Relais 2 
 #endif
 
 #ifdef LUX_WEBSOCKET
