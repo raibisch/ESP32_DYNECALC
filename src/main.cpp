@@ -381,7 +381,6 @@ void setSGreadyOutput(uint8_t mode, uint8_t hour)
   if (hour > 23)
   { hour = ntpclient.getTimeInfo()->tm_hour;}
 
- 
 #ifdef WEB_APP
   AsyncWebLog.printf("SGreadyMode: %d  hour:%d\r\n",mode, hour);   
 #endif
@@ -595,24 +594,20 @@ String setHtmlVar(const String& var)
   {
      sFetch =    "Version    :";
      sFetch += SYS_Version;  
-
+     sFetch += "\nPlatform   :";
+     sFetch +=  ESP.getChipModel();
      sFetch += "\nBuild-Date :";
      sFetch +=  F(__DATE__);
-
      sFetch += "\nIP-Addr    :";
      sFetch += SYS_IP;
-
      sFetch += "\nRSSI       :";
      sFetch += WiFi.RSSI();
-
      sFetch += "\nTemp.      :";
-     sFetch += String(temperatureRead());
-     
+     sFetch += temperatureRead();   
      sFetch += "\nFreeHeap   :";
-     sFetch += String(ESP.getFreeHeap());
+     sFetch += ESP.getFreeHeap();
      sFetch += "\nMinFreeHeap:";
-     sFetch += String(ESP.getMinFreeHeap());
-
+     sFetch += ESP.getMinFreeHeap();
 #ifdef SG_READY
      sFetch += "\n\nEPEX NEXT DATE:";
      sFetch +=  smartgrid.getWebDate(true); //sEPEXdateNext;
@@ -624,20 +619,6 @@ String setHtmlVar(const String& var)
      sFetch += smartgrid.getWebHourValueString(false); //sEPEXPriceToday;
      //sFetch += "\n---\n\n";
 #endif
-//*/
-     /*
-     for (size_t i = 0; i < SG_HOURSIZE; i++)
-     {
-       if (smartgrid.getHourVar1(i) > 0) //[i].var1 > 0)
-       {
-        sFetch += "\n SG-SETTING_";
-        sFetch += " Hour:";
-        sFetch += String(i);
-        sFetch += " mode:";
-        sFetch += String(smartgrid.getHourVar1(i));  //[i].var1);
-       }
-     }
-//*/
      return sFetch;
   }
   else
@@ -1091,12 +1072,13 @@ void initWebServer()
   {
    request->send(LittleFS, "/settings.png", String(), false);
   });
-
+#ifdef SG_READY
   // for SG-Ready
   webserver.on("/reload.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
    request->send(LittleFS, "/reload.png", String(), false);
   });
+#endif
   
  
   // ...a lot of code only for icons and favicons ;-))

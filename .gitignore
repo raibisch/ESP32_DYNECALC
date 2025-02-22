@@ -1,13 +1,11 @@
 .pio
 .vscode
-d_a_t_a
-DS100*
-picture
 ESP32_
 config.txt
 cred.txt
-intern_docu
+*intern*
 upload
+
 
 
 
