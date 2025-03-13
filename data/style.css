@@ -92,6 +92,7 @@ body{ font-weight: bold; background-color: rgb(188, 204, 212);}
 }
 .chart-container {
   width: 100%;
+  min-height: 250px; 
   height: 40vh;
 }
 
