@@ -3,7 +3,6 @@
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
 #include "esp_rom_gpio.h"
-// #include <FS.h>                        // Build-in
 //#include <LittleFS.h>
 #include <SPIFFS.h>                    // Build-in in some versions !
 #include <WiFi.h>                      // Built-in
@@ -38,6 +37,10 @@
 
 #include "relay.h"
 // ----------------------------------------------
+
+#ifdef SUNGROW_MODBUS
+#include "SungrowModbus.h"
+#endif
 
 // now set in "platformio.ini":
 // #define DEBUG_PRINT 1  
@@ -110,6 +113,10 @@ static char neopixel_color = 'w';
 #define  setcolor(...) neopixel_color = __VA_ARGS__
 #else
 #define setcolor(...)
+#endif
+
+#ifdef SUNGROW_MODBUS
+SungrowModbus sungrowModbus;
 #endif
 
 
@@ -196,7 +203,7 @@ class WPFileVarStore : public FileVarStore
   // Wifi-Parameter
   String varWIFI_s_mode    = "AP"; // STA=client connect with Router,  AP=Access-Point-Mode (needs no router)
   String varWIFI_s_password= "";
-  String varWIFI_s_ssid    = "espluxtronik2";
+  String varWIFI_s_ssid    = "";
 
   String varMQTT_s_url     = "192.168.2.22";
 
@@ -230,10 +237,10 @@ class WPFileVarStore : public FileVarStore
    String varSG_s_sg3       = "";        //  http://192.168.2.137/cm?cmnd=Power1%200 Tasmota Relais1 2 off   ("                             ")
    String varSG_s_sg4       = "";        //  http://192.168.2.137/cm?cmnd=Backlog%20Power1%201%3BPower2%200   Tasmota Relais1=on, Relais2=off (replace % with & in config) switch Relais 1 and Relais 2 
 #endif
-
-#ifdef LUX_WEBSOCKET
-   String varLuxtronik_s_IP = "192.168.2.101";
+#ifdef SUNGROW_MODBUS
+   String varSungrow_s_url = "192.168.2.155";
 #endif
+
    
  protected:
    void GetVariables()
@@ -270,11 +277,10 @@ class WPFileVarStore : public FileVarStore
 #ifdef CALC_HOUR_ENERGYPRICE   
      varCOST_f_kwh_fix     = GetVarFloat(GETVARNAME(varCOST_f_kwh_fix), 31.0);
 #endif
-
-
-#ifdef LUX_WEBSOCKET
-       varLuxtronik_s_IP    = GetVarString(GETVARNAME(varLuxtronik_s_IP));
+#ifdef SUNGROW_MODBUS
+       varSungrow_s_url    = GetVarString(GETVARNAME(varSungrow_s_url));
 #endif
+
    }
 };
 WPFileVarStore varStore;
@@ -293,7 +299,7 @@ class SmartGridEPEX : public SmartGrid
   {
     for (size_t i = 0; i < SG_HOURSIZE; i++)
     {
-        setHourVar1(i, DEFAULT_SGREADY_MODE);
+        setHour_iVarSGready(i,DEFAULT_SGREADY_MODE);
     }
     calcSmartGridfromConfig(varStore.varSG_s_rule1.c_str());
     calcSmartGridfromConfig(varStore.varSG_s_rule2.c_str());
@@ -309,7 +315,7 @@ class SmartGridEPEX : public SmartGrid
   void setAppOutputFromRules(uint8_t hour) final
   {
 #ifdef SG_READY
-    setSGreadyOutput(this->getHourVar1(hour));
+    setSGreadyOutput(this->getHour_iVarSGready(hour));
 #endif
   }
 #endif
@@ -349,8 +355,8 @@ bool sendSGreadyURL(String s)
   http.setConnectTimeout(500); // 13.03.2025 fix: if url not found or down
   if (s.startsWith("http:") == false)
   {
-    debug_printf("** ERROR: url does not start with 'http://' : %s\r",s.c_str());
-    AsyncWebLog.printf("** ERROR: url does not start with 'http://' : %s\r",s.c_str());
+    debug_printf      ("** ERROR/WARN: SGready URL does not start with 'http://' or ist empty: '%s '\r\n",s.c_str());
+    AsyncWebLog.printf("** ERROR/WARN: SGready URL does not start with 'http://' or is empty : '%s '\r\n",s.c_str());
     return false;   
   }
 
@@ -394,7 +400,7 @@ void setSGreadyOutput(uint8_t mode, uint8_t hour)
 #ifdef WEB_APP
   AsyncWebLog.printf("SGreadyMode: %d  hour:%d\r\n",mode, hour);   
 #endif
-  smartgrid.setHourVar1(hour, mode); // override if value has changed
+  smartgrid.setHour_iVarSGready(hour, mode); // override if value has changed
   String sURL;
   sURL.reserve(50);
   
@@ -451,9 +457,9 @@ void setSGreadyOutput(uint8_t mode, uint8_t hour)
   {
     setcolor('g');
   }
-#endif
+#endif // LED_PRICE
 }
-#endif
+#endif //SG_READY
 
 
 static String readString(File s) 
@@ -658,7 +664,7 @@ String setHtmlVar(const String& var)
   if (var == "SGMODE")
   {
     //switch (SmartGridReadyStatus)
-    switch (smartgrid.getHourVar1(ntpclient.getTimeInfo()->tm_hour))
+    switch (smartgrid.getHour_iVarSGready(ntpclient.getTimeInfo()->tm_hour))
     {
     case 1:
       return "sg1";
@@ -682,7 +688,7 @@ String setHtmlVar(const String& var)
   {
     for (size_t i = 0; i < SG_HOURSIZE; i++)
     {
-      sFetch += smartgrid.getHourVar1(i); //String(smartgrid_hour[i].var1);
+      sFetch += smartgrid.getHour_iVarSGready(i); //String(smartgrid_hour[i].var1);
       if (i < SG_HOURSIZE-1)
       {
         sFetch += ',';
@@ -695,7 +701,7 @@ String setHtmlVar(const String& var)
   else
   if (var == "COSTINFO")
   { 
-     sFetch =      "Flex(ct):";
+    sFetch =       "Flex(ct):";
     sFetch += String((smartgrid.getUserkWhPrice(ntpclient.getTimeInfo()->tm_hour)),1);
     sFetch +=   "  Fix (cnt):";
     sFetch += String(smartgrid.getUserkWhFixPrice(),1);
@@ -752,6 +758,36 @@ String setHtmlVar(const String& var)
      debug_println(sFetch);
      return sFetch;
   }
+#ifdef CALC_HOUR_PV
+  else 
+  if (var == "KWH_HOUR_PV")
+  {
+     for (size_t i = 0; i < 24; i++)
+     {
+      sFetch += String(smartgrid.getkwh_pv_hour(i),2);
+      if (i < 23)
+      {
+       sFetch += ", ";
+      }
+     }
+     debug_println(sFetch);
+     return sFetch;
+  }
+  else 
+  if (var == "KWH_HOUR_NET_OUT")
+  {
+     for (size_t i = 0; i < 24; i++)
+     {
+      sFetch += String(smartgrid.getkwh_netout_hour(i),2);
+      if (i < 23)
+      {
+       sFetch += ", ";
+      }
+     }
+     debug_println(sFetch);
+     return sFetch;
+  }
+#endif
   else
   if (var == "PRICE_HOUR_FIX")
   {
@@ -888,7 +924,8 @@ void notFound(AsyncWebServerRequest *request)
 }
 #endif
 
-  
+
+
 void initWebServer()
 { 
 #ifdef WEB_APP
@@ -907,7 +944,7 @@ void initWebServer()
     sFetch = ntpclient.getTimeString();                                          // 0 
     sFetch += ',';
 
-    sFetch += smartgrid.getHourVar1(ntpclient.getTimeInfo()->tm_hour);           // 1
+    sFetch += smartgrid.getHour_iVarSGready(ntpclient.getTimeInfo()->tm_hour);   // 1
     sFetch += ',';
   #if defined SML_TASMOTA || defined SML_TIBBER
     sFetch += String(smldecoder.getWatt());                                      // 2
@@ -920,17 +957,75 @@ void initWebServer()
   #endif
     sFetch += ',';
     sFetch += String((smartgrid.getUserkWhPrice(ntpclient.getTimeInfo()->tm_hour)),1); //5
-    sFetch += ",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0";
-  
+    sFetch += ',';
+    sFetch += sungrowModbus.getPower_act1_w();                                         //6
+    sFetch += ',';
+    sFetch += (sungrowModbus.getEnergy_day_wh() / 1000.0);                             //7
+    sFetch += ',';
+    sFetch += sungrowModbus.getEnergy_total_wh();                                      //8
+    sFetch += ',';
+    sFetch += sungrowModbus.getPower_act2_w();                                         //9
+    sFetch += "0,0,0,0,0,0,0";
+   
+
     request->send(200, "text/plain", sFetch);
     //debug_println("server.on /fetch: "+ s);
   });
 
+  // fetch GET
+  webserver.on("/fetchmeter", HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+    sFetch = "";
+#ifdef SUNGROW_MODBUS                          // Index:
+    sFetch+= '0';                                // 0 todo Status from Inverter
+    sFetch+= ',';
+    sFetch+= sungrowModbus.getPower_act1_w();   //1
+    sFetch+= ',';               
+    sFetch+= sungrowModbus.getEnergy_day_wh() / 1000.0;  //2
+    sFetch+= ',';
+    sFetch+= sungrowModbus.getEnergy_total_wh();//3 
+    sFetch+= ',';
+    sFetch+= '0';                               //4
+    sFetch+= ',';
+    sFetch+= '0';                               //5
+    sFetch+= ',';
+    sFetch+= '0';                               //6
+#else
+    sFetch = "--,--,--,--,--,--,--";
+#endif
+#if defined SML_TIBBER || defined SML_TASMOTA
+    sFetch+= ',';
+    sFetch+= smldecoder.getWatt();             // 7
+    sFetch+= ',';
+    sFetch+= smldecoder.getInputkWh();         // 8
+    sFetch+= ',';
+    sFetch+= smldecoder.getOutputkWh();        // 9
+#else
+    sFetch+= ",--,--,--";
+#endif
+    request->send(200, "text/plain", sFetch);
+    //debug_println("server.on /fetchmeter: "+ s);
+  });
+
+  
+  // NEW: 05.06.2025 SML-Meter values as Json
+   webserver.on("/meterjson", HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+    sFetch  = "{";
+    sFetch += "\"power\":";
+    sFetch +=   String(smldecoder.getWatt() /1000.0, 3); // in kW
+    sFetch += ", \"energy_in\":";
+    sFetch +=   smldecoder.getInputkWh();                // in kWh
+    sFetch += ", \"energy_out\":";
+    sFetch +=   smldecoder.getOutputkWh();               // in kWh
+    sFetch += "}";
+    request->send(200, "application/json", sFetch);
+  });
 
    //Route for setup web page
-  webserver.on("/meter.html",          HTTP_GET, [](AsyncWebServerRequest *request)
+  webserver.on("/pvchart.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(myFS, "/meter.html", String(), false, setHtmlVar);
+   request->send(myFS, "/pvchart.html", String(), false, setHtmlVar);
   });
   //Route for setup web page
   webserver.on("/smartgrid.html",          HTTP_GET, [](AsyncWebServerRequest *request)
@@ -1015,12 +1110,12 @@ void initWebServer()
   {
    request->send(myFS, "/sgready.png", String(), false);
   });
-  /*
-  webserver.on("/heatpump.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  #ifdef SUNGROW_MODBUS
+  webserver.on("/pvpanel.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
-   request->send(myFS, "/heatpump.png", String(), false);
+   request->send(myFS, "/pvpanel.png", String(), false);
   });
-  */
+  #endif
   webserver.on("/energycost.png",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
    request->send(myFS, "/energycost.png", String(), false);
@@ -1071,7 +1166,7 @@ void initWebServer()
   });
 #endif
   
- 
+
   // ...a lot of code only for icons and favicons ;-))
   webserver.on("/manifest.json",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
@@ -1128,7 +1223,7 @@ void initWebServer()
   if (sArg == "sgsreload")
   {
    debug_println("sgsreload");
-   smartgrid.getAppRules();   // old: setSmartGridRules(); // calulate rules from config
+   smartgrid.getAppRules(); 
    smartgrid.setAppOutputFromRules(ntpclient.getTimeInfo()->tm_hour);
   }
 
@@ -1191,7 +1286,6 @@ void initWebServer()
   webserver.begin();
 #endif
 }
-
 
 // extra handling for M5Core-Ink Module
 #ifdef M5_COREINK
@@ -1415,6 +1509,7 @@ void setup()
   initWebServer(); 
   smartgrid.init();
   smldecoder.init(varStore.varSML_s_url.c_str(), varStore.varSML_s_user.c_str(), varStore.varSML_s_password.c_str());
+  sungrowModbus.init(varStore.varSungrow_s_url.c_str()); 
   delay(200);
   setLED(0);
 #endif
@@ -1448,6 +1543,12 @@ void loop()
 #ifdef CALC_HOUR_ENERGYPRICE
     smartgrid.calcHourPrice(&tt, smldecoder.getInputkWh());
 #endif
+#ifdef SUNGROW_MODBUS       
+    sungrowModbus.poll();
+#ifdef CALC_HOUR_PV
+    smartgrid.calcHourPV(&tt, sungrowModbus.getEnergy_day_wh(), smldecoder.getOutputkWh()*1000);
+#endif
+#endif 
   }
   
   // fast blink

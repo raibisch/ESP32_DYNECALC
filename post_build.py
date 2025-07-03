@@ -14,7 +14,6 @@ def copy_firmware(source, target, env):
      copyfile(file1, file2)
      print("--> ***Firmware build OK!*** :-)")
     
-   
 def copy_spiffs(source, target, env):
     file1 = target[0].get_abspath()
     file2 = env["PROJECT_DIR"] + "/upload/spiffs.bin"
@@ -24,4 +23,4 @@ def copy_spiffs(source, target, env):
     print("--> *** SPIFF build OK*** :-)")
 
 env.AddPostAction(FIRMWARE_BIN, copy_firmware)
-env.AddPostAction(LITTLEFS_BIN, copy_spiffs)
+env.AddPostAction(SPIFFS_BIN, copy_spiffs)

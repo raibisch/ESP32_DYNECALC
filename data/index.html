@@ -28,20 +28,32 @@
      </div>
       <table>
             <tr>
-              <td id="EL_WATT">--</td>
-              <td id="EL_KWH">--</td>
-              <td id="EL_KWH_OUT">--</td>
+              <td  id="EL_WATT">--</td>
+              <td  id="EL_KWH">--</td>
+              <td  id="EL_KWH_OUT">--</td>
             </tr>
             <tr>
-              <th>[Watt]</th>
-              <th>[kWh-IN]</th>
-              <th>[kWh-OUT]</th>
+              <th>[W]Netz</th>
+              <th>[kWh]In</th>
+              <th>[kWh]Out</th>
             </tr>
+            <tr>
+              <td  id="PV_WATT">--</td>
+              <td  id="PV_KWH_DAY">--</td>
+              <td  id="PV_KWH_SUM">--</td>
+            </tr>
+            <tr>
+              <th>[W]PV</th>
+              <th>[kWh]PVTag</th>
+              <th>[kWh]PVSum</th>
+            </tr>
+
       </table>
     <button type="button" class="image-btn" onclick="window.location.href='log.html'"><img src="file-list.png">Log</button>
     <button type="button" class="image-btn" onclick="window.location.href='sgready.html'"><img src="sgready.png">SGready</button>
     <button type="button" class="image-btn" onclick="window.location.href='energycost.html'"><img src="energycost.png">Cost</button> 
     <button type="button" class="image-btn" onclick="window.location.href='smartgrid.html'"><img src="sg.png">SmartGrid</button>
+    <button type="button" class="image-btn" onclick="window.location.href='pvchart.html'"><img src="pvpanel.png">PV</button> 
     <button type="button" class="image-btn" onclick="window.location.href='setup.html'"><img src="settings.png">Setup</button>
          
     <script type="text/javascript">
@@ -63,16 +75,17 @@
               {
                document.getElementById('TIME').innerHTML = myArray[0];
                document.getElementById('SGR_STATUS').innerHTML  = "SGready-Mode:" + sgrStatus;
-               
-               //wpStatus = myArray[2]; // 0=aus, 1=Heiz, 2=WW
-               
+                                             
                price = myArray[5];
-               document.getElementById('PRICE').innerHTML  = price;
-               document.getElementById('EL_WATT').innerHTML = myArray[2]; 
-               document.getElementById('EL_KWH').innerHTML = myArray[3]; 
-               document.getElementById("EL_KWH_OUT").innerHTML = myArray[4];
+               document.getElementById('PRICE').innerHTML      = price;
+               document.getElementById('EL_WATT').innerHTML    = myArray[2]; 
+               document.getElementById('EL_KWH').innerHTML     = myArray[3]; 
+               document.getElementById('EL_KWH_OUT').innerHTML = myArray[4];
+
+               document.getElementById('PV_WATT').innerHTML    = myArray[6];
+               document.getElementById('PV_KWH_DAY').innerHTML = myArray[7];
+               document.getElementById('PV_KWH_SUM').innerHTML = myArray[8];
               }
-             
               // example : https://code-boxx.com/change-override-css-with-javascript
               //if (sgrStatus.startsWith('1'))
               if (price < price_low)

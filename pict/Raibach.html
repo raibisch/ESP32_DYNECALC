@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html class="ng-scope"><head><style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style><style type="text/css">.uib-time input{width:50px;}</style><style type="text/css">[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,[uib-popover-popup].popover.top-left > .arrow,[uib-popover-popup].popover.top-right > .arrow,[uib-popover-popup].popover.bottom-left > .arrow,[uib-popover-popup].popover.bottom-right > .arrow,[uib-popover-popup].popover.left-top > .arrow,[uib-popover-popup].popover.left-bottom > .arrow,[uib-popover-popup].popover.right-top > .arrow,[uib-popover-popup].popover.right-bottom > .arrow,[uib-popover-html-popup].popover.top-left > .arrow,[uib-popover-html-popup].popover.top-right > .arrow,[uib-popover-html-popup].popover.bottom-left > .arrow,[uib-popover-html-popup].popover.bottom-right > .arrow,[uib-popover-html-popup].popover.left-top > .arrow,[uib-popover-html-popup].popover.left-bottom > .arrow,[uib-popover-html-popup].popover.right-top > .arrow,[uib-popover-html-popup].popover.right-bottom > .arrow,[uib-popover-template-popup].popover.top-left > .arrow,[uib-popover-template-popup].popover.top-right > .arrow,[uib-popover-template-popup].popover.bottom-left > .arrow,[uib-popover-template-popup].popover.bottom-right > .arrow,[uib-popover-template-popup].popover.left-top > .arrow,[uib-popover-template-popup].popover.left-bottom > .arrow,[uib-popover-template-popup].popover.right-top > .arrow,[uib-popover-template-popup].popover.right-bottom > .arrow{top:auto;bottom:auto;left:auto;right:auto;margin:0;}[uib-popover-popup].popover,[uib-popover-html-popup].popover,[uib-popover-template-popup].popover{display:block !important;}</style><style type="text/css">.uib-datepicker-popup.dropdown-menu{display:block;float:none;margin:0;}.uib-button-bar{padding:10px 9px 2px;}</style><style type="text/css">.uib-position-measure{display:block !important;visibility:hidden !important;position:absolute !important;top:-9999px !important;left:-9999px !important;}.uib-position-scrollbar-measure{position:absolute !important;top:-9999px !important;width:50px !important;height:50px !important;overflow:scroll !important;}.uib-position-body-scrollbar-measure{overflow:scroll !important;}</style><style type="text/css">.uib-datepicker .uib-title{width:100%;}.uib-day button,.uib-month button,.uib-year button{min-width:100%;}.uib-left,.uib-right{width:100%}</style><style type="text/css">.ng-animate.item:not(.left):not(.right){-webkit-transition:0s ease-in-out left;transition:0s ease-in-out left}</style><style>@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+		<meta charset="utf-8">
+		<title>Raibach</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="description" content="">
+		<meta name="keywords" content="">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<link rel="manifest" href="http://192.168.2.23/manifest.json">
+		<meta name="theme-color" content="#2daad2">
+
+		<link rel="shortcut icon" href="http://192.168.2.23/favicon.ico">
+		<link rel="apple-touch-icon" href="http://192.168.2.23/images/iphone-icon.png">
+		<link rel="icon" sizes="196x196" href="http://192.168.2.23/images/logo.png">
+		<link rel="icon" sizes="192x192" href="http://192.168.2.23/images/logo192.png">
+
+
+		<!-- ICONS -->
+
+		<!-- iPad retina icon -->
+		<link href="http://192.168.2.23/images/logo/152.png" sizes="152x152" rel="apple-touch-icon-precomposed">
+
+		<!-- iPad retina icon (iOS < 7) -->
+		<link href="http://192.168.2.23/images/logo/144.png" sizes="144x144" rel="apple-touch-icon-precomposed">
+
+		<!-- iPad non-retina icon -->
+		<link href="http://192.168.2.23/images/logo/76.png" sizes="76x76" rel="apple-touch-icon-precomposed">
+
+		<!-- iPad non-retina icon (iOS < 7) -->
+		<link href="http://192.168.2.23/images/logo/72.png" sizes="72x72" rel="apple-touch-icon-precomposed">
+
+		<!-- iPhone 6 Plus icon -->
+		<link href="http://192.168.2.23/images/logo/180.png" sizes="120x120" rel="apple-touch-icon-precomposed">
+
+		<!-- iPhone retina icon (iOS < 7) -->
+		<link href="http://192.168.2.23/images/logo/114.png" sizes="114x114" rel="apple-touch-icon-precomposed">
+
+		<!-- iPhone non-retina icon (iOS < 7) -->
+		<link href="Raibach-Dateien/57.png" sizes="57x57" rel="apple-touch-icon-precomposed">
+
+		<!-- STARTUP IMAGES -->
+
+		<!-- iPad retina portrait startup image -->
+		<link href="http://192.168.2.23/images/startup/apple-touch-startup-image-1536x2008.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" rel="apple-touch-startup-image">
+
+		<!-- iPad retina landscape startup image -->
+		<link href="http://192.168.2.23/images/startup/apple-touch-startup-image-2048x1496.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" rel="apple-touch-startup-image">
+
+		<!-- iPad non-retina portrait startup image -->
+		<link href="http://192.168.2.23/images/startup/apple-touch-startup-image-768x1004.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 1) and (orientation: portrait)" rel="apple-touch-startup-image">
+
+		<!-- iPad non-retina landscape startup image -->
+		<link href="http://192.168.2.23/images/startup/apple-touch-startup-image-1024x748.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 1) and (orientation: landscape)" rel="apple-touch-startup-image">
+
+		<!-- iPhone 6 Plus portrait startup image -->
+		<link href="http://192.168.2.23/images/startup/apple-touch-startup-image-1242x2148.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" rel="apple-touch-startup-image">
+
+		<!-- iPhone 6 Plus landscape startup image -->
+		<link href="http://192.168.2.23/images/startup/apple-touch-startup-image-2208x1182.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" rel="apple-touch-startup-image">
+
+		<!-- iPhone 6 startup image -->
+		<link href="http://192.168.2.23/images/startup/apple-touch-startup-image-750x1294.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+
+		<!-- iPhone 5 startup image -->
+		<link href="http://192.168.2.23/images/startup/apple-touch-startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+
+		<!-- iPhone < 5 retina startup image -->
+		<link href="http://192.168.2.23/images/startup/apple-touch-startup-image-640x920.png" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
+
+		<!-- iPhone < 5 non-retina startup image -->
+		<link href="http://192.168.2.23/images/startup/apple-touch-startup-image-320x460.png" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
+
+		<link rel="stylesheet" href="Raibach-Dateien/bootstrap.css">
+		<link rel="stylesheet" href="Raibach-Dateien/bootstrap-responsive.css" media="screen">
+		<link rel="stylesheet" href="Raibach-Dateien/jquery-ui.min.css">
+		<link rel="stylesheet" href="Raibach-Dateien/ui-grid.min.css">
+		<link rel="stylesheet" href="Raibach-Dateien/demo_table_jui.css">
+		<link rel="stylesheet" href="Raibach-Dateien/jquery.uix.multiselect.css">
+		<link rel="stylesheet" href="Raibach-Dateien/fontawesome.min.css">
+		<link rel="stylesheet" href="Raibach-Dateien/solid.min.css">
+		<link rel="stylesheet" href="Raibach-Dateien/style.css">
+		<link rel="stylesheet" href="Raibach-Dateien/colpick.css">
+		<link rel="stylesheet" href="Raibach-Dateien/jquery-ui-timepicker-addon.css">
+		<link rel="stylesheet" href="Raibach-Dateien/remote.css">
+		<link rel="stylesheet" href="Raibach-Dateien/wheelcolorpicker.css">
+		<link rel="stylesheet" href="Raibach-Dateien/noty.css">
+		<link rel="stylesheet" href="Raibach-Dateien/relax.css">
+		<link rel="stylesheet" href="Raibach-Dateien/Events.css">
+		<link rel="stylesheet" href="Raibach-Dateien/Devices.css">
+		<link rel="stylesheet" href="Raibach-Dateien/custom.css">
+
+		<script src="Raibach-Dateien/babel-polyfill-6.26.0.js"></script>
+		<script src="Raibach-Dateien/jquery-3.6.0.min.js"></script>
+		<script src="Raibach-Dateien/i18next-1.8.0.min.js"></script>
+		<script src="Raibach-Dateien/bootstrap.min.js"></script>
+		<script src="Raibach-Dateien/bootbox.min.js"></script>
+		<script src="Raibach-Dateien/jquery-ui.min.js"></script>
+		<script src="Raibach-Dateien/jquery.ui.touch-punch.min.js"></script>
+		<script src="Raibach-Dateien/jquery.uix.multiselect.min.js"></script>
+		<script src="Raibach-Dateien/jquery.ddslick.min.js"></script>
+		<script src="Raibach-Dateien/colpick.js"></script>
+		<script src="Raibach-Dateien/jquery.wheelcolorpicker.js"></script>
+		<script src="Raibach-Dateien/noty.min.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/moment-with-locales.min.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/moment-timezone-with-data.min.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/jquery.dataTables.min.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/dataTables.tableTools.min.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/dataTables.select.min.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/ZeroClipboard.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/date.format.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/highcharts.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/highcharts-more.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/sankey.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/data.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/dependency-wheel.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/no-data-to-display.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/exporting.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/export-data.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/xrange.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/dark-unica.js"></script><link href="Raibach-Dateien/css.css" rel="stylesheet" type="text/css">
+		<script src="Raibach-Dateien/base64.min.js"></script>
+		<script src="Raibach-Dateien/qrcode.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/domoticz.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/domoticzdevices.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/jquery-ui-timepicker-addon.js"></script>
+		<script charset="utf-8" src="Raibach-Dateien/custom.js"></script>
+		<script data-main="app/main" src="Raibach-Dateien/require.min.js"></script>
+<script charset="utf-8" id="init-code">
+
+function NotifyCacheRefresh()
+{
+	$.cachenoty=generate_noty('information', '<b>' + ($.t !== undefined ?  $.t('Browser Cache is being refreshed') : 'Browser Cache is being refreshed') + '...</b><br>' + ($.t !== undefined ? $.t('Please standby') : 'Please standby') + '...', false);
+	$.cachecount=0
+	$.cachetotal=0
+}
+
+function ClearNotifyCacheRefresh()
+{
+	if (typeof $.cachenoty != 'undefined') {
+		$.cachenoty.close();
+	}
+}
+
+function WindowsDownloadURL(url)
+{
+	window.location.href = url;
+}
+
+function ShowUpdateNotification(Revision, SystemName, DownloadURL) {
+	var msgtxt=$.t('A new version of Domoticz is Available!...');
+	msgtxt+='<br>' + $.t('Version') + ': <b>' + Revision + '</b>, ' + $.t('Latest Changes') + ': <b><a class="norm-link" onclick="ShowLatestHistory();">' + $.t('Click Here') + '</a></b>';
+	if (SystemName=="windows") {
+		msgtxt+='<br><center><a class="btn btn-danger" onclick="WindowsDownloadURL(\'' + DownloadURL + '\')">' + $.t('Update Now') + '</a></center>';
+	}
+	else {
+		msgtxt+='<br><center><a class="btn btn-danger" onclick="SwitchLayout(\'Update\');">' + $.t('Update Now') + '</a></center>';
+	}
+	generate_noty('success', msgtxt, false);
+}
+
+function CheckForUpdate(showdialog) {
+	$.ajax({
+		 url: "json.htm?type=command&param=checkforupdate&forced=" + showdialog,
+		 async: false,
+		 dataType: 'json',
+		 success: function(data) {
+			var urights=data.statuscode;
+			var bDisplayLogout=false;
+			if (urights!=3) {
+				bDisplayLogout=true;
+			}
+			else {
+				bDisplayLogout=false;
+				urights=2;
+			}
+			window.my_config =
+			{
+				userrights : urights,
+				hasupdatesupport : false
+			};
+			if (data.HaveUpdate == true) {
+				if (showdialog) {
+					bootbox.confirm($.t("Update Available !... Update Now?")+"<br>"+$.t('Version')+" #"+data.Revision, function(result) {
+						if (result==true) {
+							if (data.SystemName=="windows") {
+								window.location.href = data.DomoticzUpdateURL;
+							}
+							else {
+								SwitchLayout('Update');
+							}
+						}
+					});
+				}
+				else {
+					ShowUpdateNotification(data.Revision,data.SystemName,data.DomoticzUpdateURL);
+				}
+				return true;
+			}
+			else
+			{
+				if (showdialog) {
+					bootbox.alert($.t("No Update Available !..."));
+				}
+				return false;
+			}
+		 },
+		 error: function(){
+				if (showdialog) {
+					bootbox.alert($.t("Error communicating to server!"));
+				}
+				return false;
+		 }
+	});
+	return false;
+}
+
+function ReplaceDevice(idx,backfunction)
+{
+	$.ajax({
+		 url: "json.htm?type=command&param=gettransfers&idx=" + idx,
+		 async: false,
+		 dataType: 'json',
+		 success: function(data) {
+				if (typeof data.result == 'undefined')
+				{
+					bootbox.alert($.t('No devices to Transfer too!'));
+					return;
+				}
+				$("#dialog-replacedevice #newdevice").html("");
+
+				$.each(data.result, function(i,item){
+					var option = $('<option />');
+					option.attr('value', item.idx).text(item.Name);
+					$("#dialog-replacedevice #newdevice").append(option);
+				});
+				$.devIdx = idx;
+				$.backfunction=backfunction;
+				$( "#dialog-replacedevice" ).i18n();
+				$( "#dialog-replacedevice" ).dialog( "open" );
+		 }
+	});
+}
+
+function ShowLatestHistory()
+{
+	$.myglobals.historytype=2;
+	SwitchLayout('History');
+}
+
+$(document).ready(function() {
+	if ("-ms-user-select" in document.documentElement.style &&
+		(navigator.userAgent.match(/IEMobile/) ||
+		navigator.userAgent.match(/ZuneWP7/) ||
+		navigator.userAgent.match(/WPDesktop/))) {
+		var msViewportStyle = document.createElement("style");
+		msViewportStyle.appendChild(document.createTextNode("@-ms-viewport{width:auto!important}"));
+		document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+	 }
+	$.myglobals = {
+		actlayout : "",
+		prevlayout : "",
+		ismobile: false,
+		ismobileint: false,
+		windscale: 1.0,
+		windsign: "m/s",
+		tempscale: 1.0,
+		tempsign: "C",
+		DegreeDaysBaseTemperature: 18.0,
+		historytype : 1,
+		LastPlanSelected: 0,
+		DashboardType: 0,
+		isproxied: false
+	};
+	if (typeof sessionStorage.title == 'undefined') {
+		sessionStorage.title = "Domoticz";
+		$.ajax({
+	             	url: "json.htm?type=command&param=gettitle",
+	        	async: false,
+		     	dataType: 'json',
+	          	success: function(data) {
+				if (typeof data.Title != 'undefined')
+					sessionStorage.title = data.Title;
+				  }
+		})
+	}
+	document.title = sessionStorage.title;
+
+	if( /Android|webOS|iPhone|iPad|iPod|ZuneWP7|BlackBerry/i.test(navigator.userAgent) ) {
+		$.myglobals.ismobile=true;
+		$.myglobals.ismobileint=true;
+	}
+
+	var matched = matchua( navigator.userAgent );
+	var browser = {};
+	if ( matched.browser ) {
+		browser[ matched.browser ] = true;
+		browser.version = matched.version;
+	}
+
+	if ( browser.msie ) {
+		var bVersion=parseFloat(browser.version);
+		if (bVersion < 10.0) {
+			bootbox.alert($.t('This Application is is designed for Internet Explorer version 10+!\nPlease upgrade your browser!'));
+		}
+	}
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+      console.log('ServiceWorker registration successful!');
+    }).catch(function(err) {
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  }
+
+	$("#appversion").click( function( e ) {
+		e.preventDefault();
+		$.myglobals.historytype=1;
+		SwitchLayout('History');
+	});
+
+	$('a#cMoreOptions').click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$('a#cMoreOptions').trigger('mouseenter');
+	});
+
+	var highcharts_menuItems= [
+		'viewFullscreen',
+		'printChart',
+		'separator',
+		//'downloadPNG',
+		//'downloadJPEG',
+		//'downloadPDF',
+		//'downloadSVG',
+		//'separator',
+		'downloadCSV',
+		'downloadXLS'
+	];
+	Highcharts.getOptions().exporting.buttons.contextButton.menuItems = highcharts_menuItems;
+
+	window.myglobals=$.myglobals;
+
+	var dialog_replacedevice_buttons = {};
+
+	dialog_replacedevice_buttons["OK"]=function() {
+		var bValid = true;
+		$( this ).dialog( "close" );
+		var NewDeviceIdx=$("#dialog-replacedevice #newdevice option:selected").val();
+		if (typeof NewDeviceIdx == 'undefined') {
+			bootbox.alert($.t('No New Device Selected!'));
+			return ;
+		}
+		$.ajax({
+			 url: "json.htm?type=command&param=dotransferdevice&idx=" + $.devIdx + "&newidx=" + NewDeviceIdx,
+			 async: false,
+			 dataType: 'json',
+			 success: function(data) {
+				if (data.status == 'OK') {
+					if (typeof $.backfunction == 'undefined') {
+						window.location = '#';
+					} else {
+						$.backfunction();
+					}
+				}
+				else {
+					ShowNotify($.t('Problem Transfering Device!'), 2500, true);
+				}
+			 },
+			 error: function(){
+					HideNotify();
+					ShowNotify($.t('Problem Transfering Device!'), 2500, true);
+			 }
+		});
+	};
+	dialog_replacedevice_buttons["Cancel"]=function() {
+		$( this ).dialog( "close" );
+	};
+
+	$( "#dialog-replacedevice" ).dialog({
+		  autoOpen: false,
+		  width: 'auto',
+		  height: 'auto',
+		  modal: true,
+		  resizable: false,
+		  title: "Replace Device",
+		  buttons: dialog_replacedevice_buttons,
+		  close: function() {
+			$( this ).dialog( "close" );
+		  }
+	});
+} );
+
+</script>
+<script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="main" src="Raibach-Dateien/main.js"></script><style type="text/css">.jQWCP-wHueWheel {background-image: url(data:image/png;base64,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);}</style><style type="text/css">.jQWCP-wTemperatureWheel {background-image: url(data:image/png;base64,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);}</style><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="app" src="Raibach-Dateien/app.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="app.routes" src="Raibach-Dateien/app.routes.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="app.constants" src="Raibach-Dateien/app.constants.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="app.notifications" src="Raibach-Dateien/app.notifications.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="app.permissions" src="Raibach-Dateien/app.permissions.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="domoticz.api" src="Raibach-Dateien/domoticz.api.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="livesocket" src="Raibach-Dateien/livesocket.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="devices/deviceFactory" src="Raibach-Dateien/deviceFactory.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="angularAMD" src="Raibach-Dateien/angularAMD.min.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="angular-animate" src="Raibach-Dateien/angular-animate.min.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="ui-grid" src="Raibach-Dateien/ui-grid.min.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="highcharts-ng" src="Raibach-Dateien/highcharts-ng.min.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="angular-tree-control" src="Raibach-Dateien/angular-tree-control.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="ngDraggable" src="Raibach-Dateien/ngDraggable.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="ngSanitize" src="Raibach-Dateien/angular-sanitize.min.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="angular-md5" src="Raibach-Dateien/angular-md5.min.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="ui.bootstrap" src="Raibach-Dateien/ui-bootstrap.min.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="angular.directives-round-progress" src="Raibach-Dateien/angular-round-progress-directive.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="angular.scrollglue" src="Raibach-Dateien/angular-scrollglue.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="angular-route" src="Raibach-Dateien/angular-route.min.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="angular-websocket" src="Raibach-Dateien/angular-websocket.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="DashboardController" src="Raibach-Dateien/DashboardController.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="DummyController" src="Raibach-Dateien/DummyController.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="../templates/plugins-manager" src="Raibach-Dateien/plugins-manager.js"></script><script type="text/javascript" charset="utf-8" async="" data-requirecontext="_" data-requiremodule="EnergyDashboardController" src="Raibach-Dateien/EnergyDashboardController.js"></script></head>
+<body class="dashboard 3column" id="notMobile">
+    <div id="debugconsole" style="display: none; position: absolute; top: 52px; z-index: 1;">
+		debug console
+	</div>
+	<script type="text/ng-template" id="timesuntemplate">
+		<div id="timesun" ng-show="::$ctrl.data.serverTime">
+			<span ng-hide="::$ctrl.isMobile">{{ $ctrl.data.serverTime }}</span>
+			<span style="color: yellow">☀</span>
+			▲{{ $ctrl.data.sunrise }}
+			▼{{ $ctrl.data.sunset }}
+		</div>
+	</script>
+	<div id="thermostat3_popup" class="ui-popup ui-body-b ui-overlay-shadow ui-corner-all pop" style="width: 176px; display: none;">
+		<div class="ui-close" onclick="CloseTherm3Popup()"></div>
+		<table class="display" border="0" cellpadding="0" cellspacing="0">
+			<tbody><tr>
+				<td align="left" style="vertical-align: center;">
+					<a id="popup_therm_on"><img src="Raibach-Dateien/Push48_On.png" class="lcursor" height="48" width="48"></a>
+					<a id="popup_therm_off"><img src="Raibach-Dateien/Push48_Off.png" class="lcursor" height="48" width="48"></a>
+				</td>
+			</tr>
+			<tr>
+				<td align="left" style="vertical-align: center;">
+					<a id="popup_therm_up"><img src="Raibach-Dateien/Up48.png" class="lcursor" style="margin-top: 5px;" height="48" width="48" onclick="ThermUp()"></a>
+					<a id="popup_therm_down"><img src="Raibach-Dateien/Down48.png" class="lcursor" height="48" width="48" onclick="ThermDown()"></a>
+					<a id="popup_therm_stop"><img src="Raibach-Dateien/Stop48.png" class="lcursor" height="48" width="48" onclick="ThermStop()"></a>
+				</td>
+			</tr>
+			<tr>
+				<td align="left" style="vertical-align: center;">
+					<a id="popup_therm_2up"><img src="Raibach-Dateien/Up48_2.png" class="lcursor" style="margin-top: 5px;" height="48" width="48" onclick="ThermUp2()"></a>
+					<a id="popup_therm_2down"><img src="Raibach-Dateien/Down48_2.png" class="lcursor" height="48" width="48" onclick="ThermDown2()"></a>
+				</td>
+			</tr>
+		</tbody></table>
+	</div>
+	<div id="rgbw_popup" class="ui-popup ui-body-b ui-overlay-shadow ui-corner-all pop" style="display: none;">
+		<div class="ui-close" onclick="CloseRGBWPopup()"></div>
+		<div id="rgbw_popup_colour">
+			<span data-i18n="Color">Farbe</span>:<br>
+			<table class="display" border="0" cellpadding="0" cellspacing="0">
+				<tbody><tr id="PopupLedColor">
+					<td>
+						<table id="ledtable" class="display" border="0" cellpadding="0" cellspacing="0">
+							<tbody><tr id="ColorMode">
+								<td>
+									<a><img src="Raibach-Dateien/RGB48.png" class="lcursor pickermodergb unselected" height="48" width="48"></a>
+									<a><img src="Raibach-Dateien/RGB48_Sel.png" class="lcursor pickermodergb selected" height="48" width="48"></a>
+									<a><img src="Raibach-Dateien/Coltemp48.png" class="lcursor pickermodetemp unselected" height="48" width="48"></a>
+									<a><img src="Raibach-Dateien/Coltemp48_Sel.png" class="lcursor pickermodetemp selected" height="48" width="48"></a>
+									<a><img src="Raibach-Dateien/White48.png" class="lcursor pickermodewhite unselected" height="48" width="48"></a>
+									<a><img src="Raibach-Dateien/White48_Sel.png" class="lcursor pickermodewhite selected" height="48" width="48"></a>
+									<a><img src="Raibach-Dateien/Customw48.png" class="lcursor pickermodecustomw unselected" height="48" width="48"></a>
+									<a><img src="Raibach-Dateien/Customw48_Sel.png" class="lcursor pickermodecustomw selected" height="48" width="48"></a>
+									<a><img src="Raibach-Dateien/Customww48.png" class="lcursor pickermodecustomww unselected" height="48" width="48"></a>
+									<a><img src="Raibach-Dateien/Customww48_Sel.png" class="lcursor pickermodecustomww selected" height="48" width="48"></a>
+								</td>
+							</tr>
+							<tr>
+								<td align="left" style="width:200px">
+									<div class="jQWCP-wWidget jQWCP-block" style="display: inline-block; width: 271px;" tabindex="0"><div class="jQWCP-wWheel jQWCP-wTemperatureWheel hidden" unselectable="on" style="user-select: none; display: none;"><span class="jQWCP-wWheelCursor jQWCP-wTemperatureWheelCursor"></span></div><div class="jQWCP-wHue jQWCP-slider-wrapper hidden" unselectable="on" style="user-select: none; display: none;"><canvas class="jQWCP-wHueSlider jQWCP-slider" width="1" height="50" title="Hue" unselectable="on" style="user-select: none;"></canvas><span class="jQWCP-wHueCursor jQWCP-scursor" unselectable="on" style="user-select: none; top: 0px;"></span></div><div class="jQWCP-wSat jQWCP-slider-wrapper hidden" unselectable="on" style="user-select: none; display: none;"><canvas class="jQWCP-wSatSlider jQWCP-slider" width="1" height="50" title="Saturation" unselectable="on" style="user-select: none;"></canvas><span class="jQWCP-wSatCursor jQWCP-scursor" unselectable="on" style="user-select: none; top: -2px;"></span></div><div class="jQWCP-wRed jQWCP-slider-wrapper hidden" unselectable="on" style="user-select: none; display: none;"><canvas class="jQWCP-wRedSlider jQWCP-slider" width="1" height="50" title="Red" unselectable="on" style="user-select: none;"></canvas><span class="jQWCP-wRedCursor jQWCP-scursor" unselectable="on" style="user-select: none; top: 0px;"></span></div><div class="jQWCP-wGreen jQWCP-slider-wrapper hidden" unselectable="on" style="user-select: none; display: none;"><canvas class="jQWCP-wGreenSlider jQWCP-slider" width="1" height="50" title="Green" unselectable="on" style="user-select: none;"></canvas><span class="jQWCP-wGreenCursor jQWCP-scursor" unselectable="on" style="user-select: none; top: 0px;"></span></div><div class="jQWCP-wBlue jQWCP-slider-wrapper hidden" unselectable="on" style="user-select: none; display: none;"><canvas class="jQWCP-wBlueSlider jQWCP-slider" width="1" height="50" title="Blue" unselectable="on" style="user-select: none;"></canvas><span class="jQWCP-wBlueCursor jQWCP-scursor" unselectable="on" style="user-select: none; top: 0px;"></span></div><div class="jQWCP-wAlpha jQWCP-slider-wrapper hidden" unselectable="on" style="user-select: none; display: none;"><canvas class="jQWCP-wAlphaSlider jQWCP-slider" width="1" height="50" title="Alpha" unselectable="on" style="user-select: none;"></canvas><span class="jQWCP-wAlphaCursor jQWCP-scursor" unselectable="on" style="user-select: none; top: 0px;"></span></div><div class="jQWCP-wMaster jQWCP-slider-wrapper hidden" unselectable="on" style="user-select: none; display: none;"><canvas class="jQWCP-wMasterSlider jQWCP-slider" width="1" height="50" title="Master" unselectable="on" style="user-select: none;"></canvas><span class="jQWCP-wMasterCursor jQWCP-scursor" unselectable="on" style="user-select: none; top: 0px;"></span></div><div class="jQWCP-wPreview hidden" style="display: none;"><canvas class="jQWCP-wPreviewBox" width="1" height="1" title="Selected Color"></canvas></div><input type="text" id="popup_picker" data-wheelcolorpicker="" data-wcp-layout="block" data-wcp-sliders="wvkl" style="display: none;"><div class="jQWCP-wWheel jQWCP-wHueWheel" unselectable="on" style="user-select: none; display: block;"><div class="jQWCP-wWheelOverlay" style="opacity: 0;"></div><span class="jQWCP-wWheelCursor jQWCP-wHueWheelCursor" style="left: 90px; top: 90px;"></span></div><div class="jQWCP-wVal jQWCP-slider-wrapper" unselectable="on" style="user-select: none; display: block;"><canvas class="jQWCP-wValSlider jQWCP-slider" width="1" height="50" title="Value" unselectable="on" style="user-select: none;"></canvas><span class="jQWCP-wValCursor jQWCP-scursor" unselectable="on" style="user-select: none; top: 0px;"></span></div><div class="jQWCP-wTemperature jQWCP-slider-wrapper" unselectable="on" style="user-select: none; display: block;"><canvas class="jQWCP-wTemperatureSlider jQWCP-slider" width="1" height="50" title="Temperature" unselectable="on" style="user-select: none;"></canvas><span class="jQWCP-wTemperatureCursor jQWCP-scursor" unselectable="on" style="user-select: none; top: -1px;"></span></div><div class="jQWCP-wWhite jQWCP-slider-wrapper" unselectable="on" style="user-select: none; display: block;"><canvas class="jQWCP-wWhiteSlider jQWCP-slider" width="1" height="50" title="White" unselectable="on" style="user-select: none;"></canvas><span class="jQWCP-wWhiteCursor jQWCP-scursor" unselectable="on" style="user-select: none; top: 0px;"></span></div></div>
+									<div class="btn-group">
+										<button id="popup_bright_up" class="btn btn-small" type="button">
+											Brightness Up
+										</button>
+										<button id="popup_bright_down" class="btn btn-small" type="button">
+											Brightness Down
+										</button>
+									</div>
+									<div class="btn-group">
+										<button id="popup_warmer" class="btn btn-small" type="button">
+											Warmer White
+										</button>
+										<button id="popup_colder" class="btn btn-small" type="button">
+											Colder White
+										</button>
+									</div>
+								</td>
+								<td align="left" style="vertical-align: center;">
+									<a id="popup_switch_on"><img src="Raibach-Dateien/Push48_On.png" class="lcursor" height="48" width="48"></a><br>
+									<a id="popup_switch_off"><img src="Raibach-Dateien/Push48_Off.png" class="lcursor" height="48" width="48"></a>
+								</td>
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+			</tbody></table>
+		</div>
+	</div>
+	<div id="setpoint_popup" class="ui-popup ui-body-b ui-overlay-shadow ui-corner-all pop" style="display: none;">
+		<div class="ui-close" onclick="CloseSetpointPopup()"></div>
+		<table class="display" border="0" cellpadding="0" cellspacing="0">
+			<tbody><tr>
+				<td style="width:60px; vertical-align: center;">
+					<span data-i18n="Actual">Aktuell</span>:<br>
+					<span id="actual_value" style="font-size: 24px; font-weight: bold;">20.1</span>
+				</td>
+				<td align="center" style="vertical-align: center;">
+					<a id="popup_temp_up"><img src="Raibach-Dateien/Up48.png" class="lcursor" style="margin-top: 5px;" height="48" width="48" onclick="SetpointUp()"></a><br>
+					<input id="popup_setpoint" type="text" style="width: 90px; padding: .2em; margin-top: 10px; margin-bottom: 10px; font-size: 24px; font-weight: bold; border: 3px solid white; text-align: center;" class="text ui-widget-content ui-corner-all"><br>
+					<a id="popup_temp_down"><img src="Raibach-Dateien/Down48.png" class="lcursor" height="48" width="48" onclick="SetpointDown()"></a>
+				</td>
+				<td align="center" style="vertical-align: center;">
+					<button data-i18n="Set" class="btn btn-info" onclick="SetSetpoint()">Festlegen</button>
+				</td>
+			</tr>
+		</tbody></table>
+	</div>
+	<div id="rfy_popup" class="ui-popup ui-body-b ui-overlay-shadow ui-corner-all pop">
+		<div class="ui-close" onclick="CloseRFYPopup()"></div>
+		<table class="display" border="0" cellpadding="0" cellspacing="0">
+			<tbody><tr>
+				<td>
+					<br><br>
+					<button data-i18n="Enable Sun/Wind Detector" class="btn btn-info" onclick="RFYEnableSunWind(1)">Enable Sun/Wind Detector</button><br><br>
+					<button data-i18n="Disable Sun/Wind Detector" class="btn btn-info" onclick="RFYEnableSunWind(0)">Disable Sun/Wind Detector</button><br>
+					<br>
+				</td>
+			</tr>
+		</tbody></table>
+	</div>
+	<div id="itho_popup" class="ui-popup ui-body-b ui-overlay-shadow ui-corner-all pop">
+		<div class="ui-close" onclick="CloseIthoPopup()"></div>
+		<table class="display" border="0" cellpadding="0" cellspacing="0">
+			<tbody><tr>
+				<td>
+					<center>
+						<br><br>
+						<button class="btn btn-info" onclick="IthoSendCommand('1')">1</button><br>
+						<button class="btn btn-info" onclick="IthoSendCommand('2')">2</button><br>
+						<button class="btn btn-info" onclick="IthoSendCommand('3')">3</button><br>
+						<button data-i18n="Timer" class="btn btn-info" onclick="IthoSendCommand('timer')">Timer</button><br>
+					</center>
+					<br>
+				</td>
+			</tr>
+		</tbody></table>
+	</div>
+	<div id="lucci_popup" class="ui-popup ui-body-b ui-overlay-shadow ui-corner-all pop">
+		<div class="ui-close" onclick="CloseLucciPopup()"></div>
+		<table class="display" border="0" cellpadding="0" cellspacing="0">
+			<tbody><tr>
+				<td>
+					<center>
+						<br><br>
+						<button class="btn btn-info" onclick="LucciSendCommand('hi')">Hi</button><br>
+						<button class="btn btn-info" onclick="LucciSendCommand('med')">Med</button><br>
+						<button class="btn btn-info" onclick="LucciSendCommand('low')">Low</button><br>
+						<button class="btn btn-info" onclick="LucciSendCommand('off')">Off</button><br>
+						<button data-i18n="Light" class="btn btn-info" onclick="LucciSendCommand('light')">Light</button><br>
+					</center>
+					<br>
+				</td>
+			</tr>
+		</tbody></table>
+	</div>
+	<div id="lucci_dc_popup" class="ui-popup ui-body-b ui-overlay-shadow ui-corner-all pop">
+		<div class="ui-close" onclick="CloseLucciPopup()"></div>
+		<table class="display" border="0" cellpadding="0" cellspacing="0">
+			<tbody><tr>
+				<td>
+					<center>
+						<br><br>
+						<button class="btn btn-info" onclick="LucciSendCommand('pow')">Pow</button><br>
+						<button class="btn btn-info" onclick="LucciSendCommand('plus')">Plus</button><br>
+						<button class="btn btn-info" onclick="LucciSendCommand('min')">Min</button><br>
+						<button data-i18n="Light" class="btn btn-info" onclick="LucciSendCommand('light')">Light</button><br>
+					</center>
+					<br>
+				</td>
+			</tr>
+		</tbody></table>
+	</div>
+	<div id="dialog-camera-live" style="display:none;">
+		<img id="camfeed" name="camfeed" onload="load_cam_video()" src="Raibach-Dateien/camera_default.png" width="600" height="337" style="border: 1px solid #1E2832;">
+	</div>
+	<div id="dialog-media-remote" style="display:none;">
+		<svg id="MediaRemote" class="MediaRemote" viewBox="50 -150 900 1875" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1">
+			<defs>
+				<radialGradient id="grad1" cx="50%" cy="20%" r="50%" fx="50%" fy="50%">
+					<stop offset="0%" style="stop-color:#cbcccb;"></stop>
+					<stop offset="100%" style="stop-color:#989898;"></stop>
+				</radialGradient>
+				<radialGradient id="grad2" cx="50%" cy="80%" r="50%" fx="50%" fy="50%">
+					<stop offset="0%" style="stop-color:#cbcccb;"></stop>
+					<stop offset="100%" style="stop-color:#989898;"></stop>
+				</radialGradient>
+				<radialGradient id="grad3" cx="20%" cy="50%" r="50%" fx="50%" fy="50%">
+					<stop offset="0%" style="stop-color:#cbcccb;"></stop>
+					<stop offset="100%" style="stop-color:#989898;"></stop>
+				</radialGradient>
+				<radialGradient id="grad4" cx="80%" cy="50%" r="50%" fx="50%" fy="50%">
+					<stop offset="0%" style="stop-color:#cbcccb;"></stop>
+					<stop offset="100%" style="stop-color:#989898;"></stop>
+				</radialGradient>
+				<path id="btnTriangle" d="M100 -140 l370 0 S  110,-100 60 250 L60 -100 S 60,-140 100 -140z"></path>
+				<path id="btnArrow" d="M190 45 l108 108 s -110,140 0,295 l-108 108 s -205,-235 0,-510z"></path>
+				<path id="symTriangle" d="m 30,580 -60,60 -60,-60 z"></path>
+				<path id="symHouse" d="M0 0 l0 -30 l-10 0 l30 -30 l30 30 l-10 0 l0 30 l-10 0 l0 -20 l-10,0 l0 20 m-15 -35 l0 -22 l5 0 l0 20z"></path>
+				<g id="symFullscreen" stroke="#393a39" stroke-width="10" stroke-linecap="round">
+					<line x1="0" y1="0" x2="80" y2="0" stroke-width="5"></line>
+					<line x1="80" y1="0" x2="80" y2="80" stroke-width="5"></line>
+					<line x1="25" y1="50" x2="62" y2="18"></line>
+					<line x1="65" y1="35" x2="65" y2="15"></line>
+					<line x1="45" y1="15" x2="65" y2="15"></line>
+				</g>
+				<g id="symMenu" stroke="#393a39" stroke-width="10" stroke-linecap="round">
+					<rect x="0" y="0" width="80" height="80" rx="20" ry="20" stroke-width="5" style="fill:none;"></rect>
+					<line x1="15" y1="20" x2="65" y2="20"></line>
+					<line x1="15" y1="40" x2="65" y2="40"></line>
+					<line x1="15" y1="60" x2="65" y2="60"></line>
+				</g>
+				<path id="symBack" d="M30 0 l-40 40 l40 40 l0 -20 l 40 0 l 0 -40 l -40 0z" stroke="#393a39" stroke-width="8"></path>
+				<g id="symI" stroke="#393a39" stroke-width="8" stroke-linecap="round">
+					<circle cx="38" cy="5" r="12" class="remoteshadow" stroke-width="5" style="fill:none;"></circle>
+					<rect x="30" y="30" width="20" height="50" stroke-width="5" style="fill:#393a39;"></rect>
+					<line x1="15" y1="30" x2="48" y2="30"></line>
+					<line x1="15" y1="80" x2="65" y2="80"></line>
+				</g>
+				<g id="symSubtitle" stroke="#393a39" stroke-width="10" stroke-linecap="round">
+					<rect x="0" y="0" width="120" height="80" rx="20" ry="20" stroke-width="5" style="fill:none;"></rect>
+					<line x1="35" y1="65" x2="85" y2="65"></line>
+				</g>
+			</defs>
+			<g>
+				<g>
+					<g>
+						<use xlink:href="#btnTriangle" class="remoteshadow" transform="translate(1,10)"></use>
+						<use xlink:href="#btnTriangle" class="remotehoverable" fill="url(#grad1)" onclick="javascript:click_media_remote('Home');">
+							<title>Home</title>
+						</use>
+						<use xlink:href="#symHouse" class="remoteshadow" transform="translate(120,-30) scale(1.5)"></use>
+					</g>
+					<g transform="rotate(90,500,300)">
+						<use xlink:href="#btnTriangle" class="remoteshadow" transform="translate(10,-1)"></use>
+						<use xlink:href="#btnTriangle" class="remotehoverable" fill="url(#grad3)" onclick="javascript:click_media_remote('Info');">
+							<title>Details</title>
+						</use>
+					</g>
+					<use xlink:href="#symI" class="remoteshadow" transform="translate(815,-100)"></use>
+					<g transform="rotate(180,500,300)">
+						<use xlink:href="#btnTriangle" class="remoteshadow" transform="translate(-1,-10)"></use>
+						<use xlink:href="#btnTriangle" class="remotehoverable" fill="url(#grad1)" onclick="javascript:click_media_remote('ContextMenu');">
+							<title>Menu</title>
+						</use>
+					</g>
+					<use xlink:href="#symMenu" class="remoteshadow" transform="translate(815,625)"></use>
+					<g transform="rotate(270,500,300)">
+						<use xlink:href="#btnTriangle" class="remoteshadow" transform="translate(-10,1)"></use>
+						<use xlink:href="#btnTriangle" class="remotehoverable" fill="url(#grad1)" onclick="javascript:click_media_remote('Back');">
+							<title>Back</title>
+						</use>
+					</g>
+					<use xlink:href="#symBack" class="remoteshadow" transform="translate(107,625)"></use>
+					<g>
+						<circle cx="500" cy="312" r="200" class="remoteshadow"></circle>
+						<circle cx="500" cy="300" r="200" class="remotehoverable" fill="url(#grad1)" onclick="javascript:click_media_remote('Select');">
+							<title>Select</title>
+						</circle>
+						<text x="500" y="320" class="remotetext" style="font-weight: bold;">OK</text>
+					</g>
+					<g>
+						<use xlink:href="#btnArrow" class="remoteshadow" transform="translate(1,10)"></use>
+						<use xlink:href="#btnArrow" class="remotehoverable" fill="url(#grad1)" onclick="javascript:click_media_remote('Left');">
+							<title>Left</title>
+						</use>
+						<use xlink:href="#symTriangle" class="remoteshadow" transform="rotate(90,230,560)"></use>
+					</g>
+					<g transform="rotate(180,500,300)">
+						<use xlink:href="#btnArrow" class="remoteshadow" transform="translate(-1,-10)"></use>
+						<use xlink:href="#btnArrow" class="remotehoverable" fill="url(#grad2)" onclick="javascript:click_media_remote('Right');">
+							<title>Right</title>
+						</use>
+						<use xlink:href="#symTriangle" class="remoteshadow" transform="rotate(90,230,560)"></use>
+					</g>
+					<g transform="rotate(90,500,300)">
+						<use xlink:href="#btnArrow" class="remoteshadow" transform="translate(10,-1)"></use>
+						<use xlink:href="#btnArrow" class="remotehoverable" fill="url(#grad3)" onclick="javascript:click_media_remote('Up');">
+							<title>Up</title>
+						</use>
+						<use xlink:href="#symTriangle" class="remoteshadow" transform="rotate(90,230,560)"></use>
+					</g>
+					<g transform="rotate(270,500,300)">
+						<use xlink:href="#btnArrow" class="remoteshadow" transform="translate(-10,1)"></use>
+						<use xlink:href="#btnArrow" class="remotehoverable" fill="url(#grad4)" onclick="javascript:click_media_remote('Down');">
+							<title>Down</title>
+						</use>
+						<use xlink:href="#symTriangle" class="remoteshadow" transform="rotate(90,230,560)"></use>
+					</g>
+				</g>
+				<g transform="translate(0,20)">
+					<g>
+						<g>
+							<circle cx="501" cy="870" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="860" r="110" class="remotehoverable" fill="url(#grad1)" onclick="javascript:click_media_remote('FullScreen');">
+								<title>Fullscreen</title>
+							</circle>
+							<use xlink:href="#symFullscreen" class="remoteshadow" transform="translate(460,820)"></use>
+						</g>
+						<g>
+							<circle cx="501" cy="1110" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="1100" r="110" class="remotehoverable" fill="url(#grad1)" onclick="javascript:click_media_remote('ShowSubtitles');">
+								<title>Subtitles</title>
+							</circle>
+							<use xlink:href="#symSubtitle" class="remoteshadow" transform="translate(440,1060)"></use>
+						</g>
+						<g>
+							<circle cx="501" cy="1350" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="1340" r="110" class="remotehoverable" fill="url(#grad1)" onclick="javascript:click_media_remote('Stop');">
+								<title>Stop</title>
+							</circle>
+							<path class="remoteshadow" d="m 460 1300 l0,80 l80,0 l0,-80z"></path>
+						</g>
+					</g>
+					<g transform="rotate(90,500,1000) translate(50,240) scale(1.1)">
+						<g>
+							<circle cx="510" cy="999" r="100" class="remoteshadow"></circle>
+							<circle cx="500" cy="1000" r="100" class="remotehoverable" fill="url(#grad3)" onclick="javascript:click_media_remote('Channels');">
+								<title>Channel</title>
+							</circle>
+						</g>
+						<g>
+							<path class="remoteshadow" d="M272 929 l150 0 s -70,70 0,140 l-197 0 s -70,-70 0,-140 z"></path>
+							<path class="remotehoverable" d="M272 930 l140 0 s -70,70 0,140 l-197 0 s -70,-70 0,-140 z" fill="url(#grad3)" onclick="javascript:click_media_remote('ChannelUp');">
+								<title>Channel Up</title>
+							</path>
+							<path transform="rotate(180,320,1000)" d="m 320 960 0,80 40,-40z" class="remoteshadow"></path>
+						</g>
+						<g transform="rotate(180,500,1000)">
+							<path class="remoteshadow" d="M265 931 l140 0 s -70,70 0,140 l-200 0 s -70,-70 0,-140 z"></path>
+							<path class="remotehoverable" d="M265 930 l150 0 s -70,70 0,140 l-200 0 s -70,-70 0,-140 z" fill="url(#grad4)" onclick="javascript:click_media_remote('ChannelDown');">
+								<title>Channel Down</title>
+							</path>
+							<path transform="rotate(180,320,1000)" d="m 320 960 0,80 40,-40z" class="remoteshadow"></path>
+						</g>
+					</g>
+					<text x="160" y="1110" class="remotetext" style="font-size: 90px; font-weight: bold;">CH</text>
+					<g transform="rotate(90,500,1000) translate(50,-440) scale(1.1)">
+						<g>
+							<circle cx="510" cy="999" r="100" class="remoteshadow"></circle>
+							<circle cx="500" cy="1000" r="100" class="remotehoverable" fill="url(#grad3)" onclick="javascript:click_media_remote('Mute');">
+								<title>Mute</title>
+							</circle>
+							<path class="remoteshadow" d="m 450 970 50,50 50,-50 m -70 20 l0,40 l40,0 l0,-40zz"></path>
+						</g>
+						<g>
+							<path class="remoteshadow" d="M272 929 l150 0 s -70,70 0,140 l-197 0 s -70,-70 0,-140 z"></path>
+							<path class="remotehoverable" d="M272 930 l140 0 s -70,70 0,140 l-197 0 s -70,-70 0,-140 z" fill="url(#grad3)" onclick="javascript:click_media_remote('VolumeUp');">
+								<title>Volume Up</title>
+							</path>
+							<path transform="rotate(180,320,1000)" d="m 320 960 0,80 40,-40z" class="remoteshadow"></path>
+						</g>
+						<g transform="rotate(180,500,1000)">
+							<path class="remoteshadow" d="M265 931 l140 0 s -70,70 0,140 l-200 0 s -70,-70 0,-140 z"></path>
+							<path class="remotehoverable" d="M265 930 l150 0 s -70,70 0,140 l-200 0 s -70,-70 0,-140 z" fill="url(#grad4)" onclick="javascript:click_media_remote('VolumeDown');">
+								<title>Volume Down</title>
+							</path>
+							<path transform="rotate(180,320,1000)" d="m 320 960 0,80 40,-40z" class="remoteshadow"></path>
+						</g>
+					</g>
+				</g>
+				<g transform="translate(-50,500) scale(1.1)">
+					<g>
+						<path class="remoteshadow" d="M118 940 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z"></path>
+						<path class="remotehoverable" d="M118 930 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z" fill="url(#grad1)" onclick="javascript:click_media_remote('BigStepBack');">
+							<title>Skip Backwards</title>
+						</path>
+						<path transform="rotate(180,158,1000)" d="m 118 960 0,80 40,-40 m 0 -35 l0 70 l15 0 l0 -70 z" class="remoteshadow"></path>
+					</g>
+					<g>
+						<path class="remoteshadow" d="M272 940 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z"></path>
+						<path class="remotehoverable" d="M272 930 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z" fill="url(#grad1)" onclick="javascript:click_media_remote('Rewind');">
+							<title>Rewind</title>
+						</path>
+						<path transform="rotate(180,320,1000)" d="m 280 960 0,80 40,-40 m 0 -40 0,80 40,-40z" class="remoteshadow"></path>
+					</g>
+					<g transform="rotate(180,500,1000)">
+						<path class="remoteshadow" d="M118 920 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z"></path>
+						<path class="remotehoverable" d="M118 930 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z" fill="url(#grad2)" onclick="javascript:click_media_remote('BigStepForward');">
+							<title>Skip Forward</title>
+						</path>
+						<path transform="rotate(180,158,1000)" d="m 118 960 0,80 40,-40 m 0 -35 l0 70 l15 0 l0 -70 z" class="remoteshadow"></path>
+					</g>
+					<g transform="rotate(180,500,1000)">
+						<path class="remoteshadow" d="M272 920 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z"></path>
+						<path class="remotehoverable" d="M272 930 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z" fill="url(#grad2)" onclick="javascript:click_media_remote('FastForward');">
+							<title>Fast Forward</title>
+						</path>
+						<path transform="rotate(180,320,1000)" d="m 280 960 0,80 40,-40 m 0 -40 0,80 40,-40z" class="remoteshadow"></path>
+					</g>
+					<g>
+						<circle cx="500" cy="1010" r="100" class="remoteshadow"></circle>
+						<circle cx="500" cy="1000" r="100" class="remotehoverable" fill="url(#grad1)" onclick="javascript:click_media_remote('PlayPause');">
+							<title>Play/Pause</title>
+						</circle>
+						<path d="m 450 960 0,80 40,-40 m 10 -35 l0 70 l15 0 l0 -70 m 10 0 l0 70 l15 0 l0 -70 z" class="remoteshadow"></path>
+					</g>
+				</g>
+				<g id="MediaRemote-custom-buttons"></g>
+			</g>
+		</svg>
+	</div>
+	<div id="dialog-lmsplayer-remote" style="display:none;">
+		<svg id="LMSPlayerRemote" class="MediaRemote" viewBox="50 -150 900 1875" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1">
+			<defs>
+				<radialGradient id="gradient1" cx="50%" cy="20%" r="50%" fx="50%" fy="50%">
+					<stop offset="0%" style="stop-color:#cbcccb;"></stop>
+					<stop offset="100%" style="stop-color:#989898;"></stop>
+				</radialGradient>
+				<radialGradient id="gradient2" cx="50%" cy="80%" r="50%" fx="50%" fy="50%">
+					<stop offset="0%" style="stop-color:#cbcccb;"></stop>
+					<stop offset="100%" style="stop-color:#989898;"></stop>
+				</radialGradient>
+				<radialGradient id="gradient3" cx="20%" cy="50%" r="50%" fx="50%" fy="50%">
+					<stop offset="0%" style="stop-color:#cbcccb;"></stop>
+					<stop offset="100%" style="stop-color:#989898;"></stop>
+				</radialGradient>
+				<radialGradient id="gradient4" cx="80%" cy="50%" r="50%" fx="50%" fy="50%">
+					<stop offset="0%" style="stop-color:#cbcccb;"></stop>
+					<stop offset="100%" style="stop-color:#989898;"></stop>
+				</radialGradient>
+				<path id="btnArrow" d="M190 45 l108 108 s -110,140 0,295 l-108 108 s -205,-235 0,-510z"></path>
+				<path id="symTriangle" d="m 30,580 -60,60 -60,-60 z"></path>
+				<path id="symFavorites" d="m78.719,27.14565c0,-13.91432 -9.27593,-25.19366 -20.7181,-25.19366c-7.47142,0 -13.99653,4.8253 -17.64171,12.03655c-3.64471,-7.21125 -10.17255,-12.03655 -17.64396,-12.03655c-11.44209,0 -20.71526,11.27936 -20.71526,25.19366c0,7.57557 2.76051,14.35305 7.11123,18.96834l29.35747,35.70179c0.50146,0.60963 1.18136,0.95222 1.89052,0.95222c0.70933,0 1.38924,-0.3426 1.89052,-0.95222l29.35752,-35.70179c4.35098,-4.61546 7.11176,-11.39276 7.11176,-18.96834l0,0z"></path>
+				<path id="symNowPlaying" d="m33.30051,35.74044l0,42.67448l0,0c0.04173,3.90186 -2.78493,8.30183 -8.64684,11.07083c-8.13374,3.83624 -16.69111,1.96458 -19.8218,-2.4681c-3.13087,-4.43826 -0.84096,-11.43206 7.2991,-15.27369c5.46821,-2.58305 11.13328,-2.57757 15.20631,-0.95218l0,-33.95688l0,-21.8899l59.63288,-10.94499l0,5.47249l0,16.4175l0,47.06338l0,0c0.03584,3.90186 -2.79081,8.29624 -8.64685,11.05997c-8.13385,3.83614 -16.69115,1.96458 -19.82185,-2.4682c-3.13081,-4.43816 -0.8409,-11.43205 7.29905,-15.27368c5.46832,-2.58305 11.13338,-2.57747 15.20631,-0.95218l0,-38.33483l-47.70631,8.75598l0,0zm0,0"></path>
+				<g id="symRepeat" fill="#393a39">
+					<path d="m88.37501,62.33332c0,4.59166 -2.83431,8.33334 -6.31252,8.33334h-56.83774v-16.66666l-25.22475,25l25.22475,25v-16.66668h56.83774c10.44404,0 18.93752,-11.22916 18.93752,-25h-12.625l0,0z"></path>
+					<path d="m18.9375,37.33338h56.81249v16.66662l25.25,-25l-25.25,-25v16.66662h-56.81249c-10.44403,0 -18.9375,11.2 -18.9375,25h12.625c0,-4.59163 2.83431,-8.33325 6.3125,-8.33325l0,0z"></path>
+				</g>
+				<g id="symShuffle" fill="#393a39">
+					<polygon points="98.3429408578821,32.200117042093666 98.3429408578821,50.5339301317116 117.85200781683292,25.864964463319097 98.3429408578821,1.196000099182129 98.3429408578821,19.541192818332433 77.74903262176244,19.541192818332433 77.74903262176244,19.62657460259686 77.69951336897415,19.552575056375872 23.96629133943142,87.49184707361553 2.1525008833052937,87.49184707361553 2.1525008833052937,100.15075303779929 28.07156711271577,100.15075303779929 28.07156711271577,100.09954274852032 28.107582073480756,100.15075303779929 81.84980784321473,32.200117042093666"></polygon>
+					<polygon points="46.12218635231315,54.518305578927425 53.19839318808758,45.570538744651344 28.107582073480756,13.849229943282808 28.067066560883717,13.894768025245298 28.067066560883717,13.849229943282808 2.1480000019073486,13.849229943282808 2.1480000019073486,26.508155471299574 23.96179078759937,26.508155471299574"></polygon>
+					<polygon points="98.3429408578821,81.79987767728824 81.84980784321473,81.79987767728824 64.8120052323105,60.255803927428474 57.73579839653607,69.20926253285404 77.69951336897415,94.44742096726156 77.75353581012163,94.37342272529611 77.75353581012163,94.45880450956054 98.3429408578821,94.45880450956054 98.3429408578821,112.80400374998851 117.85200781683292,88.13503286457387 98.3429408578821,63.466061979159235"></polygon>
+				</g>
+				<g id="symBrowse" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#393a39" fill="none">
+					<line y2="76.67169" x2="22.98174" y1="9.19837" x1="9.056"></line>
+					<line y2="77.51706" x2="25.04448" y1="8.353" x1="25.1764"></line>
+					<line y2="78.60848" x2="26.91019" y1="17.34518" x1="54.42007"></line>
+					<line y2="79.76611" x2="28.15343" y1="44.42258" x1="79.10156"></line>
+					<line y2="82.276" x2="29.17687" y1="82.24778" x1="88.448"></line>
+				</g>
+			</defs>
+			<g>
+				<g>
+					<g>
+						<use xlink:href="#btnArrow" class="remoteshadow" transform="translate(1,10)"></use>
+						<use xlink:href="#btnArrow" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_lmsplayer_remote('Left');">
+							<title>Left</title>
+						</use>
+						<use xlink:href="#symTriangle" class="remoteshadow" transform="rotate(90,230,560)"></use>
+					</g>
+					<g transform="rotate(180,500,300)">
+						<use xlink:href="#btnArrow" class="remoteshadow" transform="translate(-1,-10)"></use>
+						<use xlink:href="#btnArrow" class="remotehoverable" fill="url(#gradient2)" onclick="javascript:click_lmsplayer_remote('Right');">
+							<title>Right</title>
+						</use>
+						<use xlink:href="#symTriangle" class="remoteshadow" transform="rotate(90,230,560)"></use>
+					</g>
+					<g transform="rotate(90,500,300)">
+						<use xlink:href="#btnArrow" class="remoteshadow" transform="translate(10,-1)"></use>
+						<use xlink:href="#btnArrow" class="remotehoverable" fill="url(#gradient3)" onclick="javascript:click_lmsplayer_remote('Up');">
+							<title>Up</title>
+						</use>
+						<use xlink:href="#symTriangle" class="remoteshadow" transform="rotate(90,230,560)"></use>
+					</g>
+					<g transform="rotate(270,500,300)">
+						<use xlink:href="#btnArrow" class="remoteshadow" transform="translate(-10,1)"></use>
+						<use xlink:href="#btnArrow" class="remotehoverable" fill="url(#gradient4)" onclick="javascript:click_lmsplayer_remote('Down');">
+							<title>Down</title>
+						</use>
+						<use xlink:href="#symTriangle" class="remoteshadow" transform="rotate(90,230,560)"></use>
+					</g>
+				</g>
+				<g transform="translate(0,20)">
+					<g transform="translate(-335,0)">
+						<g>
+							<circle cx="501" cy="870" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="860" r="110" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_lmsplayer_remote('Favorites');">
+								<title>Favorites</title>
+							</circle>
+							<use xlink:href="#symFavorites" class="remoteshadow" transform="translate(460,820)"></use>
+						</g>
+						<g>
+							<circle cx="501" cy="1110" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="1100" r="110" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_lmsplayer_remote('Browse');">
+								<title>Browse</title>
+							</circle>
+							<use xlink:href="#symBrowse" class="remoteshadow" transform="translate(450,1055)"></use>
+						</g>
+						<g>
+							<circle cx="501" cy="1350" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="1340" r="110" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_lmsplayer_remote('NowPlaying');">
+								<title>Now playing</title>
+							</circle>
+							<use xlink:href="#symNowPlaying" class="remoteshadow" transform="translate(450,1300)"></use>
+						</g>
+					</g>
+
+					<g>
+						<g>
+							<circle cx="501" cy="870" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="860" r="110" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_lmsplayer_remote('Shuffle');">
+								<title>Shuffle</title>
+							</circle>
+							<use xlink:href="#symShuffle" class="remoteshadow" transform="translate(445,810)"></use>
+						</g>
+						<g>
+							<circle cx="501" cy="1110" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="1100" r="110" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_lmsplayer_remote('Repeat');">
+								<title>Repeat</title>
+							</circle>
+							<use xlink:href="#symRepeat" class="remoteshadow" transform="translate(450,1050)"></use>
+						</g>
+						<g>
+							<circle cx="501" cy="1350" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="1340" r="110" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_lmsplayer_remote('Stop');">
+								<title>Stop</title>
+							</circle>
+							<path class="remoteshadow" d="m 460 1300 l0,80 l80,0 l0,-80z"></path>
+						</g>
+					</g>
+					<g transform="rotate(90,500,1000) translate(50,-440) scale(1.1)">
+						<g>
+							<circle cx="510" cy="999" r="100" class="remoteshadow"></circle>
+							<circle cx="500" cy="1000" r="100" class="remotehoverable" fill="url(#gradient3)" onclick="javascript:click_lmsplayer_remote('Mute');">
+								<title>Mute</title>
+							</circle>
+							<path class="remoteshadow" d="m 450 970 50,50 50,-50 m -70 20 l0,40 l40,0 l0,-40zz"></path>
+						</g>
+						<g>
+							<path class="remoteshadow" d="M272 929 l150 0 s -70,70 0,140 l-197 0 s -70,-70 0,-140 z"></path>
+							<path class="remotehoverable" d="M272 930 l140 0 s -70,70 0,140 l-197 0 s -70,-70 0,-140 z" fill="url(#gradient3)" onclick="javascript:click_lmsplayer_remote('VolumeUp');">
+								<title>Volume Up</title>
+							</path>
+							<path transform="rotate(180,320,1000)" d="m 320 960 0,80 40,-40z" class="remoteshadow"></path>
+						</g>
+						<g transform="rotate(180,500,1000)">
+							<path class="remoteshadow" d="M265 931 l140 0 s -70,70 0,140 l-200 0 s -70,-70 0,-140 z"></path>
+							<path class="remotehoverable" d="M265 930 l150 0 s -70,70 0,140 l-200 0 s -70,-70 0,-140 z" fill="url(#gradient4)" onclick="javascript:click_lmsplayer_remote('VolumeDown');">
+								<title>Volume Down</title>
+							</path>
+							<path transform="rotate(180,320,1000)" d="m 320 960 0,80 40,-40z" class="remoteshadow"></path>
+						</g>
+					</g>
+				</g>
+				<g transform="translate(-50,500) scale(1.1)">
+					<g transform="translate(-145,0)">
+						<path class="remoteshadow" d="M272 940 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z"></path>
+						<path class="remotehoverable" d="M272 930 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z" fill="url(#gradient1)" onclick="javascript:click_lmsplayer_remote('Rewind');">
+							<title>Rewind</title>
+						</path>
+						<path transform="rotate(180,320,1000)" d="m 280 960 0,80 40,-40 m 0 -40 0,80 40,-40z" class="remoteshadow"></path>
+					</g>
+					<g transform="rotate(180,500,1000) translate(-145,0)">
+						<path class="remoteshadow" d="M272 920 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z"></path>
+						<path class="remotehoverable" d="M272 930 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z" fill="url(#gradient2)" onclick="javascript:click_lmsplayer_remote('Forward');">
+							<title>Forward</title>
+						</path>
+						<path class="remoteshadow" transform="rotate(180,320,1000)" d="m 280 960 0,80 40,-40 m 0 -40 0,80 40,-40z"></path>
+					</g>
+					<g transform="translate(-120,0)">
+						<circle cx="500" cy="1010" r="100" class="remoteshadow"></circle>
+						<circle cx="500" cy="1000" r="100" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_lmsplayer_remote('Play');">
+							<title>Play</title>
+						</circle>
+						<path class="remoteshadow" d="m 485 960 0,80 40,-40"></path>
+					</g>
+					<g transform="translate(120,0)">
+						<circle cx="500" cy="1010" r="100" class="remoteshadow"></circle>
+						<circle cx="500" cy="1000" r="100" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_lmsplayer_remote('Pause');">
+							<title>Pause</title>
+						</circle>
+						<path class="remoteshadow" d="m 470 960 l0 70 l25 0 l0 -70 m 10 0 l0 70 l25 0 l0 -70 z"></path>
+					</g>
+				</g>
+			</g>
+		</svg>
+	</div>
+	<div id="dialog-heosplayer-remote" style="display:none;">
+		<svg id="HEOSPlayerRemote" class="MediaRemote" viewBox="50 -150 900 1100" xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1">
+			<defs>
+				<radialGradient id="gradient1" cx="50%" cy="20%" r="50%" fx="50%" fy="50%">
+					<stop offset="0%" style="stop-color:#cbcccb;"></stop>
+					<stop offset="100%" style="stop-color:#989898;"></stop>
+				</radialGradient>
+				<radialGradient id="gradient2" cx="50%" cy="80%" r="50%" fx="50%" fy="50%">
+					<stop offset="0%" style="stop-color:#cbcccb;"></stop>
+					<stop offset="100%" style="stop-color:#989898;"></stop>
+				</radialGradient>
+				<radialGradient id="gradient3" cx="20%" cy="50%" r="50%" fx="50%" fy="50%">
+					<stop offset="0%" style="stop-color:#cbcccb;"></stop>
+					<stop offset="100%" style="stop-color:#989898;"></stop>
+				</radialGradient>
+				<radialGradient id="gradient4" cx="80%" cy="50%" r="50%" fx="50%" fy="50%">
+					<stop offset="0%" style="stop-color:#cbcccb;"></stop>
+					<stop offset="100%" style="stop-color:#989898;"></stop>
+				</radialGradient>
+				<path id="symTriangle" d="m 30,580 -60,60 -60,-60 z"></path>
+				<path id="symFavorites" d="m78.719,27.14565c0,-13.91432 -9.27593,-25.19366 -20.7181,-25.19366c-7.47142,0 -13.99653,4.8253 -17.64171,12.03655c-3.64471,-7.21125 -10.17255,-12.03655 -17.64396,-12.03655c-11.44209,0 -20.71526,11.27936 -20.71526,25.19366c0,7.57557 2.76051,14.35305 7.11123,18.96834l29.35747,35.70179c0.50146,0.60963 1.18136,0.95222 1.89052,0.95222c0.70933,0 1.38924,-0.3426 1.89052,-0.95222l29.35752,-35.70179c4.35098,-4.61546 7.11176,-11.39276 7.11176,-18.96834l0,0z"></path>
+				<path id="symNowPlaying" d="m33.30051,35.74044l0,42.67448l0,0c0.04173,3.90186 -2.78493,8.30183 -8.64684,11.07083c-8.13374,3.83624 -16.69111,1.96458 -19.8218,-2.4681c-3.13087,-4.43826 -0.84096,-11.43206 7.2991,-15.27369c5.46821,-2.58305 11.13328,-2.57757 15.20631,-0.95218l0,-33.95688l0,-21.8899l59.63288,-10.94499l0,5.47249l0,16.4175l0,47.06338l0,0c0.03584,3.90186 -2.79081,8.29624 -8.64685,11.05997c-8.13385,3.83614 -16.69115,1.96458 -19.82185,-2.4682c-3.13081,-4.43816 -0.8409,-11.43205 7.29905,-15.27368c5.46832,-2.58305 11.13338,-2.57747 15.20631,-0.95218l0,-38.33483l-47.70631,8.75598l0,0zm0,0"></path>
+				<g id="symRepeat" fill="#393a39">
+					<path d="m88.37501,62.33332c0,4.59166 -2.83431,8.33334 -6.31252,8.33334h-56.83774v-16.66666l-25.22475,25l25.22475,25v-16.66668h56.83774c10.44404,0 18.93752,-11.22916 18.93752,-25h-12.625l0,0z"></path>
+					<path d="m18.9375,37.33338h56.81249v16.66662l25.25,-25l-25.25,-25v16.66662h-56.81249c-10.44403,0 -18.9375,11.2 -18.9375,25h12.625c0,-4.59163 2.83431,-8.33325 6.3125,-8.33325l0,0z"></path>
+				</g>
+				<g id="symShuffle" fill="#393a39">
+					<polygon points="98.3429408578821,32.200117042093666 98.3429408578821,50.5339301317116 117.85200781683292,25.864964463319097 98.3429408578821,1.196000099182129 98.3429408578821,19.541192818332433 77.74903262176244,19.541192818332433 77.74903262176244,19.62657460259686 77.69951336897415,19.552575056375872 23.96629133943142,87.49184707361553 2.1525008833052937,87.49184707361553 2.1525008833052937,100.15075303779929 28.07156711271577,100.15075303779929 28.07156711271577,100.09954274852032 28.107582073480756,100.15075303779929 81.84980784321473,32.200117042093666"></polygon>
+					<polygon points="46.12218635231315,54.518305578927425 53.19839318808758,45.570538744651344 28.107582073480756,13.849229943282808 28.067066560883717,13.894768025245298 28.067066560883717,13.849229943282808 2.1480000019073486,13.849229943282808 2.1480000019073486,26.508155471299574 23.96179078759937,26.508155471299574"></polygon>
+					<polygon points="98.3429408578821,81.79987767728824 81.84980784321473,81.79987767728824 64.8120052323105,60.255803927428474 57.73579839653607,69.20926253285404 77.69951336897415,94.44742096726156 77.75353581012163,94.37342272529611 77.75353581012163,94.45880450956054 98.3429408578821,94.45880450956054 98.3429408578821,112.80400374998851 117.85200781683292,88.13503286457387 98.3429408578821,63.466061979159235"></polygon>
+				</g>
+				<g id="symBrowse" stroke-miterlimit="10" stroke-linecap="round" stroke-width="12" stroke="#393a39" fill="none">
+					<line y2="76.67169" x2="22.98174" y1="9.19837" x1="9.056"></line>
+					<line y2="77.51706" x2="25.04448" y1="8.353" x1="25.1764"></line>
+					<line y2="78.60848" x2="26.91019" y1="17.34518" x1="54.42007"></line>
+					<line y2="79.76611" x2="28.15343" y1="44.42258" x1="79.10156"></line>
+					<line y2="82.276" x2="29.17687" y1="82.24778" x1="88.448"></line>
+				</g>
+			</defs>
+			<g>
+				<g transform="translate(0,20)">
+					<g transform="translate(-335,0)">
+						<g>
+							<circle cx="501" cy="20" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="10" r="110" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_heosplayer_remote('Favorites');">
+								<title>Favorites</title>
+							</circle>
+							<use xlink:href="#symFavorites" class="remoteshadow" transform="translate(460,-30)"></use>
+						</g>
+						<g>
+							<circle cx="501" cy="260" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="250" r="110" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_heosplayer_remote('Browse');">
+								<title>Browse</title>
+							</circle>
+							<use xlink:href="#symBrowse" class="remoteshadow" transform="translate(450,205)"></use>
+						</g>
+						<g>
+							<circle cx="501" cy="500" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="490" r="110" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_heosplayer_remote('NowPlaying');">
+								<title>Now playing</title>
+							</circle>
+							<use xlink:href="#symNowPlaying" class="remoteshadow" transform="translate(450,450)"></use>
+						</g>
+					</g>
+
+					<g>
+						<g>
+							<circle cx="501" cy="20" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="10" r="110" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_heosplayer_remote('Shuffle');">
+								<title>Shuffle</title>
+							</circle>
+							<use xlink:href="#symShuffle" class="remoteshadow" transform="translate(445,-40)"></use>
+						</g>
+						<g>
+							<circle cx="501" cy="260" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="250" r="110" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_heosplayer_remote('Repeat');">
+								<title>Repeat</title>
+							</circle>
+							<use xlink:href="#symRepeat" class="remoteshadow" transform="translate(450,200)"></use>
+						</g>
+						<g>
+							<circle cx="501" cy="500" r="110" class="remoteshadow"></circle>
+							<circle cx="500" cy="490" r="110" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_heosplayer_remote('stop');">
+								<title>Stop</title>
+							</circle>
+							<path class="remoteshadow" d="m 460 450 l0,80 l80,0 l0,-80z"></path>
+						</g>
+					</g>
+					<g transform="rotate(90,900,600) translate(0,-440) scale(1.1)">
+						<g>
+							<circle cx="510" cy="999" r="100" class="remoteshadow"></circle>
+							<circle cx="500" cy="1000" r="100" class="remotehoverable" fill="url(#gradient3)" onclick="javascript:click_heosplayer_remote('toggleMute');">
+								<title>Mute</title>
+							</circle>
+							<path class="remoteshadow" d="m 450 970 50,50 50,-50 m -70 20 l0,40 l40,0 l0,-40zz"></path>
+						</g>
+						<g>
+							<path class="remoteshadow" d="M272 929 l150 0 s -70,70 0,140 l-197 0 s -70,-70 0,-140 z"></path>
+							<path class="remotehoverable" d="M272 930 l140 0 s -70,70 0,140 l-197 0 s -70,-70 0,-140 z" fill="url(#gradient3)" onclick="javascript:click_heosplayer_remote('setVolumeUp');">
+								<title>Volume Up</title>
+							</path>
+							<path transform="rotate(180,320,1000)" d="m 320 960 0,80 40,-40z" class="remoteshadow"></path>
+						</g>
+						<g transform="rotate(180,500,1000)">
+							<path class="remoteshadow" d="M265 931 l140 0 s -70,70 0,140 l-200 0 s -70,-70 0,-140 z"></path>
+							<path class="remotehoverable" d="M265 930 l150 0 s -70,70 0,140 l-200 0 s -70,-70 0,-140 z" fill="url(#gradient4)" onclick="javascript:click_heosplayer_remote('setVolumeDown');">
+								<title>Volume Down</title>
+							</path>
+							<path transform="rotate(180,320,1000)" d="m 320 960 0,80 40,-40z" class="remoteshadow"></path>
+						</g>
+					</g>
+				</g>
+				<g transform="translate(-50,-350) scale(1.1)">
+					<g transform="translate(-145,0)">
+						<path class="remoteshadow" d="M272 940 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z"></path>
+						<path class="remotehoverable" d="M272 930 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z" fill="url(#gradient1)" onclick="javascript:click_heosplayer_remote('playPrev');">
+							<title>Play Previous</title>
+						</path>
+						<path transform="rotate(180,320,1000)" d="m 280 960 0,80 40,-40 m 0 -40 0,80 40,-40z" class="remoteshadow"></path>
+					</g>
+					<g transform="rotate(180,500,1000) translate(-145,0)">
+						<path class="remoteshadow" d="M272 920 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z"></path>
+						<path class="remotehoverable" d="M272 930 l150 0 s -70,70 0,140 l-150 0 s -70,-70 0,-140 z" fill="url(#gradient2)" onclick="javascript:click_heosplayer_remote('playNext');">
+							<title>Play Next</title>
+						</path>
+						<path class="remoteshadow" transform="rotate(180,320,1000)" d="m 280 960 0,80 40,-40 m 0 -40 0,80 40,-40z"></path>
+					</g>
+					<g transform="translate(-120,0)">
+						<circle cx="500" cy="1010" r="100" class="remoteshadow"></circle>
+						<circle cx="500" cy="1000" r="100" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_heosplayer_remote('play');">
+							<title>Play</title>
+						</circle>
+						<path class="remoteshadow" d="m 485 960 0,80 40,-40"></path>
+					</g>
+					<g transform="translate(120,0)">
+						<circle cx="500" cy="1010" r="100" class="remoteshadow"></circle>
+						<circle cx="500" cy="1000" r="100" class="remotehoverable" fill="url(#gradient1)" onclick="javascript:click_heosplayer_remote('pause');">
+							<title>Pause</title>
+						</circle>
+						<path class="remoteshadow" d="m 470 960 l0 70 l25 0 l0 -70 m 10 0 l0 70 l25 0 l0 -70 z"></path>
+					</g>
+				</g>
+			</g>
+		</svg>
+	</div>
+	<div id="daymonthyearlog" style="display:none;">
+		<h2 data-i18n="Day">Tag</h2>
+		<div id="daygraph" style="height: 300px;">
+		</div>
+		<br>
+		<h2 data-i18n="Month">Monat</h2>
+		<div id="monthgraph" style="height: 300px;"></div>
+		<br>
+		<h2 data-i18n="Year">Jahr</h2>
+		<div id="yeargraph" style="height: 300px;"></div>
+	</div>
+	<div id="dayweekmonthyearlog" style="display:none;">
+		<h2 data-i18n="Day">Tag</h2>
+		<div id="daygraph" style="height: 300px;"></div>
+		<br>
+		<h2 data-i18n="Week">Woche</h2>
+		<div id="weekgraph" style="height: 300px;"></div>
+		<br>
+		<h2 data-i18n="Month">Monat</h2>
+		<div id="monthgraph" style="height: 300px;"></div>
+		<br>
+		<h2 data-i18n="Year">Jahr</h2>
+		<div id="yeargraph" style="height: 300px;"></div>
+	</div>
+	<div id="windlog" style="display:none;">
+		<h2 data-i18n="Day">Tag</h2>
+		<div id="winddaygraph" style="height: 300px;"></div>
+		<br>
+		<div id="winddirectiongraph" style="height: 400px;"></div>
+		<br>
+		<h2 data-i18n="Month">Monat</h2>
+		<div id="windmonthgraph" style="height: 300px;"></div>
+		<br>
+		<h2 data-i18n="Year">Jahr</h2>
+		<div id="windyeargraph" style="height: 300px;"></div>
+	</div>
+	<div id="smartlog" style="display:none;">
+		<h2 data-i18n="Day">Tag</h2>
+		<div id="smartdaygraph" style="height: 300px;"></div>
+		<br>
+		<h2 data-i18n="Week">Woche</h2>
+		<div id="smartweekgraph" style="height: 300px;"></div>
+		<br>
+		<h2 data-i18n="Month">Monat</h2>
+		<div id="smartmonthgraph" style="height: 300px;"></div>
+		<br>
+		<h2 data-i18n="Year">Jahr</h2>
+		<div id="smartyeargraph" style="height: 300px;"></div>
+	</div>
+
+	<div id="toptextmonthrain" style="display:none;">
+		<a class="btnstylerev" onclick="ShowYearReportRain(0)" data-i18n="Back">Zurück</a>&nbsp;
+		<h1 id="theader" data-i18n="Usage this Month">Nutzung aktueller Monat</h1>
+		<br>
+		<span data-i18n="Total Rainfall">Niederschlagsmenge gesamt</span>: <span id="tu">-</span> <span id="munit">m3</span><br>
+		<span data-i18n="Rainiest Day">Regenreichster Tag</span>: <span id="vhigh">-</span><br>
+		<br>
+	</div>
+	<div id="toptextyearreportrain" style="display:none;">
+		<a id="backbutton" class="btnstylerev" onclick="ShowWeather()" data-i18n="Back">Zurück</a>&nbsp;
+				<h1 id="theader" data-i18n="Usage this Year">Nutzung aktuelles Jahr</h1><table class="display" border="0" cellpadding="0" cellspacing="0">
+			<tbody><tr>
+				
+				<td align="right">
+					<span data-i18n="Year">Jahr</span>:
+					<select id="comboyear" style="width:74px" class="combobox ui-corner-all">
+						<script>
+								document.getElementById('comboyear').options.length = 0;
+								var min = 2012
+								var max = new Date().getFullYear(),
+								select = document.getElementById('comboyear');
+
+							for (var i = min; i<=max; i++){
+								var opt = document.createElement('option');
+								opt.value = i;
+								opt.innerHTML = i;
+								select.appendChild(opt);
+							}
+						</script><option value="2012" selected="selected">2012</option><option value="2013">2013</option><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option><option value="2019">2019</option><option value="2020">2020</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option>
+					</select>
+				</td>
+			</tr>
+		</tbody></table>
+		<br>
+		<span data-i18n="Total Rainfall">Niederschlagsmenge gesamt</span>: <span id="tu">-</span> <span id="munit">m3</span><br>
+		<span data-i18n="Rainiest Month">Regenreichster Monat</span>: <span id="mhigh">-</span><br>
+		<span data-i18n="Lowest Rainfall">Niedrigste Niederschlagsmenge</span>: <span id="mlow">-</span><br>
+		<span data-i18n="Rainiest Day">Regenreichster Tag</span>: <span id="vhigh">-</span><br>
+		<br>
+	</div>
+	<div id="reportviewrain" style="display:none;">
+		<table class="display myrighttable" id="reporttable" border="0" cellpadding="0" cellspacing="0" width="100%">
+			<thead>
+				<tr valign="middle">
+					<th width="30" align="right" id="ftext"></th>
+					<th width="60" align="right" data-i18n="Rainfall">Niederschlagsmenge</th>
+					<th width="40" align="right">&lt;&gt;</th>
+				</tr>
+			</thead>
+		</table>
+		<br>
+		<div id="usagegraph" style="height: 240px;"></div>
+	</div>
+
+	
+	<div class="navbar navbar-inverse navbar-fixed-top ng-scope" ng-controller="NavbarController" style="" has-user="">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand hidden-phone" id="version" href="#Dashboard"><img src="Raibach-Dateien/57.png"><h1>Domoticz</h1> <h2 id="appversion" tooltip-html="'Build Hash: &lt;b&gt;cf77af422&lt;/b&gt;&lt;br&gt;Build Date: 2024-12-02 07:54:24'" tooltip-placement="right" class="version-tooltip">2024.7 (build 16350)</h2></a>
+				<ul class="nav" id="appnavbar">
+					<li ng-show="config.EnableTabDashboard" class="divider-vertical clDashboard"></li>
+					<li ng-show="config.EnableTabDashboard" ng-class="{'current_page_item':getClass('/Dashboard')}" class="clDashboard" style=""><a id="cDashboard" href="#Dashboard"><img src="Raibach-Dateien/desktop.png"> <span class="hidden-phone hidden-tablet" data-i18n="Dashboard">Übersicht</span></a></li>
+					<li ng-show="config.EnableTabFloorplans" class="divider-vertical clFloorplans"></li>
+					<li ng-show="config.EnableTabFloorplans" ng-class="{'current_page_item':getClass('/Floorplans')}" class="clFloorplans"><a id="cFloorplans" href="#Floorplans"><img src="Raibach-Dateien/house.png"> <span class="hidden-phone hidden-tablet" data-i18n="Floorplan">Grundriss</span></a></li>
+					<li ng-show="config.EnableTabLights" class="divider-vertical clLightSwitches"></li>
+					<li ng-show="config.EnableTabLights" ng-class="{'current_page_item':getClass('/LightSwitches')}" class="clLightSwitches"><a id="cLightSwitches" href="#LightSwitches"><img src="Raibach-Dateien/lightbulb.png"> <span class="hidden-phone hidden-tablet" data-i18n="Switches">Schalter</span></a></li>
+					<li ng-show="config.EnableTabScenes" class="divider-vertical clScenes"></li>
+					<li ng-show="config.EnableTabScenes" ng-class="{'current_page_item':getClass('/Scenes')}" class="clScenes"><a id="cScenes" href="#Scenes"><img src="Raibach-Dateien/scenes.png"> <span class="hidden-phone hidden-tablet" data-i18n="Scenes">Szenarien</span></a></li>
+					<li ng-show="config.EnableTabTemp" class="divider-vertical clTemperature"></li>
+					<li ng-show="config.EnableTabTemp" ng-class="{'current_page_item':getClass('/Temperature')}" class="clTemperature"><a id="cTemperature" href="#Temperature"><img src="Raibach-Dateien/temperature.png"> <span class="hidden-phone hidden-tablet" data-i18n="Temperature">Temperatur</span></a></li>
+					<li ng-show="config.EnableTabWeather" class="divider-vertical clWeather"></li>
+					<li ng-show="config.EnableTabWeather" ng-class="{'current_page_item':getClass('/Weather')}" class="clWeather"><a id="cWeather" href="#Weather"><img src="Raibach-Dateien/rain.png"> <span class="hidden-phone hidden-tablet" data-i18n="Weather">Wetter</span></a></li>
+					<li ng-show="config.EnableTabUtility" class="divider-vertical clUtility"></li>
+					<li ng-show="config.EnableTabUtility" ng-class="{'current_page_item':getClass('/Utility')}" class="clUtility"><a id="cUtility" href="#Utility"><img src="Raibach-Dateien/utility.png"> <span class="hidden-phone hidden-tablet" data-i18n="Utility">Zähler</span></a></li>
+					<li ng-show="config.EnableTabCustom" class="divider-vertical clcustommenu"></li>
+					<li ng-show="config.EnableTabCustom" class="dropdown clcustommenu">
+						<a class="dropdown-toggle lcursor" data-toggle="dropdown" aria-expanded="false"><img src="Raibach-Dateien/devices.png"> <span class="hidden-phone hidden-tablet" data-i18n="Custom">Benutzerdefiniert</span> <b class="caret hidden-phone hidden-tablet"></b></a>
+						<ul class="dropdown-menu pull-right" id="custommenu"><li><a href="javascript:SwitchLayout('templates/plugins-manager')">plugins-manager</a></li><li><a href="javascript:SwitchLayout('templates/angular')">angular</a></li><li><a href="javascript:SwitchLayout('templates/wallbox')">wallbox</a></li><li><a href="javascript:SwitchLayout('templates/custom')">custom</a></li></ul>
+					</li>
+					<li class="divider-vertical" style="" has-permission="Admin"></li>
+					<li class="dropdown" style="" has-permission="Admin">
+						<a class="dropdown-toggle lcursor" data-toggle="dropdown" aria-expanded="false"><img src="Raibach-Dateien/setup.png"> <span class="hidden-phone hidden-tablet" data-i18n="Setup">Einrichtung</span> <b class="caret hidden-phone hidden-tablet"></b></a>
+						<ul class="dropdown-menu pull-right">
+							<li ng-class="{'current_page_item':getClass('/Hardware')}" id="mHardware"><a id="cHardware" href="#Hardware"><img src="Raibach-Dateien/hardware.png"> <span data-i18n="Hardware">Hardware</span></a></li>
+							<li ng-class="{'current_page_item':getClass('/Devices')}" id="mDevices"><a id="cDevices" href="#Devices"><img src="Raibach-Dateien/devices.png"> <span data-i18n="Devices">Geräte</span></a></li>
+							<li ng-class="{'current_page_item':getClass('/Energy')}" id="mEnergy" class="current_page_item" style=""><a id="cEnergy" href="#Energy"><img src="Raibach-Dateien/energy.png"> <span data-i18n="Energy Dashboard">Energy Dashboard</span></a></li>
+							<li ng-class="{'current_page_item':getClass('/Users')}" id="mUsers"><a id="cUsers" href="#Users"><img src="Raibach-Dateien/users.png"> <span data-i18n="Users">Users</span></a></li>
+							<li ng-class="{'current_page_item':getClass('/Setup')}" id="mSetup"><a id="cSetup" href="#Setup"><img src="Raibach-Dateien/setup.png"> <span data-i18n="Settings">Einstellungen</span></a></li>
+							<li id="dUpdate" class="divider"></li>
+							<li ng-show="config.HaveUpdate &amp;&amp; config.UseUpdate" class="ng-hide"><a href="#Update"><img src="Raibach-Dateien/update.png"> <span data-i18n="Update Domoticz">Domoticz aktualisieren</span></a></li>
+							<li ng-show="!config.HaveUpdate &amp;&amp; config.UseUpdate"><a class="lcursor" onclick="javascript:CheckForUpdate(true)"><img src="Raibach-Dateien/update.png"> <span data-i18n="Check for Update">Auf Aktualisierung prüfen</span></a></li>
+							<li class="dropdown-submenu">
+								<a id="cMoreOptions" tabindex="-1" data-i18n="More options">Weitere Optionen</a>
+								<ul class="dropdown-menu pull-left">
+									<li ng-class="{'current_page_item':getClass('/Events')}" id="mEvents"><a id="cEvents" href="#Events"><img src="Raibach-Dateien/events.png"> <span data-i18n="Events">Ereignisse</span></a></li>
+									<li class="divider"></li>
+									<li class="dropdown-submenu">
+										<a id="cPlans" tabindex="-1"><img src="Raibach-Dateien/house.png"> <span data-i18n="Plans">Pläne</span></a>
+										<ul class="dropdown-menu pull-right">
+											<li ng-class="{'current_page_item':getClass('/Roomplan')}" id="mRoomplan"><a id="cRoomplan" href="#Roomplan"> <span data-i18n="Roomplan">Raumplan</span></a></li>
+											<li ng-class="{'current_page_item':getClass('/Floorplanedit')}" id="mFloorplan"><a id="cFloorplan" href="#Floorplanedit"> <span data-i18n="Floorplan">Grundriss</span></a></li>
+											<li ng-class="{'current_page_item':getClass('/Timerplan')}" id="mTimerplan"><a id="cTimerplan" href="#Timerplan"> <span data-i18n="Timerplan">Zeitschaltplan</span></a></li>
+										</ul>
+									</li>
+									<li class="divider"></li>
+									<li ng-class="{'current_page_item':getClass('/CustomIcons')}" id="mCustomIcons"><a id="cCustomIcons" href="#CustomIcons"><img src="Raibach-Dateien/customicons.png"> <span data-i18n="Custom Icons">Benutzerdefinierte Symbole</span></a></li>
+									<li ng-class="{'current_page_item':getClass('/UserVariables')}" id="mUserVariables"><a id="cUserVariables" href="#UserVariables"><img src="Raibach-Dateien/variables.png"> <span data-i18n="User variables">Nutzervariable</span></a></li>
+									<li class="divider"></li>
+									<li class="dropdown-submenu">
+										<a id="cDataPush" tabindex="-1"><img src="Raibach-Dateien/contact.png"> <span data-i18n="Data push">Daten-Push</span></a>
+										<ul class="dropdown-menu pull-right">
+											<li ng-class="{'current_page_item':getClass('/DPInflux')}" id="mDPInflux"><a id="cDPInflux" href="#DPInflux"> <span>InfluxDB</span></a></li>
+											<li ng-class="{'current_page_item':getClass('/DPMQTT')}" id="mDPMQTT"><a id="cDPMQTT" href="#DPMQTT"> <span>MQTT</span></a></li>
+											<li ng-class="{'current_page_item':getClass('/DPFibaro')}" id="mDPFibaro"><a id="cDPFibaro" href="#DPFibaro"> <span data-i18n="FibaroLink">Fibaro-Link</span></a></li>
+											<li ng-class="{'current_page_item':getClass('/DPHttp')}" id="mDPHttp"><a id="cDPHttp" href="#DPHttp"> <span data-i18n="HTTP">HTTP</span></a></li>
+											<li ng-class="{'current_page_item':getClass('/DPGooglePubSub')}" id="mDPGooglePubSub"><a id="cDPGooglePubSub" href="#DPGooglePubSub"> <span data-i18n="GooglePubSub">GooglePubSub</span></a></li>
+										</ul>
+									</li>
+									<li class="divider"></li>
+									<li ng-class="{'current_page_item':getClass('/Cam')}" id="mCam"><a id="cCam" href="#Cam"><img src="Raibach-Dateien/camera-web.png"> <span data-i18n="Cameras">Kameras</span></a></li>
+									<li id="mSecurity"><a id="cSecurity" href="http://192.168.2.23/secpanel/index.html#de"><img src="Raibach-Dateien/security.png"> <span data-i18n="SecurityPanel">Sicherheits-Pad</span></a></li>
+									<li ng-class="{'current_page_item':getClass('/Notification')}" id="mNotification"><a id="cNotification" href="#Notification"><img src="Raibach-Dateien/notification.png"> <span data-i18n="Send Notification">Benachrichtigung senden</span></a></li>
+									<li class="divider"></li>
+									<li ng-class="{'current_page_item':getClass('/Applications')}" id="mApplications"><a id="cApplications" href="#Applications"><img src="Raibach-Dateien/customicons.png"> <span data-i18n="Applications">Applications</span></a></li>
+									<li ng-class="{'current_page_item':getClass('/Mobile')}" id="mMobile"><a id="cMobile" href="#Mobile"><img src="Raibach-Dateien/customicons.png"> <span data-i18n="Mobile Devices">Mobilgeräte</span></a></li>
+									<li class="divider"></li>
+									<li id="mRestart"><a id="cRestart" href="javascript:SwitchLayout('Restart')"><img src="Raibach-Dateien/restart.png"> <span data-i18n="Restart System">System neu starten</span></a></li>
+									<li id="mShutdown"><a id="cShutdown" href="javascript:SwitchLayout('Shutdown')"><img src="Raibach-Dateien/shutdown.png"> <span data-i18n="Shutdown System">System herunterfahren</span></a></li>
+								</ul>
+							</li>
+							<li class="divider"></li>
+							<li ng-class="{'current_page_item':getClass('/Log')}" id="mLog"><a id="cLog" href="#Log"><img src="Raibach-Dateien/log.png"> <span data-i18n="Log">Protokoll</span></a></li>
+							<li class="divider"></li>
+							<li ng-class="{'current_page_item':getClass('/MyProfile')}" id="mProfile"><a id="cProfile" href="#MyProfile"><img src="Raibach-Dateien/users.png"> <span data-i18n="My Profile">My Profile</span></a></li>
+							<li ng-class="{'current_page_item':getClass('/About')}" id="mAbout"><a id="cAbout" href="#About"><img src="Raibach-Dateien/about.png"> <span data-i18n="About">Über</span></a></li>
+							<li id="dLogoutSetup" class="divider" style="" has-login="true"></li>
+							<li id="mLogoutSetup" style="" has-login="true"><a id="cLogout" href="#Logout"><img src="Raibach-Dateien/logout.png"> <span data-i18n="Logout">Abmeldung</span></a></li>
+						</ul>
+					</li>
+					<li id="dLogout" class="divider-vertical" style="display: none;" has-login-no-admin="true"></li>
+					<li id="mLogout" style="display: none;" has-login-no-admin="true">
+						<a class="dropdown-toggle lcursor" data-toggle="dropdown"><img src="Raibach-Dateien/users.png"> <span class="hidden-phone hidden-tablet" data-i18n="Profile">Profile</span> <b class="caret hidden-phone hidden-tablet"></b></a>
+						<ul class="dropdown-menu pull-right">
+							<li ng-class="{'current_page_item':getClass('/Energy')}" id="mEnergy" class="current_page_item" style=""><a id="cEnergy" href="#Energy"><img src="Raibach-Dateien/energy.png"> <span data-i18n="Energy Dashboard">Energy Dashboard</span></a></li>
+							<li ng-class="{'current_page_item':getClass('/MyProfile')}" id="mProfile"><a id="cProfile" href="#MyProfile"><img src="Raibach-Dateien/users.png"> <span data-i18n="My Profile">My Profile</span></a></li>
+							<li ng-class="{'current_page_item':getClass('/About')}" id="mAbout"><a id="cAbout" href="#About"><img src="Raibach-Dateien/about.png"> <span data-i18n="About">Über</span></a></li>
+							<li id="dLogoutSetup" class="divider" style="" has-login="true"></li>
+							<li id="mLogoutSetup" style="" has-login="true"><a id="cLogout" href="#Logout"><img src="Raibach-Dateien/logout.png"> <span data-i18n="Logout">Abmeldung</span></a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="holder">
+		<div class="container-fluid">
+			<div alertarea="" class="ng-isolate-scope"><div class="alerts" style="position: absolute; right: 10px;" ng-shw="messages.length&gt;0"><!-- ngRepeat: m in messages --></div></div>
+			<div id="notification" style="display: none;"></div>
+			<div class="bannercontent">
+				<!-- ngView: --><div id="main-view" ng-view="" class="ng-scope" style=""><!--
+History:
+ v1.16 2024-10-26
+	- Adjusted Text object clipping
+	- Main view enlarged a bit
+
+ v1.15 2024-07-010
+	- Now possible to use without PV system
+
+ v1.14 2024-07-07
+	- Replaced circle rects with circles
+
+ v1.13 2024-06-15
+	- Added Solar Price
+
+ v1.12 2024-06-14
+	- Added support for custom icons (enable via settings)
+
+ v1.11 2024-06-09
+	- Added CounterToday for custom widgets
+	- Renamed isP1Meter -> idP1
+	- Renamed idBattSetpoint -> idBattWatt
+	- Auto detecten of Water units (M3 vs Liter)
+	- GridToBatt animation fixed
+	- Implemented nativly into Domoticz
+
+ v1.10 2024-06-08
+	- It is now also possible to use a kWh sensor for idBattSetpoint
+	- Added prices for Water/Gas and custom widgets
+	- Decreased font size of custom widgets a little bit
+
+ v1.9 2024-06-07
+	- Fixed Solar to Home
+
+ v1.8 2024-06-07
+	- Option to choose 5 different icons for the 3 extra widgets
+	- Using a styles for icon/text colors
+	- Optimized SVG/Code
+
+ v1.7 2024-06-06
+	- Added 3 extra widgets
+
+ v1.6 2024-06-06
+	- Real-time updates (Requires Domoticz version 16032 or higher)
+	- Removed all blocking remote queries
+	- Fixed Battery to Home did not add value to home usage
+	- Added costs to grid widget (needs dynamic energy prices configured in Domoticz meter settings)
+	- Added option for displaying server time/sunrise/sunset
+
+ v1.5 2024-06-05
+	- Dynamic battery icon
+	- Keep annimation consistent if speed does not change
+
+ v1.4 2024-06-05
+	- Rebuild to AngularJS
+	- Now possible to use a Water meter without a Gas meter in small mode
+   
+ v1.3 2024-06-04
+	- Add extra return power to Solar (To fix update frequency) (GizMoCuz)
+	- Gas/Water items smaller
+
+ v1.2 2024-06-01
+	- Added Battery SVG objects and code (GizMoCuz)
+ 
+ v1.1 2024-05-31
+	- Changed deprecated api url and corrected it to "/json.htm?type=command&param=getdevices&rid="
+	- idGas en idSolar can be set to -1 when not used.
+
+ v1.0 2024-05-18
+	- First version. (MeneerKlaas)
+   
+========================================================   
+-->
+
+<style type="text/css" class="ng-scope">
+#emain {
+	background: #eee;
+	border-color: #888;
+	border-radius: 1vw;
+	border-style: solid;
+	border-width: 3px;
+	text-align: center;
+	width: calc(100vw - 50px); 
+	height: calc(100vh - 110px);
+	margin: 0 auto auto auto;
+}
+
+#eicon {
+	fill: black;
+}
+
+#etext, #ltext {
+	fill: #222;
+}
+</style>
+<div id="dashcontent" class="force-select ng-scope">
+	<div id="emain">
+		<svg width="100%" height="100%" version="1.1" ng-attr-view_box="{{viewBox}}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 71.5 60">
+			<style>
+				#SolarToGrid-flow, #SolarToHome-flow, #BattNet-flow, #BattHome-flow, #GridToHome-flow, #SolarToBatt-flow {
+					stroke-dasharray: 1; 
+					stroke-dashoffset: 10;
+				}
+				#ltext {
+					clip-path: url(#pfad);
+				}
+				@keyframes flow {
+					100% {
+						stroke-dashoffset: 0;
+					}
+				}
+			</style>
+			<defs>
+				<filter id="SaturateBW" filterUnits="objectBoundingBox" x="0%" y="0%" width="100%" height="100%">
+					<feColorMatrix type="saturate" in="SourceGraphic" values="0.0"></feColorMatrix>
+				</filter>
+				<filter id="SingleColor" color-interpolation-filters="sRGB">
+				  <feColorMatrix type="matrix" values="0 0 0 0 .0  0 0 0 0 .0  0 0 0 0 .0  0 0 0 1 0"></feColorMatrix>
+				</filter>
+			</defs>
+			<g id="groupText" ng-show="txtObjText" class="ng-hide">
+				<defs>
+					<clipPath id="pfad">
+						<rect x="0" y="3" width="21" height="19.2"></rect>
+					</clipPath>
+				</defs>
+				<text id="ltext" x="1" y="5.2" font-size="1.0px" text-anchor="left" dy="0" style="font-weight: normal; white-space: pre;"><tspan x="1" dy="1.2em"></tspan>
+</text>
+			</g>
+			<text id="etext" x="46" y="6" opacity="0.35" font-size="2.0px" text-anchor="center" dy="0" style="font-weight: normal; white-space: pre;" ng-show="ServerTime" class="ng-binding ng-hide"></text>
+			<text id="etext" x="46" y="7.5" opacity="0.5" font-size="1.0px" text-anchor="center" dy="0" style="font-weight: normal; white-space: pre;" ng-show="SunRise" class="ng-binding ng-hide">↑ ↓</text>
+			<g id="groupBatt" ng-show="idBattWatt != -1" class="" style="">
+				<g id="eicon" ng-show="!customIconBatt">
+					<g transform="matrix(0.010083, 0, 0, 0.008335, 27.65, 45.2)">
+						<path d="m 319.089 27.221 h -36.475 v -27.221 h -95.27 v 27.221 h -34.607 c -22.517 0 -40.829 18.317 -40.829 40.832 v 362.946 c 0 22.51 18.317 40.83 40.829 40.83 h 166.352 c 22.524 0 40.832 -18.32 40.832 -40.83 v -362.947 c 0 -22.514 -18.308 -40.831 -40.832 -40.831 z m 13.616 403.781 c 0 7.501 -6.108 13.607 -13.616 13.607 h -166.352 c -7.501 0 -13.608 -6.095 -13.608 -13.607 v -362.95 c 0 -7.501 6.107 -13.611 13.608 -13.611 h 166.352 c 7.508 0 13.616 6.109 13.616 13.611 v 362.95 z"></path>
+					</g>
+					<g id="batt_5" transform="matrix(0.010083, 0, 0, 0.008335, 31, 46.3)" ng-show="fBattSoc&gt;=85" class="ng-hide">
+						<path d="m -14.843 -2.502 h -163.896 v -59.719 h 163.896 v 59.719 z"></path>
+					</g>
+					<g id="batt_4" transform="matrix(0.010083, 0, 0, 0.008335, 31, 46.92)" ng-show="fBattSoc&gt;=65" class="ng-hide">
+						<path d="m -14.843 -2.502 h -163.896 v -59.719 h 163.896 v 59.719 z"></path>
+					</g>
+					<g id="batt_4" transform="matrix(0.010083, 0, 0, 0.008335, 31, 47.55)" ng-show="fBattSoc&gt;=45" class="ng-hide">
+						<path d="m -14.843 -2.502 h -163.896 v -59.719 h 163.896 v 59.719 z"></path>
+					</g>
+					<g id="batt_2" transform="matrix(0.010083, 0, 0, 0.008335, 31, 48.18)" ng-show="fBattSoc&gt;=25" class="ng-hide">
+						<path d="m -14.843 -2.502 h -163.896 v -59.719 h 163.896 v 59.719 z"></path>
+					</g>
+					<g id="batt_1" transform="matrix(0.010083, 0, 0, 0.008335, 31, 48.8)" ng-show="fBattSoc&gt;5" class="ng-hide">
+						<path d="m -14.843 -2.502 h -163.896 v -59.719 h 163.896 v 59.719 z"></path>
+					</g>
+				</g>
+				<g transform="matrix(0.075, 0, 0, 0.075, 28.2, 45)" ng-show="customIconBatt" class="ng-hide">
+					<image width="48" height="48" xlink:href=""></image>
+				</g>
+				<line id="SolarToBatt" x1="30" y1="17" x2="30" y2="43" style="stroke: rgb(255, 208, 80); stroke-width: 0.2px;" ng-show="idSolar != -1" class=""></line>
+				<g ng-show="fSolarToBatt&gt;0" class="ng-hide">
+					<line id="SolarToBatt-flow" x1="30" y1="17" x2="30" y2="43" style="stroke: red; stroke-width: 0.2px;" ng-show="flowAsLines" class="ng-hide"></line>
+					<ellipse ng-show="!flowAsLines" style="fill: rgb(239, 192, 64); fill-opacity: 1;" cx="0" cy="0" rx="0.4" ry="0.4" class="">
+						<animateMotion id="SolarToBatt-sphere" keyTimes="0;1" calcMode="linear" dur="2s" path="m 30 17 L 30 43" repeatCount="indefinite"></animateMotion>
+					</ellipse>
+					<g transform="translate(30.5, 29.2)">
+						<text id="etext" opacity="0.6" font-size="1.1px" text-anchor="end" transform="rotate(90)" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre;" class="ng-binding">0 Watt</text>
+					</g>
+				</g>
+				<path id="BattNet" fill="none" d="m29 43c0 -9 -2 -11 -12 -12" stroke="#a0f0a0" stroke-width="0.2"></path>
+				<g ng-show="fBattToNet!=0" class="ng-hide" style="">
+					<path id="BattNet-flow" fill="none" d="m29 43c0 -9 -2 -11 -12 -12" stroke="#f00" stroke-linecap="round" stroke-width=".2" ng-show="flowAsLines" class="ng-hide" style=""></path>
+					<ellipse ng-show="!flowAsLines" style="fill: rgb(144, 224, 144); fill-opacity: 1;" cx="0" cy="0" rx="0.4" ry="0.4" class="">
+						<animateMotion id="BattNet-sphere" keyTimes="0;1" calcMode="linear" dur="2s" path="m29 43c0 -9 -2 -11 -12 -12" repeatCount="indefinite"></animateMotion>
+					</ellipse>
+					<text id="etext" x="26" y="35" opacity="0.6" font-size="1.1px" text-align="end" text-anchor="end" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre;" class="ng-binding">0 Watt</text>
+				</g>
+				<path id="BattHome" fill="none" d="m31 43c0 -9 2 -11 12 -12" stroke="#a0f0a0" stroke-width="0.2"></path>
+				<g ng-show="fBattToHome&gt;0" class="ng-hide">
+					<text id="etext" x="34" y="35" opacity="0.6" font-size="1.1px" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre;" class="ng-binding">0 Watt</text>
+					<path id="BattHome-flow" fill="none" d="m31 43c0 -9 2 -11 12 -12" stroke="#f00" stroke-linecap="round" stroke-width=".2" ng-show="flowAsLines" class="ng-hide" style=""></path>
+					<ellipse ng-show="!flowAsLines" style="fill: rgb(144, 224, 144); fill-opacity: 1;" cx="0" cy="0" rx="0.4" ry="0.4" class="">
+						<animateMotion id="BattHome-sphere" keyTimes="0;1" calcMode="linear" dur="5" path="m31 43c0 -9 2 -11 12 -12" repeatCount="indefinite" keyPoints="0;1"></animateMotion>
+					</ellipse>
+				</g>
+				
+				<text id="etext" x="30" y="51.7" font-size="2.1px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; font-weight: bold; white-space: pre;" class="ng-binding">0%</text>
+				<text id="etext" x="30" y="54" font-size="1.6px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; font-weight: bold; white-space: pre;" class="ng-binding">0 Watt</text>
+				<circle r="7" cx="30" cy="50" fill="none" stroke="#90e090" stroke-width=".3"></circle>
+			</g>
+			<g id="groupSolar" ng-show="idSolar != -1" class="">
+				<g id="eicon" transform="matrix(0.0095, 0, 0, 0.0095, 27, 4.5)" ng-show="!customIconSolar">
+					<path d="M77.604,241.753l10.047-41.623c-21.697-9.842-38.879-39.91-38.879-65.383c0-40.4,32.761-73.162,73.162-73.162
+						c31.978,0,59.097,20.563,69.049,49.153h28.136c4.574-7.435,17.672-17.408,15.484-22.67c-2.766-6.681-27.566-1.566-31.546-7.515
+						c-4.003-5.979,10.172-26.951,5.1-32.022c-5.078-5.078-26.05,9.104-32.029,5.093c-5.941-3.973-0.834-28.788-7.508-31.553
+						c-6.572-2.722-20.497,18.396-27.639,16.984c-6.922-1.368-11.723-26.241-19.048-26.241c-7.325,0-12.126,24.873-19.048,26.241
+						c-7.134,1.412-21.06-19.706-27.631-16.977c-6.681,2.766-1.566,27.566-7.515,31.546c-5.979,4.003-26.951-10.171-32.022-5.1
+						c-5.078,5.078,9.104,26.05,5.101,32.029c-3.98,5.942-28.788,0.834-31.561,7.508c-2.722,6.572,18.397,20.504,16.984,27.639
+						C24.873,122.622,0,127.423,0,134.747c0,7.325,24.873,12.126,26.242,19.048c1.412,7.134-19.707,21.06-16.977,27.631
+						c2.766,6.681,27.565,1.566,31.546,7.515c4.003,5.979-10.171,26.951-5.1,32.022c5.078,5.078,26.05-9.104,32.029-5.101
+						C71.464,218.358,76.938,233.447,77.604,241.753z"></path>
+					<path d="M66.144,349.022H512l-52.453-217.304h-340.95L66.144,349.022z M473.934,319.049H367.579L361.3,251.61h96.351
+						L473.934,319.049z M435.948,161.691l16.282,67.439h-93.022l-6.271-67.439H435.948z M247.644,161.691h82.718l6.278,67.439h-95.275
+						L247.644,161.691z M239.272,251.61h99.46l6.271,67.439H233.001L239.272,251.61z M142.204,161.691h82.865l-6.271,67.439h-92.876
+						L142.204,161.691z M216.705,251.61l-6.279,67.439H104.218L120.5,251.61H216.705z"></path>
+					<polygon points="83.634,394.479 494.511,394.479 512,359.508 66.144,359.508 	"></polygon>
+					<polygon points="311.702,408.668 266.449,408.668 264.02,448.271 218.358,470.897 218.358,499.187 359.794,499.187 
+						359.794,470.897 314.131,448.271 	"></polygon>
+				</g>
+				<g transform="matrix(0.075, 0, 0, 0.075, 28.2, 5)" ng-show="customIconSolar" class="ng-hide">
+					<image width="48" height="48" xlink:href=""></image>
+				</g>
+				<text x="10" y="31" fill="#ba88ff" font-size="1.6px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre;" ng-show="!P1InkWh" class="ng-binding">⇦ 0.000 kWh</text>
+				<path id="SolarToGrid" fill="none" d="m29 17c0 9-2 11-12 12" stroke="#ffd050" stroke-width="0.2"></path>
+				<g ng-show="fSolarToGrid&gt;0" class="ng-hide">
+					<path id="SolarToGrid-flow" fill="none" d="m29 17c0 9-2 11-12 12" stroke="#f00" stroke-linecap="round" stroke-width=".2" ng-show="flowAsLines" class="ng-hide" style=""></path>
+					<ellipse ng-show="!flowAsLines" style="fill: rgb(239, 192, 64); fill-opacity: 1;" cx="0" cy="0" rx="0.4" ry="0.4" class="">
+						<animateMotion id="SolarToGrid-sphere" keyTimes="0;1" calcMode="linear" dur="5" path="m29 17c0 9-2 11-12 12" repeatCount="indefinite" keyPoints="0;1"></animateMotion>
+					</ellipse>
+					<text id="etext" x="26" y="25.5" opacity="0.6" font-size="1.1px" text-align="end" text-anchor="end" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre;" class="ng-binding">0 Watt</text>
+				</g>
+
+				<path id="SolarToHome" fill="none" d="m31 17c0 9 2 11 12 12" stroke="#ffd050" stroke-width="0.2"></path>
+				<g ng-show="fSolarToHome&gt;0" class="ng-hide">
+					<text id="etext" x="34" y="25.5" opacity="0.6" font-size="1.1px" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre;" class="ng-binding">0 Watt</text>
+					<path id="SolarToHome-flow" fill="none" d="m31 17c0 9 2 11 12 12" stroke="#f00" stroke-linecap="round" stroke-width=".2" ng-show="flowAsLines" class="ng-hide" style=""></path>
+					<ellipse ng-show="!flowAsLines" style="fill: rgb(239, 192, 64); fill-opacity: 1;" cx="0" cy="0" rx="0.4" ry="0.4" class="">
+						<animateMotion id="SolarToHome-sphere" keyTimes="0;1" calcMode="linear" dur="5" path="m31 17c0 9 2 11 12 12" repeatCount="indefinite" keyPoints="0;1"></animateMotion>
+					</ellipse>
+				</g>
+				<g>
+					<text id="etext" x="30" y="11.5" font-size="1.6px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre;" class="ng-binding">0.000 kWh</text>
+					<text id="etext" x="30" y="14" font-size="1.6px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; font-weight: bold; white-space: pre;" class="ng-binding">0 Watt</text>
+					<text id="etext" x="30" y="15.8" opacity="0.4" font-size="1.2px" text-anchor="middle" style="white-space: pre;" ng-show="solarPrice!=1000" class="ng-binding ng-hide">1,000.00 €</text>
+				</g>
+				<circle r="7" cx="30" cy="10" fill="none" stroke="#ffd000" stroke-width=".3"></circle>
+
+			</g>
+			<line id="lineRT1" x1="50" y1="19" x2="50" y2="23" style="stroke:#777;stroke-width:0.2" ng-show="bDisplayRT1" class=""></line>
+			<line id="lineRB1" x1="50" y1="37" x2="50" y2="41" style="stroke:#777;stroke-width:0.2" ng-show="bDisplayRB1" class=""></line>
+			<g id="groupGas" ng-show="idGas != -1" class="">
+				<g transform="matrix(0.12, 0, 0, 0.12, 48, 10.5)" ng-show="!customIconGas">
+					<path id="eicon" d="M27.588 19.604q1.297 6.002-4.072 10.285-1.659 1.297-3.951 2.021-0.362 0.090-0.392 0.090 1.96-0.754 3.499-2.564 1.598-1.87 1.764-4.177t-1.041-4.358q-1.297-2.232-3.876-6.168t-3.484-5.384l-0.030 0.030q0-0.030-0.030-0.030-0.905 1.448-3.484 5.384t-3.876 6.168q-1.206 2.051-1.041 4.358t1.764 4.177q1.538 1.81 3.499 2.564-0.030 0-0.392-0.090-2.262-0.694-3.951-2.021-5.399-4.313-4.072-10.285 0.603-2.624 2.745-5.911 0.754-1.206 3.318-5.052t3.861-5.987q0.271-0.483 1.659-2.654 1.387 2.172 1.659 2.654 1.327 2.232 4.087 6.379t3.091 4.66q2.172 3.408 2.745 5.911zM19.596 28.2q-1.478 1.87-3.589 1.9-2.081-0.030-3.619-1.9-1.749-2.202-0.392-4.795 0.905-1.659 4.011-6.877 3.016 5.097 3.981 6.877 1.387 2.594-0.392 4.795z"></path>
+				</g>
+				<g transform="matrix(0.075, 0, 0, 0.075, 48.3, 10.5)" ng-show="customIconGas" class="ng-hide">
+					<image width="48" height="48" xlink:href=""></image>
+				</g>
+				<text id="etext" x="50" y="16.4" font-size="1.6px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre; font-weight: bold;" class="ng-binding">-</text>
+				<circle r="5" cx="50" cy="14" fill="none" stroke="#e06040" stroke-width=".3"></circle>
+				<text id="etext" x="50" y="17.9" opacity="0.4" font-size="1.2px" text-anchor="middle" style="white-space: pre;" ng-show="gasPrice!=1000" class="ng-binding ng-hide">1,000.00 €</text>
+			</g>
+			<g id="groupWater" ng-attr-transform="{{ water_transform }}" ng-show="idWater!=-1" transform="matrix(1, 0, 0, 1, 0, 0)" class="">
+				<g id="eicon" transform="matrix(0.25, 0, 0, 0.25, 48.55, 42.5)" ng-show="!customIconWater">
+					<path d="M11.08,6.06,6.58.19a.52.52,0,0,0-.8,0L1.28,6.06a6.18,6.18,0,1,0,10.44,6.49A6.13,6.13,0,0,0,11.08,6.06Zm-.26,6A5.07,5.07,0,0,1,6.18,15,5.08,5.08,0,0,1,1.54,12.1a5.08,5.08,0,0,1,.53-5.43L6.18,1.31l4.11,5.36A5.08,5.08,0,0,1,10.82,12.1ZM10.18,10a4,4,0,0,1-4,4,.5.5,0,0,1,0-1,3,3,0,0,0,3-3,.5.5,0,0,1,1,0Z"></path>
+				</g>
+				<g transform="matrix(0.075, 0, 0, 0.075, 48.3, 42.5)" ng-show="customIconWater" class="ng-hide">
+					<image width="48" height="48" xlink:href=""></image>
+				</g>
+				<text id="etext" x="50" y="48.4" font-size="1.6px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre; font-weight: bold;" class="ng-binding">-</text>
+				<circle r="5" cx="50" cy="46" fill="none" stroke="#80c0f0" stroke-width=".3"></circle>
+				<text id="etext" x="50" y="49.9" opacity="0.4" font-size="1.2px" text-anchor="middle" style="white-space: pre;" ng-show="waterPrice!=1000" class="ng-binding ng-hide">1,000.00 €</text>
+			</g>
+			<g id="groupH1" transform="matrix(1, 0, 0, 1, 54.5, 15)" ng-show="idItemH1 != -1" class="">
+				<g id="eicon" transform="matrix(1, 0, 0, 1, 0, 0)" ng-show="!customIconH1">
+					<path ng-attr-d="{{ iconItemH1 }}" d="m6.5216 2.8645-.2976-.2765-.264-.528a.252.252 90 00-.216-.12h-1.488a.252.252 90 00-.216.12l-.264.528-.2976.2765a.12.12 90 00-.0384.0881v1.0274a.12.12 90 00.12.12h.48c.048 0 .12-.048.12-.096v-.144h1.68v.12c0 .048.048.12.096.12h.504a.12.12 90 00.12-.12v-1.0274a.12.12 90 00-.0384-.0881zm-2.2416-.6845h1.44l.24.48h-1.92zm.12 1.104c0 .048-.072.096-.12.096h-.504c-.048 0-.096-.072-.096-.12v-.264c.024-.072.072-.12.144-.096l.48.096c.048 0 .096.072.096.12zm1.92-.024c0 .048-.048.12-.096.12h-.504c-.048 0-.12-.048-.12-.096v-.168c0-.048.048-.12.096-.12l.48-.096c.072-.024.12.024.144.096z"></path>
+				</g>
+				<g transform="matrix(0.075, 0, 0, 0.075, 3.3, 1)" ng-show="customIconH1" class="ng-hide">
+					<image width="48" height="48" xlink:href=""></image>
+				</g>
+				<line x1="0" y1="9.7" x2="1.5" y2="8.4" style="stroke:#777;stroke-width:0.2"></line>
+				
+				<text id="etext" x="5" y="5.7" opacity="0.6" font-size="1.0px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre; font-weight: bold;" ng-show="txtKwhItemH1" class="ng-binding ng-hide"></text>
+				<text id="etext" x="5" y="7.2" font-size="1.5px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre; font-weight: bold;" class="ng-binding"></text>
+				<text id="etext" x="5" y="8.7" opacity="0.4" font-size="1.2px" text-anchor="middle" style="white-space: pre;" ng-show="h1Price!=1000" class="ng-binding ng-hide">1,000.00 €</text>
+				<circle r="5" cx="5" cy="5" fill="none" stroke="#668044" stroke-width=".3"></circle>
+			</g>
+			<g id="groupH2" transform="matrix(1, 0, 0, 1, 59, 25)" ng-show="idItemH2 != -1" class="">
+				<g id="eicon" transform="matrix(1, 0, 0, 1, 0, 0)" ng-show="!customIconH2">
+					<path ng-attr-d="{{ iconItemH2 }}" d="m6.5216 2.8645-.2976-.2765-.264-.528a.252.252 90 00-.216-.12h-1.488a.252.252 90 00-.216.12l-.264.528-.2976.2765a.12.12 90 00-.0384.0881v1.0274a.12.12 90 00.12.12h.48c.048 0 .12-.048.12-.096v-.144h1.68v.12c0 .048.048.12.096.12h.504a.12.12 90 00.12-.12v-1.0274a.12.12 90 00-.0384-.0881zm-2.2416-.6845h1.44l.24.48h-1.92zm.12 1.104c0 .048-.072.096-.12.096h-.504c-.048 0-.096-.072-.096-.12v-.264c.024-.072.072-.12.144-.096l.48.096c.048 0 .096.072.096.12zm1.92-.024c0 .048-.048.12-.096.12h-.504c-.048 0-.12-.048-.12-.096v-.168c0-.048.048-.12.096-.12l.48-.096c.072-.024.12.024.144.096z"></path>
+				</g>
+				<g transform="matrix(0.075, 0, 0, 0.075, 3.3, 1)" ng-show="customIconH2" class="ng-hide">
+					<image width="48" height="48" xlink:href=""></image>
+				</g>
+				<line x1="-2" y1="5" x2="0" y2="5" style="stroke:#777;stroke-width:0.2"></line>
+				<text id="etext" x="5" y="5.7" opacity="0.6" font-size="1.0px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre; font-weight: bold;" ng-show="txtKwhItemH2" class="ng-binding ng-hide"></text>
+				<text id="etext" x="5" y="7.2" font-size="1.5px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre; font-weight: bold;" class="ng-binding"></text>
+				<text id="etext" x="5" y="8.7" opacity="0.4" font-size="1.2px" text-anchor="middle" style="white-space: pre;" ng-show="h2Price!=1000" class="ng-binding ng-hide">1,000.00 €</text>
+				<circle r="5" cx="5" cy="5" fill="none" stroke="#668044" stroke-width=".3"></circle>
+			</g>
+			<g id="groupH3" transform="matrix(1, 0, 0, 1, 54.5, 35)" ng-show="idItemH3 != -1" class="">
+				<g id="eicon" transform="matrix(1, 0, 0, 1, 0, 0)" ng-show="!customIconH3">
+					<path ng-attr-d="{{ iconItemH3 }}" d="m6.5216 2.8645-.2976-.2765-.264-.528a.252.252 90 00-.216-.12h-1.488a.252.252 90 00-.216.12l-.264.528-.2976.2765a.12.12 90 00-.0384.0881v1.0274a.12.12 90 00.12.12h.48c.048 0 .12-.048.12-.096v-.144h1.68v.12c0 .048.048.12.096.12h.504a.12.12 90 00.12-.12v-1.0274a.12.12 90 00-.0384-.0881zm-2.2416-.6845h1.44l.24.48h-1.92zm.12 1.104c0 .048-.072.096-.12.096h-.504c-.048 0-.096-.072-.096-.12v-.264c.024-.072.072-.12.144-.096l.48.096c.048 0 .096.072.096.12zm1.92-.024c0 .048-.048.12-.096.12h-.504c-.048 0-.12-.048-.12-.096v-.168c0-.048.048-.12.096-.12l.48-.096c.072-.024.12.024.144.096z"></path>
+				</g>
+				<g transform="matrix(0.075, 0, 0, 0.075, 3.3, 1)" ng-show="customIconH3" class="ng-hide">
+					<image width="48" height="48" xlink:href=""></image>
+				</g>
+				<line x1="0" y1="0.2" x2="1.3" y2="1.4" style="stroke:#777;stroke-width:0.2"></line>
+				<text id="etext" x="5" y="5.7" opacity="0.6" font-size="1.0px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre; font-weight: bold;" ng-show="txtKwhItemH3" class="ng-binding ng-hide"></text>
+				<text id="etext" x="5" y="7.2" font-size="1.5px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre; font-weight: bold;" class="ng-binding"></text>
+				<text id="etext" x="5" y="8.7" opacity="0.4" font-size="1.2px" text-anchor="middle" style="white-space: pre;" ng-show="h3Price!=1000" class="ng-binding ng-hide">1,000.00 €</text>
+				<circle r="5" cx="5" cy="5" fill="none" stroke="#668044" stroke-width=".3"></circle>
+			</g>
+			<g id="groupHome">
+				<g id="eicon" transform="matrix(0.07, 0, 0, 0.07, 48, 24.5)" ng-show="!useCustomIcons">
+					<path id="pathIconHome" d="M 12.6251 52.6445 L 43.3986 52.6445 C 46.7267 52.6445 48.6722 50.7695 48.6722 47.4648 L 48.6722 26.0664 L 51.6952 28.8320 C 52.1877 29.3008 52.7267 29.6289 53.3829 29.6289 C 54.4845 29.6289 55.3749 28.9492 55.3749 27.8242 C 55.3749 27.1211 55.1171 26.6758 54.6722 26.2774 L 46.5391 18.8476 L 46.5391 5.0430 C 46.5391 4.0117 45.8829 3.3555 44.8519 3.3555 L 41.7813 3.3555 C 40.7735 3.3555 40.0704 4.0117 40.0704 5.0430 L 40.0704 12.9648 L 30.8126 4.5274 C 29.9923 3.7774 29.0079 3.3555 28.0001 3.3555 C 26.9923 3.3555 26.0079 3.7774 25.1876 4.5274 L 1.3282 26.2774 C .9064 26.6758 .6251 27.1211 .6251 27.8242 C .6251 28.9492 1.5157 29.6289 2.6173 29.6289 C 3.2970 29.6289 3.8360 29.3008 4.3048 28.8320 L 7.3282 26.0898 L 7.3282 47.4648 C 7.3282 50.7695 9.2735 52.6445 12.6251 52.6445 Z M 34.7501 33.3086 C 34.7501 32.2305 34.0470 31.5508 32.9689 31.5508 L 23.0313 31.5508 C 21.9532 31.5508 21.2267 32.2305 21.2267 33.3086 L 21.2267 48.8711 L 13.4220 48.8711 C 11.9220 48.8711 11.1017 48.0508 11.1017 46.5273 L 11.1017 22.6445 L 27.1798 7.9961 C 27.4142 7.7617 27.6954 7.6211 28.0001 7.6211 C 28.3048 7.6211 28.5860 7.7383 28.8439 7.9961 L 44.8984 22.6445 L 44.8984 46.5273 C 44.8984 48.0508 44.0781 48.8711 42.6017 48.8711 L 34.7501 48.8711 Z"></path>
+				</g>
+				<g transform="matrix(0.075, 0, 0, 0.075, 48.3, 24.6)" ng-show="useCustomIcons" class="ng-hide">
+					<image width="48" height="48" xlink:href="Raibach-Dateien/EHome48.png"></image>
+				</g>
+				<line id="GridToHome" x1="17" y1="30" x2="43" y2="30" style="stroke:#10d6ea;stroke-width:0.2"></line>
+				<g ng-show="fGridToHome&gt;0" class="ng-hide">
+					<line id="GridToHome-flow" x1="17" y1="30" x2="43" y2="30" style="stroke: red; stroke-width: 0.2px;" ng-show="flowAsLines" class="ng-hide"></line>
+					<ellipse ng-show="!flowAsLines" style="fill: rgb(0, 198, 218); fill-opacity: 1;" cx="0" cy="0" rx="0.4" ry="0.4" class="">
+						<animateMotion id="GridToHome-sphere" keyTimes="0;1" calcMode="linear" dur="5" path="m 17 30 L 43 30" repeatCount="indefinite" keyPoints="0;1"></animateMotion>
+					</ellipse>
+					
+					<text id="etext" x="30.5" y="31.5" opacity="0.6" font-size="1.1px" text-anchor="start" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre;" class="ng-binding">0 Watt</text>
+				</g>
+				<text id="etext" x="50" y="30.5" font-size="1.6px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre;" class="ng-binding">0.000 kWh</text>
+				<text id="etext" x="50" y="33" font-size="1.6px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; font-weight: bold; white-space: pre;" class="ng-binding">0 Watt</text>
+				<circle r="7" cx="50" cy="30" fill="none" stroke="#ff7bff" stroke-width=".3"></circle>
+			</g>
+			<g id="groupNet">
+				<g id="eicon" transform="matrix(0.006, 0, 0, 0.007, 8.6, 24)" ng-show="!customIconGrid">
+					<path d="M456.855,72.488L290.673,0h-124.49L0,72.488v62.348h149.276l-85.707,292.02H0.928v30h455v-30h-62.641l-85.707-292.02
+						h149.276V72.488z M184.312,30h88.232v74.836h-88.232V30z M180.542,134.836h95.772l14.531,49.508l-62.417,67.988l-62.417-67.988
+						L180.542,134.836z M30,104.836V92.133l124.312-54.225v66.928H30z M156.145,217.958l51.92,56.554L107.347,384.221L156.145,217.958z
+						M108.933,426.855l119.495-130.162l119.495,130.162H108.933z M349.508,384.221L248.791,274.513l51.919-56.554L349.508,384.221z
+						M426.855,104.836H302.544V37.908l124.312,54.225V104.836z"></path>
+				</g>
+				<g transform="matrix(0.075, 0, 0, 0.075, 8.3, 23.8)" ng-show="customIconGrid" class="ng-hide">
+					<image width="48" height="48" xlink:href=""></image>
+				</g>
+				<text id="etext" x="10" y="29" font-size="1.6px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; white-space: pre;" class="ng-binding">⇨ 0.000 kWh</text>
+				<text id="etext" x="10" y="33.6" font-size="1.6px" text-anchor="middle" style="font-variant-caps: normal; font-variant-east-asian: normal; font-variant-ligatures: normal; font-variant-numeric: normal; font-weight: bold; white-space: pre;" class="ng-binding">0 Watt</text>
+				<text id="etext" x="10" y="35.8" opacity="0.4" font-size="1.2px" text-anchor="middle" style="white-space: pre;" ng-show="p1Price!=1000" class="ng-binding ng-hide">1,000.00 €</text>
+				<circle r="7" cx="10" cy="30" fill="none" stroke="#00c6da" stroke-width=".3"></circle>
+			</g>
+		</svg>
+	</div>
+</div>
+</div>
+			</div>
+			<div id="copyright" style="" has-user="">
+				<p class="ng-binding">© 2012-2025 Domoticz | WWW: <a href="http://domoticz.com/" target="_blank">Domoticz.com</a></p>
+			</div>
+		</div> <!-- /container -->
+	</div>
+
+
+<div class="jQWCP-overlay" style="display: none;"></div><div id="jQWCP-PageOrigin" style="position: absolute; top: 0; left: 0; height: 0; width: 0;"></div><div style="display: none;" tabindex="-1" role="dialog" class="ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-buttons ui-draggable" aria-describedby="dialog-replacedevice" aria-labelledby="ui-id-1"><div class="ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle"><span id="ui-id-1" class="ui-dialog-title">Replace Device</span><button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>Close</button></div><div id="dialog-replacedevice" style="" class="ui-dialog-content ui-widget-content">
+		<form class="ng-pristine ng-valid">
+			<label for="newdevice"><span data-i18n="New Device">Neues Gerät</span>: </label>
+			<select id="newdevice" style="width:250px" class="combobox ui-corner-all"></select>
+		</form>
+	</div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button type="button" class="ui-button ui-corner-all ui-widget">OK</button><button type="button" class="ui-button ui-corner-all ui-widget">Cancel</button></div></div></div></body></html>
