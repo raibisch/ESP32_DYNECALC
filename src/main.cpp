@@ -218,8 +218,6 @@ class WPFileVarStore : public FileVarStore
 #endif
 
  
-
-
 #ifdef CALC_HOUR_ENERGYPRICE
    float varCOST_f_kwh_fix  = 31.0;  // kWh Price fix
 #endif
@@ -248,7 +246,7 @@ class WPFileVarStore : public FileVarStore
      varDEVICE_s_name     = GetVarString(GETVARNAME(varDEVICE_s_Name));
      varWIFI_s_mode       = GetVarString(GETVARNAME(varWIFI_s_Mode)); //STA or AP
      varWIFI_s_password   = GetVarString(GETVARNAME(varWIFI_s_Password));
-     varWIFI_s_ssid      = GetVarString(GETVARNAME(varWIFI_s_SSID));
+     varWIFI_s_ssid       = GetVarString(GETVARNAME(varWIFI_s_SSID));
    
      varEPEX_i_low        = GetVarInt(GETVARNAME(varEPEX_i_low));
      varEPEX_i_high       = GetVarInt(GETVARNAME(varEPEX_i_high));
@@ -286,9 +284,9 @@ class WPFileVarStore : public FileVarStore
 WPFileVarStore varStore;
 
 void setSGreadyOutput(uint8_t mode, uint8_t hour=24);
-//////////////////////////////////////////////////////
-/// @brief  expand Class "FileVarStore" with variables
-//////////////////////////////////////////////////////
+
+// --------------------------------------------------------------------------------------------
+/// @brief SmartGrid with EPEX day-ahead price values
 class SmartGridEPEX : public SmartGrid
 { 
   public:
@@ -340,9 +338,164 @@ class SmartGridEPEX : public SmartGrid
 #endif
 };
 
-
 #define URL_ENERGY_CHARTS "api.energy-charts.info" 
 SmartGridEPEX smartgrid(URL_ENERGY_CHARTS);
+// end EPEXSpartGrid ---------------------------------------------------------
+
+// ************ PV Prediction with open-weather API
+// https://api.open-meteo.com/v1/forecast?latitude=49.873&longitude=8.9605&hourly=global_tilted_irradiance_instant&models=icon_seamless&timezone=auto&tilt=9&azimuth=22&start_date=2025-07-28&end_date=2025-07-28
+// Antwort:
+// {"latitude":49.88,"longitude":8.959999,"generationtime_ms":0.0476837158203125,"utc_offset_seconds":7200,"timezone":"Europe/Berlin","timezone_abbreviation":"GMT+2","elevation":211.0,"hourly_units":{"time":"iso8601","global_tilted_irradiance_instant":"W/m²"},
+// "hourly":{"time":["2025-07-28T00:00","2025-07-28T01:00","2025-07-28T02:00","2025-07-28T03:00","2025-07-28T04:00","2025-07-28T05:00","2025-07-28T06:00","2025-07-28T07:00","2025-07-28T08:00","2025-07-28T09:00","2025-07-28T10:00","2025-07-28T11:00","2025-07-28T12:00","2025-07-28T13:00","2025-07-28T14:00","2025-07-28T15:00","2025-07-28T16:00","2025-07-28T17:00","2025-07-28T18:00","2025-07-28T19:00","2025-07-28T20:00","2025-07-28T21:00","2025-07-28T22:00","2025-07-28T23:00"],
+// "global_tilted_irradiance_instant":[0.0,0.0,0.0,0.0,0.0,0.0,0.1,33.7,95.8,157.3,280.1,419.9,471.6,336.0,201.4,387.1,383.9,333.8,200.6,176.2,48.2,3.7,0.0,0.0]}}
+/// @brief SmartGrid with EPEX day-ahead price values
+class SmartGridPV : public SmartGrid
+{ 
+  public:
+   SmartGridPV(const char* sUrl) : SmartGrid(sUrl) {}
+
+bool init()
+{
+  _isLoaded = true;
+  getAppRules();
+  refreshWebData(true);
+
+  debug_println("SmartGridPV-Init OK!");
+  return true;
+}
+
+void loop(time_t* time_now)
+{
+   _looptime_now_tm = localtime(time_now);
+  
+    // get next EPEX-Data at midnight
+    if (((_looptime_now_tm->tm_hour == 00) && (_looptime_now_tm->tm_min==02) && (_looptime_now_tm->tm_sec < 7)))
+    {
+      refreshWebData(true);
+    }
+
+    if (_bUpdate)
+    {
+       _bUpdate = false;
+      debug_println("Read EPEX");
+      _bUpdate = !downloadWebData(time_now,false); // akt. day
+      delay(800);
+
+    }
+}
+
+
+/// ******* get actual Price form EPEX ****************************
+/// @brief  open HTTP-Client GET data from "api.energy-charts.info"
+bool downloadWebData(time_t* t_now, bool next)
+{
+  WiFiClientSecure httpsclient; // 9.01.2025 jetzt hier local
+  String sRawResponse = "";
+  //bool bNextDay = false;
+  struct tm *now_tm = localtime(t_now);
+
+  char output_day[11];
+ 
+  // Set Data-Time String for GET
+  // day-ahead !!
+  if (next)
+  {
+    time_t nextday = *t_now + 86400;
+    struct tm *nextday_tm = localtime(&nextday);
+    strftime(output_day, sizeof(output_day), "%G-%m-%d", nextday_tm);
+    sDateNext = output_day;
+    debug_printf("\r\n--> downloadWebData nexday: %s\r\n", sDateNext);
+  }
+  // today
+  else
+  {
+     strftime(output_day, sizeof(output_day), "%G-%m-%d", now_tm);
+     sDateToday = output_day;
+     debug_printf("\r\n--> downloadWebData today: %s\r\n", this->sDateToday);
+  }
+ 
+  String sget = "GET /v1/forecast?latitude=49.873&longitude=8.961&hourly=global_tilted_irradiance_instant&models=icon_seamless&timezone=auto&tilt=9&azimuth=22&start_date="; 
+  //String sget = "GET v1/forecast?latitude=49.873&longitude=8.961&hourly=global_tilted_irradiance_instant&models=icon_seamless&timezone=auto&forecast_days=2&tilt=9&azimuth=22";
+         sget += output_day;
+         sget += "&end_date=";
+         sget += output_day;
+         sget += " HTTP/1.1";
+ 
+   // TEST
+   //sget = "GET /v1/forecast?latitude=49.873&longitude=8.96&hourly=global_tilted_irradiance_instant&models=icon_seamless&tilt=9&azimuth=22&forcast_days=2 HTTP/1.1";
+   //sget = "GET /v1/forecast?latitude=49.873&longitude=8.96&hourly=global_tilted_irradiance_instant&models=icon_seamless&tilt=9&azimuth=22&start_date=2025-07-31&end_date=2025-07-31 HTTP/1.1";
+
+  debug_println(sget);
+  delay(500);
+  httpsclient.setInsecure();
+  // httpsclient.setTimeout(1); 
+  //httpsclient.setHandshakeTimeout(1);
+  debug_printf("\nStart connection to:  %s \r\n", _sHosturl.c_str());
+  if (!httpsclient.connect(_sHosturl.c_str(), 443))
+  {
+    Serial.println("Connection failed!");
+    return false;
+  }
+  else 
+  {
+    debug_printf("Connected to: %s \r\n",_sHosturl.c_str());
+  
+    httpsclient.println(sget);
+    httpsclient.println("Host:api.open-meteo.com");
+    //httpsclient.println("Connection: close");
+    httpsclient.println();
+
+
+    while (httpsclient.connected()) 
+    {
+      String line = httpsclient.readStringUntil('\n');
+      if (line == "\r") {
+        debug_println("headers received");
+        break;
+      }
+    }
+    sRawResponse = "";
+    // if there are incoming bytes available
+    // from the server, read them and print them:
+    while (httpsclient.available()) 
+    {
+      char c = httpsclient.read();
+      sRawResponse += c;
+      debug_write(c);
+    }
+   
+    //httpsclient.println("Connection: close");
+    //httpsclient.println();
+    //httpsclient.flush();
+    delay(200);
+
+    httpsclient.stop();
+    debug_println();
+    int ix1         = sRawResponse.indexOf("\"hourly\"");
+    int start_value = sRawResponse.indexOf("t\":[", ix1) + 4;
+    int end_value   = sRawResponse.indexOf("]",start_value);
+  
+    // by JG:  Anpassung für 48h 
+    if (next)
+    {
+       sHourValueNext = sRawResponse.substring(start_value, end_value);
+       
+    }
+    else
+    {
+      sHourValueToday = sRawResponse.substring(start_value, end_value);
+      sHourValueNext = "";
+      int pos1 = 0;
+      int pos2 = 0;
+    }
+ }
+ return true;
+}
+};
+
+
+#define URL_OPEN_METEO "api.open-meteo.com" 
+SmartGridPV smartgridPVPredict(URL_OPEN_METEO);
 
 #ifdef SG_READY
 /// @brief  REST message to a web-device instaed of switching a Relais-Output-Pin
@@ -416,30 +569,27 @@ void setSGreadyOutput(uint8_t mode, uint8_t hour)
   case 1:
     setcolor('b');
     sendSGreadyURL(varStore.varSG_s_sg1);
-   
-    setRelay(1,1);
-    setRelay(2,0);
+    //setRelay(1,1);
+    //setRelay(2,0);
     
     break;
   case 2:
     setcolor('g');
     sendSGreadyURL(varStore.varSG_s_sg2);
-   
-    setRelay(1,0);
-    setRelay(2,0);
+    //setRelay(1,0);
+    //setRelay(2,0);
     break;
   case 3:
     setcolor('y');
     sendSGreadyURL(varStore.varSG_s_sg3);
-  
-    setRelay(1,0);
-    setRelay(2,1);
+    //setRelay(1,0);
+    //setRelay(2,1);
     break;
   case 4:
     setcolor('r');
     sendSGreadyURL(varStore.varSG_s_sg4);
-    setRelay(1,1);
-    setRelay(2,1);
+    //setRelay(1,1);
+    //setRelay(2,1);
     break;  
   default:
     break;
@@ -613,9 +763,10 @@ String setHtmlVar(const String& var)
      sFetch +=  "\n";
      sFetch += smartgrid.getWebHourValueString(true);
 
-     sFetch += "\n\nEPEX TODAY:";
-     sFetch +=  "\n";
+     sFetch += "\n\nEPEX TODAY:\n";
      sFetch += smartgrid.getWebHourValueString(false); //sEPEXPriceToday;
+     sFetch += "\n\n PV-Predict:\n";
+     sFetch += smartgridPVPredict.getWebHourValueString(false);
      //sFetch += "\n---\n\n";
 #endif
      return sFetch;
@@ -643,7 +794,6 @@ String setHtmlVar(const String& var)
   else
   if (var == "EPEX_ARRAY")
   {
-    //return  smartgrid.getWebHourValueString(false);                      //EPEXPriceToday; // jetzt TODAY !!!
     String ret = smartgrid.getWebHourValueString(false);
     if (smartgrid.getWebHourValueString(true).length() > 0)
     {
@@ -736,13 +886,11 @@ String setHtmlVar(const String& var)
 
     return sFetch;
   }
-
   else
   if (var == "PRICE_FIX")
   {
      return String(smartgrid.getUserkWhFixPrice(),1);
   }
-
   else 
   if  (var == "PRICE_HOUR_FLEX")
   {
@@ -784,6 +932,13 @@ String setHtmlVar(const String& var)
        sFetch += ", ";
       }
      }
+     debug_println(sFetch);
+     return sFetch;
+  }
+  else
+  if (var == "PV_HOUR_PREDICT")
+  {
+     sFetch += smartgridPVPredict.getWebHourValueString(false);
      debug_println(sFetch);
      return sFetch;
   }
@@ -1007,9 +1162,8 @@ void initWebServer()
     //debug_println("server.on /fetchmeter: "+ s);
   });
 
-  
   // NEW: 05.06.2025 SML-Meter values as Json
-   webserver.on("/meterjson", HTTP_GET, [](AsyncWebServerRequest *request)
+  webserver.on("/meterjson", HTTP_GET, [](AsyncWebServerRequest *request)
   {
     sFetch  = "{";
     sFetch += "\"power\":";
@@ -1038,15 +1192,6 @@ void initWebServer()
    request->send(myFS, "/sgready.html", String(), false, setHtmlVar);
   });
 
-
- #ifdef LUX_WEBSOCKET
- //Route for Luxtronik values
-  webserver.on("/luxtronik.html",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(myFS, "/luxtronik.html", String(), false, setHtmlVar);
-  });
-#endif
-
   //Route for Energy Cost
   webserver.on("/energycost.html",          HTTP_GET, [](AsyncWebServerRequest *request)
   {
@@ -1067,7 +1212,6 @@ void initWebServer()
 
   
   // Basis Seiten:
-  
   //Route for root / web page
   webserver.on("/",          HTTP_GET, [](AsyncWebServerRequest *request)
   {https://
@@ -1097,29 +1241,6 @@ void initWebServer()
    request->send(myFS, "/savevalues.html", String(), false, setHtmlVar);
   });
 
-   webserver.on("/current.png",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(myFS, "/current.png", String(), false);
-  });
-   webserver.on("/sg.png",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(myFS, "/sg.png", String(), false);
-  });
-  
-  webserver.on("/sgready.png",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(myFS, "/sgready.png", String(), false);
-  });
-  #ifdef SUNGROW_MODBUS
-  webserver.on("/pvpanel.png",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(myFS, "/pvpanel.png", String(), false);
-  });
-  #endif
-  webserver.on("/energycost.png",          HTTP_GET, [](AsyncWebServerRequest *request)
-  {
-   request->send(myFS, "/energycost.png", String(), false);
-  });
 
   //Route for Info-page
   webserver.on("/info.html",          HTTP_GET, [](AsyncWebServerRequest *request)
@@ -1158,6 +1279,7 @@ void initWebServer()
   {
    request->send(myFS, "/settings.png", String(), false);
   });
+
 #ifdef SG_READY
   // for SG-Ready
   webserver.on("/reload.png",          HTTP_GET, [](AsyncWebServerRequest *request)
@@ -1166,6 +1288,34 @@ void initWebServer()
   });
 #endif
   
+  webserver.on("/current.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(myFS, "/current.png", String(), false);
+  });
+   webserver.on("/sg.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(myFS, "/sg.png", String(), false);
+  });
+  
+  webserver.on("/sgready.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(myFS, "/sgready.png", String(), false);
+  });
+   webserver.on("/energycost.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(myFS, "/energycost.png", String(), false);
+  });
+   webserver.on("/homeauto.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(myFS, "/homeauto.png", String(), false);
+  });
+  #ifdef SUNGROW_MODBUS
+  webserver.on("/pvpanel.png",          HTTP_GET, [](AsyncWebServerRequest *request)
+  {
+   request->send(myFS, "/pvpanel.png", String(), false);
+  });
+  #endif
+ 
 
   // ...a lot of code only for icons and favicons ;-))
   webserver.on("/manifest.json",          HTTP_GET, [](AsyncWebServerRequest *request)
@@ -1199,6 +1349,8 @@ void initWebServer()
   const String sArg = request->argName(0);
   debug_printf(      "sgready POST: arg: %s  value:%d\r\n",sArg.c_str(), iVal);
   AsyncWebLog.printf("sgready POST: arg: %s  value:%d\r\n",sArg.c_str(), iVal);
+
+  smartgrid.bRule_OFF = true; // Test 22.07.2025 (do not change if manual set)
 
   if (sArg == "sg1")
   {
@@ -1255,29 +1407,36 @@ void initWebServer()
   {
    //debug_println("Argument: " + request->argName(0));
    //debug_println("Value: ");
+  
    uint8_t i = 0;
    String s  = request->arg(i);
-   debug_println("--- POST-arg savevelues.html -----");
-   debug_println(s);
+   debug_print(s);
+   debug_println("--- POST-arg savevelues.html -----"); 
    if (request->argName(0) == "savemonthday")
    {
-      debug_println("\r\nMONTH_DAY");
+      debug_println("savemothday");
       smartgrid.saveCost("/cost_akt_month.txt", s);
       smartgrid.loadCost_monthday();
    }
    else
    if (request->argName(0)== "savemonth")
    {
-      debug_println("MONTH");
+       debug_println("savemonth");
       smartgrid.saveCost("/cost_akt_year.txt", s);
       smartgrid.loadCost_month();
    }
+   else
+   if (request->argName(0)== "newmonth")
+   {
+      smartgrid.copyCost("/cost_akt_month_0.txt", "/cost_akt_month.txt");
+      smartgrid.loadCost_monthday();
+   }
+
    //debug_println("Request /index3.html");
 
    request->send(myFS, "/savevalues.html", String(), false, setHtmlVar);
   });
 
-  
   // init Webserver 
   sFetch.reserve(150);
   AsyncWebLog.begin(&webserver);
@@ -1481,8 +1640,6 @@ void initM5CoreInk()
     Serial.flush(); 
     esp_deep_sleep_start();           
 }
-
-
 #endif
       
 ////////////////////////////////////////////////////
@@ -1503,15 +1660,16 @@ void setup()
 
   initFS();
   initFileVarStore();
-  Serial.print("--------------------------------------------------");
   setLED(0);
   initWiFi();
   initWebServer(); 
   smartgrid.init();
+  smartgridPVPredict.init();
   smldecoder.init(varStore.varSML_s_url.c_str(), varStore.varSML_s_user.c_str(), varStore.varSML_s_password.c_str());
   sungrowModbus.init(varStore.varSungrow_s_url.c_str()); 
   delay(200);
   setLED(0);
+  Serial.println("*** INIT-END***");
 #endif
 }
 
@@ -1547,6 +1705,7 @@ void loop()
     sungrowModbus.poll();
 #ifdef CALC_HOUR_PV
     smartgrid.calcHourPV(&tt, sungrowModbus.getEnergy_day_wh(), smldecoder.getOutputkWh()*1000);
+    smartgridPVPredict.loop(&tt);
 #endif
 #endif 
   }
